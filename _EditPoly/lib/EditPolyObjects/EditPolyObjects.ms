@@ -4,7 +4,7 @@ struct EditPolyObjects_v
 (
 	/** Do for objects
 	 */
-	function doForObjects method =
+	function explode method =
 	(
 		clearListener()
 		_selection = (Selection_v()).get()

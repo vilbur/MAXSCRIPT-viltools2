@@ -70,6 +70,44 @@ struct Material_v
 		--select sel
 	),
 
+	
+	/** Create material
+	 */
+	function createMaterial =
+	(
+			selMat = #()
+			selMat = for o in selection collect o.material
+			
+			Submat = multiMaterial numsubs:33 name: "IDmat" -- (getFilenamePath  loadedMat)
+			
+			/* 	  R	  G	  B */
+			RGB = #(	#(255,	0,	0),
+				#(255,	255,	0),
+				#(0,	255,	0),
+				#(0,	255,	255),
+				#(0,	0,	255),
+				#(255,	0,	255)	)
+				
+					
+			--for i=1 to 3 do
+				for j=1 to 6 do
+				(
+					--Submat[i*j].diffuse = (color 0 0 0)
+					Submat[j].diffuse = color (RGB[j][1] as float) (RGB[j][2] as float) (RGB[j][3] as float)
+					--print ((i*j) as string )
+					
+
+		
+	
+				)
+				
+
+			--for m = 9 to 20 do 	Submat[m].diffuse =  color (random 0 255) (random 0 255) (random 0 255)
+			
+			selection.material = Submat
+
+			
+	),
 	function test =
 	(
 		messagebox "Material.test()"

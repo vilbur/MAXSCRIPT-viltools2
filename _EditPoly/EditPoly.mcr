@@ -23,7 +23,7 @@ category:"_EditPoly"
 buttonText:"Explode elements"
 (
 	
-	(EditPolyObjects_v()).doForObjects "explodeByElement"
+	(EditPolyObjects_v()).explode "explodeByElement"
 	--_selection = (Selection_v()).get"
 	--print ( "_selection=" + _selection.count as string )
 	--
@@ -37,7 +37,7 @@ macroscript ExplodeByMaterial
 	buttontext:	"Explode by mat"
 	toolTip:	"Explode By mat"
 (
-	(EditPolyObjects_v()).doForObjects "explodeByMaterialId"
+	(EditPolyObjects_v()).explode "explodeByMaterialId"
 
 	--_selection = (Selection_v()).get()
 	--print ( "_selection=" + _selection.count as string )

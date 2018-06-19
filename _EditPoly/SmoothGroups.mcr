@@ -4,7 +4,7 @@ macroscript explodeBySG
 category:"EditPoly-SmoothGroups"  
 buttonText:"Explode By SG"
 (
-	(EditPolyObjects_v()).doForObjects "explodeBySG"
+	(EditPolyObjects_v()).explode "explodeBySG"
 
 	--messagebox "_EditPoly.mcr"
 	--_selection = (Selection_v()).get()

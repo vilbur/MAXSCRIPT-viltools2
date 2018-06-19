@@ -24,6 +24,8 @@ struct EditPolyExplode_v
 		--append final_sel detObj
 	),
 	/** Detach
+	  *
+	  * 
 	 */
 	function detach poly_selection =
 	(
@@ -66,16 +68,18 @@ struct EditPolyExplode_v
 			)
 		)
 	),
-	/** Explode object by elements
+	/** Explode
 	 */
 	function explodeByElement =
 	(	
 		this.explode ( this.getElements() ) --return
 	),
 	/**  
+	 *	
 	 */
 	function explodeBySG =
 	(
+		print ( "----explodeBySG" )
 		this.explode ( _getSmoothGroups() ) --return
 	),
 	/** Explode by material id

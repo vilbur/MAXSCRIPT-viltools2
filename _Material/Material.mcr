@@ -5,7 +5,7 @@ buttonText:"TEST"
 	clearListener()
 	Material = Material_v
 
-	Material.test()
+	Material.createMaterial()
 )
 
 macroscript materialByObject

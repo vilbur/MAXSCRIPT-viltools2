@@ -1,0 +1,10 @@
+/** Modifiers
+ */
+struct Modifiers_v
+(
+	
+	function test =
+	(
+		messagebox "Modifiers.test()"
+	)
+)

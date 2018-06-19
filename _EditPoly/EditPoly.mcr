@@ -22,11 +22,13 @@ macroscript explodeByElement
 category:"_EditPoly"  
 buttonText:"Explode elements"
 (
-	_selection = (Selection_v()).get()
-	print ( "_selection=" + _selection.count as string )
 	
-	for i=1 to _selection.count do
-		(EditPoly_v obj:_selection[i]).explode()
+	(EditPolyObjects_v()).doForObjects "explodeByElement"
+	--_selection = (Selection_v()).get"
+	--print ( "_selection=" + _selection.count as string )
+	--
+	--for i=1 to _selection.count do
+	--	(EditPoly_v obj:_selection[i]).explodeByElement()
  
 )
 
@@ -35,11 +37,13 @@ macroscript ExplodeByMaterial
 	buttontext:	"Explode by mat"
 	toolTip:	"Explode By mat"
 (
-	_selection = (Selection_v()).get()
-	print ( "_selection=" + _selection.count as string )
-	
-	for i=1 to _selection.count do
-		selectmore ((EditPoly_v obj:_selection[i]).explodeByMaterialId())
-		
-	delete _selection
+	(EditPolyObjects_v()).doForObjects "explodeByMaterialId"
+
+	--_selection = (Selection_v()).get()
+	--print ( "_selection=" + _selection.count as string )
+	--
+	--for i=1 to _selection.count do
+	--	selectmore ((EditPoly_v obj:_selection[i]).explodeByMaterialId())
+	--	
+	--delete _selection
 )

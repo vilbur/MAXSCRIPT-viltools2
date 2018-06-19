@@ -1,3 +1,4 @@
+
 /** Edit poly
  */
 struct EditPoly_v
@@ -12,11 +13,13 @@ struct EditPoly_v
 	 */
 	function explode poly_selections =
 	(
-		print ( "poly_selections=" + poly_selections as string )
-		
+		print ( "explode() poly_selections=" + poly_selections as string )
+		final_sel = #()
+
 		for poly_selection in poly_selections do
 			this.detach poly_selection
 			
+		--print ( "final_sel=" + final_sel as string )
 		final_sel --return
 		--append final_sel detObj
 	),
@@ -26,20 +29,13 @@ struct EditPoly_v
 	 */
 	function detach poly_selection =
 	(
-		--select obj
-		--print ( "poly_selection=" + poly_selection as string )
-		--print ( "polyop.getNumFaces obj=" + polyop.getNumFaces obj as string )
-		--print ( "poly_selection.count =" + poly_selection.count  as string )
-
-		--if( polyop.getNumFaces obj > poly_selection.count ) then
-		--(
-			polyop.detachFaces obj poly_selection delete:false asNode:true name: "TempDet"
-			detObj = getnodebyname "TempDet" 
-			detObj.name = (uniquename (obj.name + "_detach"))
-			detOBj.wirecolor =  color (random 0 255) (random 0 255) (random 0 255)
-			append final_sel detObj
-
-		--)
+		polyop.detachFaces obj poly_selection delete:false asNode:true name: "TempDet"
+		
+		detObj = getnodebyname "TempDet" 
+		detObj.name = (uniquename (obj.name + "_detach"))
+		detOBj.wirecolor =  color (random 0 255) (random 0 255) (random 0 255)
+		
+		append final_sel detObj
 	),
 
 	/** Attach
@@ -87,26 +83,8 @@ struct EditPoly_v
 		InstanceMgr.GetInstances obj &obj_instance
 		join instances obj_instance		
 			
-		Elements = this.getElements()
-		--ElementsCount = Elements.Count
-		
-	--		for i=1 to ElementsCount do 
-	--		(
-	--			Clones = #()
-	--			maxOps.cloneNodes instances cloneType:#copy newNodes:&Clones
-	--			copyObj = Clones[1]
-	--			polyop.deleteFaces copyObj -Elements[i] delIsoVerts:true
-	--			
-	---- 				wirecolor = color (random 100 255) (random 100 255) (random 100 255)
-	--			wirecolor	= obj.wirecolor
-	--			for o in Clones do o.wirecolor = wirecolor
-	--				
-	--			for c=1 to Clones.count do Clones[c].name = (obj.name + "_Expl_"+ c as string)
-	--			
-	--			for c in Clones do append finalSel c
-	--		)
-	--		
-	--		delete instances
+		this.explode ( this.getElements() ) --return
+
 	),
 	/** Get elements
 	 */
@@ -133,17 +111,9 @@ struct EditPoly_v
 	 */
 	function explodeByMaterialId =
 	(
-		--all_ids = #()
-		--detID = #()
-		--selo = #()
-		--finalSel = #()
-		
-		--selo = for o in selection collect o
-		
-		--for obj in selo do
-		----(
-			print ( "Detaching: " + obj.name as string)
-			
+			--print ( "Detaching: " + obj.name as string)
+			final_sel = #()
+
 			if (classOf obj != Editable_Poly) do
 			(
 				convertTo obj Editable_Poly
@@ -152,11 +122,11 @@ struct EditPoly_v
 			
 			try ( maxops.CollapseNodeTo obj 1 off) catch ()
 			
-
-			final_sel	= this.explode ( this._getMaterialElements() )
-			
-			--delete obj
-			final_sel --return
+			--print ( "this._getMaterialElements() =" + this._getMaterialElements()  as string )
+			--final_sel = this.explode ( this._getMaterialElements() )
+			--print ( "final_sel=" + final_sel as string )	
+			--final_sel
+			this.explode ( this._getMaterialElements() ) --return
 		--)
 	),
 	/** Get material elements
@@ -167,14 +137,11 @@ struct EditPoly_v
 		all_ids	= #()
 		material_faces	= #();
 
-		print "_getMaterialElements"
+		--print "_getMaterialElements"
 		for f=1 to polyop.getNumFaces obj do
-		(
-			print ( "face=" + f as string )
-			matID = polyop.getFaceMatID obj f
-			appendIfunique all_ids matID
-		)
-		--		id = 1
+			appendIfUnique all_ids ( polyop.getFaceMatID obj f)
+		
+				id = 1
 		for id in all_ids do
 			append material_faces ((for f=1 to polyop.getNumFaces obj where polyop.getFaceMatID obj f == id collect f) as bitarray)
 
@@ -186,32 +153,48 @@ struct EditPoly_v
 	function explodeBySG =
 	(
 		print ( "----explodeBySG" )
-		print ( "polyop.getNumFaces obj=" + polyop.getNumFaces obj as string )
-		face_num	= polyop.getNumFaces obj
+		--print ( "polyop.getNumFaces obj=" + polyop.getNumFaces obj as string )
+		--final_sel = #()
+		--face_num	= polyop.getNumFaces obj
 
 		poly_selections = #()
 		maxops.CollapseNode obj off
 		--smGroupsArray = polyop.getFaceSmoothGroup obj firstFace;
-		FaceCount = polyop.getNumFaces obj;
+		face_num = polyop.getNumFaces obj
 		
-		for sg = 1 to 32 do
+		for sg_id = 1 to 32 do
 		(
-			--print ( "sg=" + sg as string )
+			--print ( "sg_id=" + sg_id as string )
+			--poly_selection = #{}
 			poly_selection = #()
 
-			for f=1 to FaceCount do 
-							
-				if (( polyop.getFaceSmoothGroup obj i) == sg) then 
-					append poly_selection i; 
+			for f=1 to face_num do
+			(
+				--print ( "face=" + f as string )
+				--sg_f = polyop.getFaceSmoothGroup obj f
+			--print ( "sg_f=" + sg_f as string )
+				if (( polyop.getFaceSmoothGroup obj f) == sg_id) then
+				(
+					--print ( "id=" + ( polyop.getFaceSmoothGroup obj f ) as string )
+					append poly_selection f
+					--poly_selection[sg_id] = true; 
 					
+				)
+			)
+			--poly_selection = poly_selection as bitArray
+			
+			print ( "poly_selection=" + poly_selection as string )
 			if  (  poly_selection.count > 0 and ( (poly_selection as array)[1] == 1 and poly_selection.count == face_num)==false ) then
 				append poly_selections poly_selection
 		)
-		
-		for poly_selection in poly_selections do
-			this.detach poly_selection
+		--print ( "poly_selections=" + poly_selections as string )
+		--print ( "poly_selections=" + poly_selections as bitArray )
+		this.explode ( poly_selections ) --return
+
+		--for poly_selection in poly_selections do
+			--this.detach poly_selection
 				
-		final_sel --return
+		--#() --return
 	),
 
 
@@ -252,3 +235,4 @@ struct EditPoly_v
 		messagebox "EditPoly.test()"
 	)
 )
+filein ( getFilenamePath(getSourceFileName()) + "/lib/EditPolyObjects/EditPolyObjects.ms" )

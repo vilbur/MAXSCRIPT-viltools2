@@ -1,3 +1,5 @@
+
+
 /** Edit poly objects
  */
 struct EditPolyObjects_v
@@ -8,12 +10,11 @@ struct EditPolyObjects_v
 	(
 		clearListener()
 		_selection = (Selection_v()).get()
-		print ( "_selection=" + _selection.count as string )
+		print ( "_selection=" + _selection[1] as string )
+		--print ( "_selection=" + _selection.count as string )
 		
 		for i=1 to _selection.count do
 		(
-			print ( "doForObjects=" + i as string )
-			
 			EditPoly = EditPoly_v obj: _selection[i]
 
 			if( method=="explodeByElement" ) then
@@ -25,6 +26,9 @@ struct EditPolyObjects_v
 			else if( method=="explodeBySG" ) then
 				final_sel = EditPoly.explodeBySG()
 				
+			else if( method=="explodeByHardEdges" ) then
+				final_sel = EditPoly.explodeByHardEdges()
+								
 			print ( "final_sel=" + final_sel as string )
 			
 			if( final_sel!=undefined ) then
@@ -32,6 +36,10 @@ struct EditPolyObjects_v
 				
 		)
 		
+		--if( method !="explodeBySG" ) then
+		print ( "EXPLODE=" + final_sel as string )
+		
+			--if( final_sel!=undefined ) then
 		delete _selection
 		
 		--sleep 1
@@ -39,6 +47,24 @@ struct EditPolyObjects_v
 			--for o in final_sel do selectmore o 
 
 			--select final_sel[1] --return
+	),
+	/** Do for objects
+	 */
+	function method method param1:undefined =
+	(
+		clearListener()
+		_selection = (Selection_v()).get()
+		
+		for i=1 to _selection.count do
+		(
+			EditPoly = EditPoly_v obj: _selection[i]
+
+			if( method=="autoSmooth" ) then
+				EditPoly.autoSmooth param1
+				
+			else if( method=="clearSmoothGroups" ) then
+				EditPoly.clearSmoothGroups()
+		)
 	),
 	
 	

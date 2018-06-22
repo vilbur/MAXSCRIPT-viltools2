@@ -1,9 +1,14 @@
 
 /** Edit poly
  */
-struct EditPolyExplode_v
+struct EditPoly_v
 (
+	
 	obj,
+	
+	EditPoly,
+	EditablePoly,
+	
 	final_sel = #(),
 
 	/** Explode
@@ -13,7 +18,7 @@ struct EditPolyExplode_v
 	 */
 	function explode poly_selections =
 	(
-		print ( "explode() poly_selections=" + poly_selections as string )
+		print ( "EditPolyExplode_v.explode() poly_selections=" + poly_selections as string )
 		final_sel = #()
 
 		for poly_selection in poly_selections do
@@ -71,18 +76,64 @@ struct EditPolyExplode_v
 	function explodeByElement =
 	(	
 		this.explode ( this.getElements() ) --return
+		final_sel
 	),
 	/**  
 	 */
 	function explodeBySG =
 	(
-		this.explode ( _getSmoothGroups() ) --return
+		this.explode ( this._getSmoothGroups() ) --return
 	),
 	/** Explode by material id
 	 */
 	function explodeByMaterialId =
 	(
 		this.explode ( this._getMaterialElements() ) --return
+	),
+	/**  
+	 */
+	function explodeByHardEdges =
+	(
+		--print "explodeByHardEdges()"
+		this.selectHardEdges()
+		
+		this.splitEdges()
+
+		this.explodeByElement() --return
+		
+		--#(obj)
+		--undefined --return
+	),
+	/** Split edges
+	 */
+	function splitEdges =
+	(
+		this.setEditPoly()
+		
+		if( EditPoly!=undefined ) then
+			EditPoly.ButtonOp #SplitEdges
+			--print "!!!EditPoly!!!!"
+		else if( EditablePoly!=undefined ) then
+			EditablePoly.splitEdges ()
+			--print "!!!EditablePoly!!!!"
+	),
+	/** Set edit poly
+	 */
+	function setEditPoly =
+	(
+		this.setEditablePoly()
+		--print "setEditPoly"
+		--print( classOf obj.modifiers[1] == #Edit_Poly )
+		for _modifier in obj.modifiers do
+			if( classOf _modifier == Edit_Poly and EditPoly==undefined) then
+				EditPoly = _modifier
+				--print ( "Edit_Poly=" + (classOf _modifier == Edit_Poly ) as string )
+	),
+	/** Set edit poly
+	 */
+	function setEditablePoly =
+	(
+		EditablePoly = obj.EditablePoly
 	),
 	/** Get elements
 	 */
@@ -150,17 +201,77 @@ struct EditPolyExplode_v
 		)
 		smooth_groups --return
 	),
+	/** Select hard edges
+	 */
+	function selectHardEdges =
+	(
+		print "----selectHardEdges----"
+		
+		select obj
+		setCommandPanelTaskMode #modify
 
+		subobjectLevel = 2   
+		macros.run "PolyTools" "SharpEdges"
+		
+		this --return
+	),
+	/** Auto smooth
+	 */
+	function autoSmooth value =
+	(
+		this.setEditPoly()
+		
+		if( EditPoly!=undefined ) then
+		(
+			EditPoly.autoSmoothThreshold = value
+			EditPoly.ButtonOp #Autosmooth
+		)
+		else if( EditablePoly!=undefined ) then
+		(
+			EditablePoly.autoSmoothThreshold = value
+			
+			EditablePoly.autosmooth()
+		)
+	),
+	/** Clear smooth groups
+	 */
+	function clearSmoothGroups =
+	(
+		this.setEditPoly()
+		
+		if( EditPoly!=undefined ) then(
+			--EditPoly.ButtonOp #Autosmooth
+			EditPoly.SetOperation #SetSmooth
+			EditPoly.smoothingGroupsToSet = 0
+			EditPoly.smoothingGroupsToClear = -1
 
+		)else if( EditablePoly!=undefined ) then
+		(
+			--EditablePoly.SetSelection #Face (this._allFaces())
+			--EditablePoly.setSmoothingGroups 0
+			
+			theObj = obj.baseObject
+			facelist = polyop.getnumfaces theObj
+
+			for i = 1 to facelist do
+				polyop.setFaceSmoothGroup theObj i 0
+			
+			
+			
+			
+		)
+	),
 
 	/** Set smooth group
 	 */
-	function setSmoothGroup facelist smooth_group =
+	function setSmoothGroup smooth_group facelist:undefined =
 	(
 		polyop.setFaceSmoothGroup obj #all 0
 
+		if( facelist==undefined ) then
+			facelist = this._allFaces()
 		--print ( "facelist=" + facelist as string )
-		polyop.setFaceSmoothGroup obj (this._allFaces()) smooth_group
+		polyop.setFaceSmoothGroup obj facelist smooth_group
 	),
 	/** Set mat id
 	 */

@@ -1,6 +1,6 @@
 
 filein ( getFilenamePath(getSourceFileName()) + "/../Library/_UI/UI.ms" )
-
+filein ( getFilenamePath(getSourceFileName()) + "/includes.ms" )
 clearListener();
 
 /* HOTFIX - Floater should be closed regularry */

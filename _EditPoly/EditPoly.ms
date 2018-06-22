@@ -3,12 +3,12 @@
  */
 struct EditPoly_v
 (
-	
+
 	obj,
-	
+
 	EditPoly,
 	EditablePoly,
-	
+
 	final_sel = #(),
 
 	/** Explode
@@ -23,7 +23,7 @@ struct EditPoly_v
 
 		for poly_selection in poly_selections do
 			this.detach poly_selection
-			
+
 		--print ( "final_sel=" + final_sel as string )
 		final_sel --return
 		--append final_sel detObj
@@ -33,11 +33,11 @@ struct EditPoly_v
 	function detach poly_selection =
 	(
 		polyop.detachFaces obj poly_selection delete:false asNode:true name: "TempDet"
-		
+
 		detObj = getnodebyname "TempDet" 
 		detObj.name = (uniquename (obj.name + "_detach"))
 		detOBj.wirecolor =  color (random 0 255) (random 0 255) (random 0 255)
-		
+
 		append final_sel detObj
 	),
 
@@ -54,9 +54,9 @@ struct EditPoly_v
 					AddModifier selection[o] (Edit_Poly())
 					maxOps.CollapseNode selection[o] off
 				)
-	
+
 				maxOps.CollapseNodeTo  selection[selection.count] 1 off
-	
+
 				while selection.count > 1 do
 				(
 					selcount = selection.count
@@ -64,10 +64,10 @@ struct EditPoly_v
 						polyop.attach selection[i] selection[i-1]
 				)
 				update selection[1]
-	
+
 				if weld == true do
 					(polyop.weldVertsByThreshold selection[1] #{1..( polyop.getNumVerts selection[1])}) --weld vetices
-	
+
 			)
 		)
 	),
@@ -96,11 +96,11 @@ struct EditPoly_v
 	(
 		--print "explodeByHardEdges()"
 		this.selectHardEdges()
-		
+
 		this.splitEdges()
 
 		this.explodeByElement() --return
-		
+
 		--#(obj)
 		--undefined --return
 	),
@@ -109,7 +109,7 @@ struct EditPoly_v
 	function splitEdges =
 	(
 		this.setEditPoly()
-		
+
 		if( EditPoly!=undefined ) then
 			EditPoly.ButtonOp #SplitEdges
 			--print "!!!EditPoly!!!!"
@@ -168,7 +168,7 @@ struct EditPoly_v
 		--print "_getMaterialElements"
 		for f=1 to polyop.getNumFaces obj do
 			appendIfUnique all_ids ( polyop.getFaceMatID obj f)
-		
+
 				id = 1
 		for id in all_ids do
 			append material_faces ((for f=1 to polyop.getNumFaces obj where polyop.getFaceMatID obj f == id collect f) as bitarray)
@@ -183,7 +183,7 @@ struct EditPoly_v
 		maxops.CollapseNode obj off
 		--smGroupsArray = polyop.getFaceSmoothGroup obj firstFace;
 		face_num = polyop.getNumFaces obj
-		
+
 		for sg_id = 1 to 32 do
 		(
 			smooth_group_face = #()
@@ -194,7 +194,7 @@ struct EditPoly_v
 					append smooth_group_face f
 			--)
 			--smooth_group_face = smooth_group_face as bitArray
-			
+
 			print ( "smooth_group_face=" + smooth_group_face as string )
 			if  (  smooth_group_face.count > 0 and ( (smooth_group_face as array)[1] == 1 and smooth_group_face.count == face_num)==false ) then
 				append smooth_groups smooth_group_face
@@ -206,13 +206,13 @@ struct EditPoly_v
 	function selectHardEdges =
 	(
 		print "----selectHardEdges----"
-		
+
 		select obj
 		setCommandPanelTaskMode #modify
 
 		subobjectLevel = 2   
 		macros.run "PolyTools" "SharpEdges"
-		
+
 		this --return
 	),
 	/** Auto smooth
@@ -220,7 +220,7 @@ struct EditPoly_v
 	function autoSmooth value =
 	(
 		this.setEditPoly()
-		
+
 		if( EditPoly!=undefined ) then
 		(
 			EditPoly.autoSmoothThreshold = value
@@ -229,7 +229,7 @@ struct EditPoly_v
 		else if( EditablePoly!=undefined ) then
 		(
 			EditablePoly.autoSmoothThreshold = value
-			
+
 			EditablePoly.autosmooth()
 		)
 	),
@@ -238,7 +238,7 @@ struct EditPoly_v
 	function clearSmoothGroups =
 	(
 		this.setEditPoly()
-		
+
 		if( EditPoly!=undefined ) then(
 			--EditPoly.ButtonOp #Autosmooth
 			EditPoly.SetOperation #SetSmooth
@@ -249,16 +249,13 @@ struct EditPoly_v
 		(
 			--EditablePoly.SetSelection #Face (this._allFaces())
 			--EditablePoly.setSmoothingGroups 0
-			
+
 			theObj = obj.baseObject
 			facelist = polyop.getnumfaces theObj
 
 			for i = 1 to facelist do
 				polyop.setFaceSmoothGroup theObj i 0
-			
-			
-			
-			
+
 		)
 	),
 
@@ -283,9 +280,9 @@ struct EditPoly_v
 		--	convertTo obj Editable_Poly
 		--	polyop.deleteIsoVerts obj
 		--)
-		
+
 		polyop.setFaceMatID obj #{1..( polyop.getNumFaces obj)} id
-   
+
 	),
 	/** _all faces
 	 */

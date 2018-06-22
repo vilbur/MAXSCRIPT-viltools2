@@ -2,7 +2,7 @@
  */
 struct Material_v
 (
-	self = this,
+	--self = this,
 	/** Set mat id
 	 */
 	function setMatId obj MatID =
@@ -75,77 +75,93 @@ struct Material_v
 	 */
 	function createMaterial =
 	(
-			selMat = #()
-			selMat = for o in selection collect o.material
-			colors	= 12
-			increment	= ceil (255/colors)
-			RGB = #(255,	0, 0)
-			colors_all	= #()
-			/* 	  R	  G	  B */
-			--RGB = #(	#(255,	0,	0),
-			--	#(255,	128,	0),
-			--	#(255,	255,	0),
-			--	#(128,	255,	0),
-			--	#(0,	255,	0),
-			--	#(0,	255,	128),
-			--	#(0,	255,	255),
-			--	#(0,	0,	255),
-			--	#(255,	0,	255)	)
-			
-			
-			add = 128
+		----selMat = #()
+		step	= 2
+		colors	= step*6
+		increment	= ceil (256/step)
+		RGB = #(255,	0, 0)
+		colors_all	= #()
+		/* 	  R	  G	  B */
+		--RGB = #(	#(255,	0,	0),
+		--	#(255,	128,	0),
+		--	#(255,	255,	0),
+		--	#(128,	255,	0),
+		--	#(0,	255,	0),
+		--	#(0,	255,	128),
+		--	#(0,	255,	255),
+		--	#(0,	128,	255),
+		--	#(0,	0,	255),
+		--	#(128,	0,	255),
+		--	#(255,	0,	255),
+		--	#(255,	0,	128)	)
 		
-			Submat = multiMaterial numsubs:colors name: "IDmat" -- (getFilenamePath  loadedMat)
-				channels = #("R", "G" , "B")
-			for c=1 to colors do
+		add = 128
+		print ( "increment=" + increment as string )
+		multi_mat = multiMaterial numsubs:colors name: "IDmat" -- (getFilenamePath  loadedMat)
+		channels = #("R", "G" , "B")
+		
+		_red	= 1
+		_yellow	= colors/6*2
+		_green	= colors/3+1
+		_cyan	= colors/6*4
+		_blue	= colors/3*2+1
+		_magenta	= colors
+		
+		for c=1 to colors do
+		(
+		--print ( "RGB=" + RGB as string )
+		--print ( "colors_all=" + colors_all as string )
+			--append colors_all (deepCopy  RGB)
+
+			for ch=1 to channels.count do
 			(
-			print ( "RGB=" + RGB as string )
-			print ( "colors_all=" + colors_all as string )
-				append colors_all (deepCopy  RGB)
-
-				for ch=1 to channels.count do
+				--print ( "ch=" + ch as string )
+				_channel	= channels[ch]
+				_value	= RGB[ch]
+				
+				if( _channel=="R" ) then
 				(
-					print ( "ch=" + ch as string )
-					_channel	= channels[ch]
-					_value	= RGB[ch] as integer 
-					--if( _channel == 0 ) then
-						--_channel += increment
-					if( _value==0 ) then
-						_value = _value + increment
+					if( c > _blue ) then
+						_value +=  increment
 						
-					else if( c>colors/3 ) then
-						_value = this._rgb ( _value - increment )
-						
-					print ( _channel+"=" + _value as string )
-
-					RGB[ch] =  _value
+					else if( c >= _yellow ) then
+						_value -=  increment
 				)
-				--Submat[j].diffuse = color RGB[1] RGB[2] RGB[3]
-				
-			)
-			for c=1 to colors_all.count do
-				Submat[c].diffuse = color colors_all[c][1] colors_all[c][2] colors_all[c][3]
-			
-			
-			--print ( "colors_all=" + colors_all as string )
-			--for j=1 to RGB.count do
-			--(
-			--	R = this._rgb (RGB[j][1]+add)
-			--	G = this._rgb (RGB[j][2]+add)
-			--	B = this._rgb (RGB[j][3]+add)
-			--	
-			--
-			--	Submat[j].diffuse = color R G B
-			--	
-			--	--Submat[j].diffuse = color (this._rgb (RGB[j][1]+add))(this._rgb (RGB[j][2]+add))(this._rgb (RGB[j][3]+add))
-			--
-			--)
-				
+				else if( _channel=="G" ) then
+				(
 
-			--for m = 9 to 20 do 	Submat[m].diffuse =  color (random 0 255) (random 0 255) (random 0 255)
+					if( c > 1 and c < _green ) then
+						_value +=  increment
+						
+					else
+					if( c > _cyan-1 ) then
+						_value -=  increment
+				)
+				else if( _channel=="B" ) then
+				(
+
+					if( c > _green  and c < _blue ) then
+						_value += increment
+						
+					else if( c > _magenta-1 ) then
+						_value -=  increment
+
+				)
+
+				RGB[ch] =  this._rgb _value
+			)
 			
-			selection.material = Submat
-			
+			append colors_all (deepCopy  RGB)
+
+			print ( "RGB "+c as string +"	" + RGB as string )
+				
+		)
+		
+		for c=1 to colors_all.count do
+			multi_mat[c].diffuse = color colors_all[c][1] colors_all[c][2] colors_all[c][3]
+
+		--selection.material = multi_mat
+		multi_mat --return
 	),
 	/** get rgb Rgb
 	 */

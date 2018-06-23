@@ -1,11 +1,17 @@
 
 filein ( getFilenamePath(getSourceFileName()) + "/../../includes.ms" )
-
 clearListener()
 
-_material 	= (Material_v()).createMaterial()
 
-selection.material = _material
+/** Create id material
+ */
+function createIdMaterialTest =
+(
+	_material 	= (Material_v()).getIdMaterial()
+	
+	selection.material = _material
+	
+	redrawViews()
+)
 
-setMeditMaterial 1 _material
-actionMan.executeAction 0 "50048"  -- Tools: Material Editor Togglez
+createIdMaterialTest()

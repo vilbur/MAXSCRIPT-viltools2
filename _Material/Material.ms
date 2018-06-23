@@ -70,66 +70,80 @@ struct Material_v
 		--select sel
 	),
 
-	/** Create material
+	/** Create multimaterial where every diffuse color has different color
+	  * @return multimaterial
 	 */
-	function createMaterial =
+	function getIdMaterial =
 	(
-		step	= 2
-		colors	= step*3
-		increment	= ceil (256/(step/2))
-		multi_mat	= multiMaterial numsubs:colors name: "IDmat" -- (getFilenamePath  loadedMat)
+		colors	= 6
+		
+		RGB	= this.getColorsPallete colors minmax:#(215,	255)
+		RGB_dark	= this.getColorsPallete colors minmax:#(175,	255)
+		RGB_darker	= this.getColorsPallete colors minmax:#(135,	255)
+		
+		join RGB (join RGB_dark RGB_darker)
+	
+		multi_mat	= multiMaterial numsubs:RGB.count name:"IDmat" -- (getFilenamePath  loadedMat)
+		
+		for c=1 to RGB.count do
+			multi_mat[c].diffuse = color RGB[c][1] RGB[c][2] RGB[c][3]
 
+		multi_mat --return
+	),
+	/** Get array of rgb values
+	  * @param	integer	colors	Number of generated colors
+	  * @param	array	minmax	Min and Max color value, high values produce lighter colors
+	  * @return [rgb]
+	 */
+	function getColorsPallete colors minmax:#(0 ,255) =
+	(
+		_min	= minmax[1]
+		_max	= minmax[2]
+		
+		increment	= ceil ( _max/(colors/3/2))
+		--print ( "increment=" + increment as string )
 		_value	= 0
+		
 		RGB	= #()
 		RGB_all	= #()
-
-		add = 128
 
 		for c=1 to colors do
 		(
 			if( c>1 and c<=colors/3 ) then
 				_value += increment
-			else
-			if( c>colors/3+2 ) then
+				
+			else if( c>colors/3+2 ) then
 				_value -= increment
 
-			append RGB (this._rgb _value)
+			append RGB (this._rgb _value _min _max)
 			--append RGB c
-			print ( "_value "+c as string +"	" + RGB[c] as string )
+			--print ( "_value "+c as string +"	" + RGB[c] as string )
 		)
 
-		third_1 = colors/3
-		third_2 = colors/3*2
+		third_1 = ceil (colors/3)
+		third_2 = ceil (colors/3*2)
 
-		rgb_r	= for i = third_1+1	to colors	collect RGB[i]
 		rgb_g	= RGB
-		rgb_b	= for i = third_2+1	to colors	 collect RGB[i]
+		rgb_r	= for i = third_1+1	to colors	collect RGB[i]
+		rgb_b	= for i = third_2+1	to colors	collect RGB[i]
 
 		join rgb_r (for i = 1	to third_1	collect RGB[i])
 		join rgb_b (for i = 1	to third_2	collect RGB[i])
 
 		for c=1 to colors do
-		(
 			append RGB_all #( rgb_r[c], rgb_g[c], rgb_b[c] )
-			print ( "RGB "+c as string +"	" + RGB_all[c] as string )
-		)
-		--print ( "RGB_all=" + RGB_all as string )
 
-		for c=1 to RGB_all.count do
-			multi_mat[c].diffuse = color RGB_all[c][1] RGB_all[c][2] RGB_all[c][3]
-
-		multi_mat --return
+		RGB_all --return	
 	),
+	
 	/** get rgb Rgb
 	 */
-	function _rgb rgb_value =
+	function _rgb rgb_value _min _max =
 	(
-		--print "++++RGB++++"
-		if( rgb_value > 255 ) then
-			rgb_value = 255 --return
-		else if( rgb_value < 0 ) then
-			rgb_value = 0 --return
-		--else
+		if( rgb_value > _max ) then
+			rgb_value = _max --return
+		else if( rgb_value < _min ) then
+			rgb_value = _min --return
 
 		rgb_value as float --return
 	),

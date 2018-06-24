@@ -1,6 +1,6 @@
 
 
-
+filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers.ms" )
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Material/Material.ms" )
 

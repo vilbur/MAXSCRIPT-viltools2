@@ -36,17 +36,10 @@ struct EditPolyObjects_v
 				
 		)
 		
-		--if( method !="explodeBySG" ) then
 		print ( "EXPLODE=" + final_sel as string )
 		
-			--if( final_sel!=undefined ) then
 		delete _selection
-		
-		--sleep 1
-		--if( final_sel!=undefined ) then
-			--for o in final_sel do selectmore o 
 
-			--select final_sel[1] --return
 	),
 	/** Do for objects
 	 */

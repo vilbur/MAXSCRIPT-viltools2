@@ -3,7 +3,6 @@
  */
 struct EditPoly_v
 (
-
 	obj,
 
 	EditPoly,

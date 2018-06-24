@@ -11,39 +11,18 @@ try(DestroyDialog rollout_test_floater)catch()
 Floater	= (Floater_v()).new "Test Floater"
 
 
-/** Load content from hierarchy
- */
-function loadContentTest =
-(
-	Content = Content_v dir:(getFilenamePath(getSourceFileName())+"/") subdirs:"_*"
-	--Content = Content_v dir:(getFilenamePath(getSourceFileName())+"/../") subdirs:"_EditPoly"
-	--Content_2 = Content_v dir:(getFilenamePath(getSourceFileName())+"/../") subdirs:"_Selection"
-	
-	Content.loadTree()
-	--Content_2.loadTree()
+/* Get content from tree */
+Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!-test)$").load()
+Content_test_rollouts	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*-test)$").load()
 
-	Content.setControlsToUI Floater
-	--addRolloutByCodeTest "Rollout by code 1"
-	--Content_2.setControlsToUI Floater
-
-)
-
-
+/* Set content to ui */
+Content.setControlsToUI Floater
+Content_test_rollouts.setControlsToUI Floater
 
 /*---------------------------------------
 	RUN TEST
 -----------------------------------------*/
 
-loadContentTest()
+--loadContent()
 Floater.create()
-
 Floater.dock "right"
-
-
---sleep 1
---try(cui.UnRegisterDialogBar test_floater)catch() --try to unregister if already registered
---try(DestroyDialog test_floater)catch()
-	--_selection.selection_test.text == "test"
-
-
-

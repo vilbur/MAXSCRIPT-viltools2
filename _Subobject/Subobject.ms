@@ -19,7 +19,15 @@ struct Subobject_v
 		print ( "Subobject_v.enter() =" + sub_obj as string )
 		
 		if( this._modifierHasSubObject()==true ) then
-			subObjectLevel =  (findItem _subobjects sub_obj)
+		(
+			index = (findItem _subobjects sub_obj)
+			
+			if( subObjectLevel == index ) then 
+				subObjectLevel =  0
+			else
+				subObjectLevel =  index
+
+		)
 	),
 	
 	function _modifierHasSubObject =  --start

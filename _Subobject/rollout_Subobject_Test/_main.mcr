@@ -1,4 +1,4 @@
-macroscript enter_subobject_vertex
+macroscript enter_subobject_vertex_test
 category:"_Subobject"  
 buttonText:"Subobjects Loop"
 (

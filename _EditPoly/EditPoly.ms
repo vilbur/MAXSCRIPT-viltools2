@@ -207,7 +207,8 @@ struct EditPoly_v
 		print "----selectHardEdges----"
 
 		select obj
-		setCommandPanelTaskMode #modify
+		--setCommandPanelTaskMode #modify
+		max modify mode
 
 		subobjectLevel = 2   
 		macros.run "PolyTools" "SharpEdges"
@@ -222,12 +223,12 @@ struct EditPoly_v
 
 		if( EditPoly!=undefined ) then
 		(
-			EditPoly.autoSmoothThreshold = value
+			--EditPoly.autoSmoothThreshold = value
 			EditPoly.ButtonOp #Autosmooth
 		)
 		else if( EditablePoly!=undefined ) then
 		(
-			EditablePoly.autoSmoothThreshold = value
+			--EditablePoly.autoSmoothThreshold = value
 
 			EditablePoly.autosmooth()
 		)

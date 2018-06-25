@@ -12,12 +12,12 @@ Floater	= (Floater_v()).new "Test Floater"
 
 
 /* Get content from tree */
-Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!-test)$").load()
-Content_test_rollouts	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*-test)$").load()
+Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
+Content_test_rollouts	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*_test)$").load()
 
 /* Set content to ui */
 Content.setControlsToUI Floater
-Content_test_rollouts.setControlsToUI Floater
+--Content_test_rollouts.setControlsToUI Floater
 
 /*---------------------------------------
 	RUN TEST

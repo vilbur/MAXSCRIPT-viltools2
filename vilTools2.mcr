@@ -1,10 +1,10 @@
 
 macroScript vilTools2
-	category:	"vilTools2"
-	buttontext:	"Open vilTools2"
-	toolTip:	""
+	category:	"_vilTools2"
+	buttontext:	"vT2"
+	toolTip:	"Open vilTools2"
 (
-	--filein @"$userscripts\vilbur\viltools2.ms"
+	filein @"$userscripts\vilbur\viltools2.ms"
 	
 )
 

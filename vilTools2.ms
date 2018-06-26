@@ -4,11 +4,13 @@ filein ( getFilenamePath(getSourceFileName()) + "/includes.ms" )
 clearListener();
 
 /* HOTFIX - Floater should be closed regularry */
-try(cui.UnRegisterDialogBar rollout_test_floater)catch() --try to unregister if already registered
-try(DestroyDialog rollout_test_floater)catch()	
+try(cui.UnRegisterDialogBar rollout_viltools2)catch() --try to unregister if already registered
+try(DestroyDialog rollout_viltools2)catch()	
 
 /** DEFINE FLOATER  */
-Floater	= (Floater_v()).new "Test Floater"
+ini	= ( dotnetObject "System.Text.RegularExpressions.Regex" @"(ms|mscr)$" ).Replace (getSourceFileName()) "ini"
+--Floater	= (Floater_v ini:ini).new "Test Floater"
+Floater	= (Floater_v ini:ini).new "VilTools2"
 
 
 /* Get content from tree */

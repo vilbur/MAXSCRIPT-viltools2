@@ -15,7 +15,8 @@ Floater	= (Floater_v ini:ini).new "VilTools2"
 
 /* Get content from tree */
 Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
-Content_test_rollouts	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*_test)$").load()
+--Content_test_rollouts	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*_test)$").load()
+--Content_test_rollouts	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
 
 /* Set content to ui */
 Content.setControlsToUI Floater

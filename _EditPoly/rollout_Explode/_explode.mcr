@@ -6,7 +6,7 @@ toolTip:	"Explode by Elements"
 (
 	(EditPolyObjects_v()).explode "explodeByElement"
 	
-	macros.run "_Material" "materialByObject"
+	--macros.run "_Material" "materialByObject"
 )
 
 macroscript ExplodeByMaterial

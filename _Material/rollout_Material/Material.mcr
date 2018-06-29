@@ -3,9 +3,17 @@ category:"_Material"
 buttonText:"TEST"
 (
 	clearListener()
-	Material = Material_v()
+	--Material = Material_v()
 
-	Material.createMaterial()
+	--Material.createMaterial()
+)
+macroscript createIdMaterial
+category:"_Material"  
+buttonText:"ID Mat"
+tooltip:"Create edit multi material with different ID"  
+(
+	Material = Material_v()
+	selection.material = Material.getIdMaterial()
 )
 
 macroscript materialByObject

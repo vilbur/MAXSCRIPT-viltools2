@@ -1,0 +1,90 @@
+--macroscript modifier_chamfer
+--category:"_Modifiers_Test"  
+--buttonText:"Chamfer"
+--tooltip:""
+--(
+--	--clearListener()
+--	Modifiers = Modifiers_v()
+--	Modifiers.addChamfer()
+--	
+--)
+--
+--macroscript modifier_addEditPoly
+--category:"_Modifiers_Test"  
+--buttonText:"Edit Poly"
+--tooltip:"Add EditPoly"
+--(
+--	--clearListener()
+--	Modifiers = Modifiers_v()
+--
+--	(Modifiers_v()).addEditPoly()
+--)
+
+--macroscript modifier_add_test
+--category:"_Modifiers_Test"  
+--buttonText:"Normal"
+--tooltip:"Modifier get"
+--(
+--	clearListener()
+--
+--	--(Modifier_v type:#Edit_Poly name:"Edit Poly Test").add()
+--	--(Modifier_v type:#Chamfer name:"Chamfer Test").add()
+--	--(Modifier_v type:#xForm name:"Xform Test").add()
+--	
+--	redrawViews()
+--)
+--macroscript modifier_resetXform
+--category:"_Modifiers"  
+--buttonText:"Reset Xform"
+--tooltip:"Xform"
+--(
+--	--clearListener()
+--	Xform = (XForm_Modifier_v())
+--
+--	Xform.resetObject()
+--)
+
+
+--macroscript modifier_add_Xform
+--category:"_Modifiers_Test"  
+--buttonText:"Normal"
+--tooltip:"Add Normal"
+--(
+--	--clearListener()
+--	Modifiers = Modifiers_v()
+--
+--	(Modifiers_v()).addNormal()
+--)
+
+--macroscript modifier_addNormal
+--category:"_Modifiers_Test"  
+--buttonText:"Normal"
+--tooltip:"Add Normal"
+--(
+--	--clearListener()
+--	Modifiers = Modifiers_v()
+--
+--	(Modifiers_v()).addNormal()
+--)
+
+--macroscript modifier_addExtrude
+--category:"_Modifiers_Test"  
+--buttonText:"xtrude"
+--tooltip:"Add Extrude"
+--(
+--	--clearListener()
+--	Modifiers = Modifiers_v()
+--
+--	(Modifiers_v()).addExtrude()
+--)
+--
+--macroscript modifier_addCapHoles
+--category:"_Modifiers_Test"  
+--buttonText:"CapHoles"
+--tooltip:"Add Cap Holes"
+--(
+--	--clearListener()
+--	Modifiers = Modifiers_v()
+--
+--	(Modifiers_v()).addCapHoles()
+--)

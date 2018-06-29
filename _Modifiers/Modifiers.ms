@@ -3,15 +3,11 @@
 
 struct Modifiers_v
 (
-	/** Add edit poly
-	 */
-	function addEditPoly =
-	(
-		max modify mode
-		modPanel.addModToSelection (Edit_Poly  ignoreBackfacing:on selectAngle:20 SelectByAngle:on ) ui:on
---print ( "test=" + test as string )
+	Edit_Poly	= (EditPoly_Modifier_v()).get(),
+	XForm	= (XForm_Modifier_v()).get(),
+	Chamfer	= (Chamfer_Modifier_v()).get(),
+	--Normal, -- Normalmodifier
 
-	),
 	/** Add edit poly
 	 */
 	function addChamfer =
@@ -44,8 +40,6 @@ struct Modifiers_v
 			deleteModifier $ 1
 
 		)
-			
-		
 
 	),
 	/** Delete
@@ -77,6 +71,7 @@ struct Modifiers_v
 		
 		edit_poly_mods --return
 	),
+	
 	function test =
 	(
 		messagebox "Modifiers.test()"

@@ -11,61 +11,54 @@
  */
 struct EpolySelection_v
 (
-	
 	_selection,
 	
-	/** Find if selection is editable poly or edit_poly
-	  * Activate Edit_Poly modifier if is found in stack
+	/** Get current Editable_Poly or Edit_Poly modifier 
 	  *
-	  * @return	string "Editable_Poly|Edit_Poly" or undefined  	
+	  * @return	modifier "Editable_Poly|Edit_Poly|Undefined" Type of active modifier, undefined if Editable_poly & Edit_Poly is not active
 	 */
-	function getEpoly =
-	(
-		print ( "this._isEditPolyActive()=" + this._isEditPolyActive() as string )
-		
+	function getCurrentEpoly =
+	(		
 		_selection = (Selection_v()).get()
-		if( _selection.count > 0 ) then 
+		
+		if( _selection.count > 0 ) then
 		(
-			if( this._isObjectEditablePoly _selection[1] and _selection.count == 1 ) then
-				"Editable_Poly" --return
-			
+			current_epoly	= this._getCurrentEpoly()
+
+			if( current_epoly != undefined ) then
+				current_epoly --return
+				
 			else
-			(
-				edit_poly_active = this._isEditPolyActive()
-				
-				if( edit_poly_active == false and _selection.count == 1 ) then
-				(
-					edit_poly_index = this.searchEditPolyModifier _selection[1]
-					modPanel.setCurrentObject _selection[1].modifiers[edit_poly_index]
-					edit_poly_active = true
-				)
-				
-				if( edit_poly_active ) then 
-					"Edit_Poly" --return
-			)
+				undefined --return
 		)
-
 	),
-	/** Is edit poly active
+	/** 1) Find and select Edit_Poly modifier,
+	  * 2) If Edit_Poly does not exist, then select Editable_Poly
+	  * 3) If object is not Editable_Poly then return undefined
 	 */
-	function _isEditPolyActive =
+	function findEpoly =
 	(
-		max modify mode
+		current_epoly = this.getCurrentEpoly()
 
-		classOf ( modPanel.getCurrentObject() ) == Edit_Poly  --return
-	),
-	/** Find if object is editabl epoly without modifiers
-	 */
-	function _isObjectEditablePoly obj =
-	(
-		classOf(obj.baseObject)==Editable_Poly and obj.modifiers.count==0
+		if( current_epoly == undefined ) then
+		(
+			obj	= _selection[1]
+			edit_poly_index	= this.searchEditPolyModifier obj
+			
+			if( edit_poly_index != undefined ) then 
+				this._selectModifierByIndex obj edit_poly_index -- set Edit_Poly
+				
+			else if ( this._isEditablePolyObject obj ) then
+				this._selectBaseObject obj -- set Editable_Poly
+		)
+		
 	),
 	/** Search for first edit poly modifier from top
 	 */
 	function searchEditPolyModifier obj =
 	(
 		edit_poly_mods	= this._getEditPolyModifiers obj
-
+	
 		if( edit_poly_mods.count > 0 ) then
 			edit_poly_mods[1] --return
 		--print ( "edit_poly_mods=" + edit_poly_mods as string )
@@ -82,7 +75,41 @@ struct EpolySelection_v
 			append edit_poly_mods m
 		
 		edit_poly_mods --return
+	),	
+	/** Get current Editable_Poly or Edit_Poly
+	  * @return	Editable_Poly|Edit_Poly|undefined	Return undefined if Editable_Poly or Edit_Poly is not active
+	 */
+	function _getCurrentEpoly =
+	(
+		max modify mode
+
+		current_modifier	=  modPanel.getCurrentObject()
+		current_modifier_class	= classOf current_modifier
+		
+		if( current_modifier_class == Edit_Poly or current_modifier_class == Editable_Poly  ) then
+			current_modifier --return
+		else
+			undefined --return
 	),
+	/** Select modifier by index
+	 */
+	function _selectModifierByIndex obj index =
+	(
+		modPanel.setCurrentObject obj.modifiers[index] -- set Edit_Poly
+	),
+	/** Select modifier by index
+	 */
+	function _selectBaseObject obj =
+	(
+		modPanel.setCurrentObject obj.baseObject -- set Edit_Poly
+	),
+	/** Find if object is editabl epoly without modifiers
+	 */
+	function _isEditablePolyObject obj =
+	(
+		classOf(obj.baseObject)==Editable_Poly --return 
+	),
+
 	
 	function test =
 	(

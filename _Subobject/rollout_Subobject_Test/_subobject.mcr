@@ -1,7 +1,7 @@
 macroscript enter_subobject_test
 category:	"_Subobject_Test" 
 buttonText:	"Enter Subobject"
-tooltip:	"Loop all elements of current modifier\nResult in MAXScript Listener"
+tooltip:	"Loop all elements of current modifier\n-Result in MAXScript Listener"
 (
 	clearListener()
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
@@ -20,18 +20,6 @@ tooltip:	"Loop all elements of current modifier\nResult in MAXScript Listener"
 		)
 	else
 		messagebox "Macro:enter_subobject_test:\n\nNOTHING IS SELECTED"
-	
-	--subobjects	= Subobject.subobjects()
-	--print ( "subobjects=" + subobjects as string )
-	--if( subobjects==undefined ) then
-	--(
-	--	(Modifiers_v()).addEditPoly()
-	--	subobjects	=  Subobject.subobjects()
-	--)
-	--	for _subobject in subobjects  do
-	--	(
-	--		Subobject.enter _subobject
-	--		sleep 1
-	--	)
+
 	
 )

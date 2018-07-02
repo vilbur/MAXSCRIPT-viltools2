@@ -1,5 +1,7 @@
-
-/** Edit poly
+/** Epoly
+ *
+ *
+ *
  */
 struct Epoly_v
 (

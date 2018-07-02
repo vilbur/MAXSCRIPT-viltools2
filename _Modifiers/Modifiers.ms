@@ -8,43 +8,7 @@ struct Modifiers_v
 	Chamfer	= (Chamfer_Modifier_v()).get(),
 	Shell	= (Shell_Modifier_v()).get(),
 	Relax	= (Relax_Modifier_v()).get(),
-	--Relax	= (Relax Relax_Value:1 iterations:2),
-	--Relax	= (Relax ()),
-	--Normal, -- Normalmodifier
 
-	/** Add edit poly
-	 */
-	function addChamfer =
-	(
-		messagebox "Modifiers_v.addChamfer() - Method will be remoed" beep:false
-		--is_chmafered	= this.search selection[1] Chamfer
-		--print ( "is_chmafered=" + is_chmafered as string )
-		--if( is_chmafered==undefined ) then
-		--(
-		--modPanel.addModToSelection (Edit_Poly name:"select_hardedges" ignoreBackfacing:on selectAngle:20 SelectByAngle:on ) ui:on
-		--for i=1 to selection.count do
-		--	(EditPoly_v_old obj: selection[i]).selectHardEdges()
-		--	
-		--	_Chamfer = Chamfer()
-		--	_Chamfer.amount = 10.0
-		--	_Chamfer.name	= "Chamfer-rock"
-		--	/* disable subdivi */
-		--	_Chamfer.chamfertype = 1
-		--	_Chamfer.limiteffect = on
-		--				
-		--	_Chamfer.materialID = 99
-		--
-		--	modPanel.addModToSelection _Chamfer ui:on
-		--)else
-		--(
-		--	modPanel.setCurrentObject $.modifiers[#Chamfer_rock]
-		--	
-		--	deleteModifier $ 1
-		--	
-		--	modPanel.setCurrentObject $.modifiers[#select_hardedges]
-		--	deleteModifier $ 1
-		--)
-	),
 	/** Delete
 	 */
 	function delete =

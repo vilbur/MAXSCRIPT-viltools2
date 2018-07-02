@@ -21,7 +21,6 @@ struct Subobject_v
 			else
 				subObjectLevel =  index
 		)
-
 	),
 	/** 1) Enter to subobject of current modifier
 	  * 2) If current modifier has not subobjects then search for first modifier with subobjects
@@ -30,7 +29,7 @@ struct Subobject_v
 	function enterOrFindModifierOrAddEditPoly sub_obj =
 	(
 		--if( this.enter sub_obj == undefined ) then
-			this.enter sub_obj
+			
 	),
 	
 	/** _get Current modifier
@@ -42,15 +41,18 @@ struct Subobject_v
 		modPanel.getCurrentObject()
 	),
 	
-	function _modifierHasSubObject _modifier =  --start
-	(				  		
-		if( _modifier!=undefined ) then
-			(findItem _editable_modifiers ( classof _modifier )) > 0 -- return
-	),
+	
+	--function _modifierHasSubObject _modifier =  --start
+	--(				  		
+	--	if( _modifier!=undefined ) then
+	--		(findItem _editable_modifiers ( classof _modifier )) > 0 -- return
+	--),
 	
 	
 	function test =
 	(
 		messagebox "Subobject.test()"
 	)
+	
+
 )

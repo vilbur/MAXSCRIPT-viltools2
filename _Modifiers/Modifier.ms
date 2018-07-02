@@ -23,6 +23,13 @@ struct Modifier_v
 		
 		modPanel.addModToSelection _modifier ui:on
 	),
+	
+	/** Get instances
+	 */
+	function getInstances _objects _modifier =
+	(
+		for o in _objects where (refhierarchy.isRefTargetInstanced _modifier ) collect o
+	),
 	/** _set modifier
 	 */
 	function _setModifier =

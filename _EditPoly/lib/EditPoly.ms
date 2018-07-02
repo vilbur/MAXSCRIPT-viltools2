@@ -1,10 +1,10 @@
 /** Edit poly_v
  */
-struct EditPoly_v
+struct EditPoly_v_old
 (
 	function test =
 	(
-		messagebox "EditPoly_v.test" beep:false;
+		messagebox "EditPoly_v_old.test" beep:false;
 	)
 	
 )

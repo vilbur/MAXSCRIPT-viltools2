@@ -1,5 +1,5 @@
-macroscript modifier_chamfer
-category:"_Smadosoft"  
+macroscript samdosoft_chamfer
+category:"_Samdosoft"  
 buttonText:"Stairs"
 tooltip:"Create stairs from selected objects"
 (
@@ -12,8 +12,8 @@ tooltip:"Create stairs from selected objects"
 	)
 )
 
-macroscript creator_rock
-category:"_Smadosoft"  
+macroscript samdosoft_rock
+category:"_Samdosoft"  
 buttonText:"Rock"
 tooltip:"Create Rock"
 (

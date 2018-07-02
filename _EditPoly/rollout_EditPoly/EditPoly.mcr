@@ -27,7 +27,7 @@ macroscript attachSelection
 category:"_EditPoly"  
 buttonText:"Attach Selected"
 (
-	EditPoly = EditPoly_v()
+	EditPoly = EditPoly_v_old()
 	
 	--macros.run "_Material" "materialByObject"
 	
@@ -44,37 +44,4 @@ tooltip:"Attach objects\nSet one smoothgroup\nSet one material id"
 	macros.run "_EditPoly" "attachSelection"
 	macros.run "EditPoly-SmoothGroups" "smoothGroupByObject"
 	macros.run "_Material" "materialByObject"
-)
-
-macroscript selectHardEdges
-category:"_EditPoly"  
-buttonText:"Select HARD"
-tooltip:"Select HARD edges on all objects"
-(
-	_selection = (Selection_v()).get()
-	--print ( "_selection=" + _selection[1] as string )
-	--print ( "_selection=" + _selection.count as string )
-	
-	for i=1 to _selection.count do
-		(EditPoly_v obj: _selection[i]).selectHardEdges()
-	
-	select _selection
-	subobjectLevel = 2   
-
-)
-macroscript splitByHardEdges
-category:"_EditPoly"  
-buttonText:"Split HARD"
-tooltip:"Split HARD edges on all objects"
-(
-	_selection = (Selection_v()).get()
-	--print ( "_selection=" + _selection[1] as string )
-	--print ( "_selection=" + _selection.count as string )
-	
-	for i=1 to _selection.count do
-		((EditPoly_v obj: _selection[i]).selectHardEdges()).splitEdges()
-	
-	select _selection
-	subobjectLevel = 2   
-
 )

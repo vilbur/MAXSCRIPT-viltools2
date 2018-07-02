@@ -4,10 +4,12 @@ struct Subobject_v
 (
 	sub_objects,
 	_editable_modifiers	= #( Editable_Poly, Edit_Poly, FFD_2x2x2, FFD_3x3x3, FFD_4x4x4, FFDBox, Unwrap_UVW, line, SplineShape, Edit_Spline, ProBoolean, Casement ),
-	_modfier_elements = #(
-		#(#vertex, #edge, #border, #polygon, #element),	-- EPoly
-		#(#vertex, #edge, #volume),	-- FFD
-		#(#vertex, #edge, #polygon)	-- Unwrap_UVW
+	
+	
+	_modfier_elements = #(                              -- Available types of subobjects for modifier per type
+		#(#vertex, #edge, #border, #polygon, #element), -- EPoly
+		#(#vertex, #edge, #volume),                     -- FFD
+		#(#vertex, #edge, #polygon)                     -- Unwrap_UVW
 	),
 	
 	/** Enter
@@ -15,10 +17,14 @@ struct Subobject_v
 	 */
 	function enter sub_obj =
 	(
-		_subobjects	= this.subobjects()
-		print ( "Subobject_v.enter() =" + sub_obj as string )
+		max modify mode
 		
-		if( this._modifierHasSubObject()==true ) then
+		current_modifier	= modPanel.getCurrentObject()
+		_subobjects	= this.subobjects ( current_modifier )
+		
+		--print ( "Subobject_v.enter() =" + sub_obj as string )
+		
+		if( this._modifierHasSubObject current_modifier == true ) then
 		(
 			index = (findItem _subobjects sub_obj)
 			
@@ -26,31 +32,26 @@ struct Subobject_v
 				subObjectLevel =  0
 			else
 				subObjectLevel =  index
-
 		)
 	),
 	
-	function _modifierHasSubObject =  --start
+	function _modifierHasSubObject _modifier =  --start
 	(				  
-		max modify mode
 
-		current_modifier = modPanel.getCurrentObject()
+		_modifier = modPanel.getCurrentObject()
 		
-		if( current_modifier!=undefined ) then
-			(findItem _editable_modifiers ( classof current_modifier )) > 0 -- return
+		if( _modifier!=undefined ) then
+			(findItem _editable_modifiers ( classof _modifier )) > 0 -- return
 	),
 
 	/** Get subobjects available for modifier
 	  * @return	array	
 	 */
-	function subobjects =
+	function subobjects _modifier =
 	(
-		current_modifier = modPanel.getCurrentObject()
-		--subobjectLevel = 4
-	
-		if( current_modifier!=undefined ) then
-		print ( "classOf current_modifier=" + classOf current_modifier as string )
-			case classOf current_modifier of
+		if( _modifier!=undefined ) then
+		--print ( "classOf _modifier=" + classOf _modifier as string )
+			case classOf _modifier of
 			(
 				Editable_Poly:	_modfier_elements[1]
 				Edit_Poly:	_modfier_elements[1]
@@ -66,10 +67,16 @@ struct Subobject_v
 				--ProBoolean:	ProBoolean
 				--Casement:	Casement
 				default:	undefined
-				--"MODIFIER IS NOT SUPPORTED IN Subobject_v.subobjects() modifier " + (classOf current_modifier)	
+				--"MODIFIER IS NOT SUPPORTED IN Subobject_v.subobjects() modifier " + (classOf _modifier)	
 			)
 	),
 	
+	/** _get Current modifier
+	 */
+	function _getCurrentModifier =
+	(
+		
+	),
 	function test =
 	(
 		messagebox "Subobject.test()"

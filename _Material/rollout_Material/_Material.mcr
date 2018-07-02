@@ -1,12 +1,12 @@
-macroscript TEST
-category:"_Material"  
-buttonText:"TEST"
-(
-	clearListener()
-	--Material = Material_v()
-
-	--Material.createMaterial()
-)
+--macroscript TEST
+--category:"_Material"  
+--buttonText:"TEST"
+--(
+--	clearListener()
+--	--Material = Material_v()
+--
+--	--Material.createMaterial()
+--)
 macroscript createIdMaterial
 category:"_Material"  
 buttonText:"ID Mat"
@@ -18,23 +18,25 @@ tooltip:"Create edit multi material with different ID"
 
 macroscript materialByObject
 category:"_Material"  
-buttonText:"Material by Object"
+buttonText:"By Object"
+tooltip:"Set different material ID for each object"
 (
-	--EditPoly = EditPoly_v()
+	--EditPoly = EditPoly_v_old()
 	_selection = (Selection_v()).get()
 	print ( "_selection=" + _selection.count as string )
 	
 	for i=1 to _selection.count do
-		(EditPoly_v obj:_selection[i]).setMatId i
+		(EditPoly_v_old obj:_selection[i]).setMatId i
  
 	--select _selection
 	completeRedraw() 
 )
 macroscript randomMaterial
 category:"_Material"  
-buttonText:"Random Material"
+buttonText:"Random"
+tooltip:"Set random material id for selection"
 (
-	--EditPoly = EditPoly_v()
+	--EditPoly = EditPoly_v_old()
 	_selection = (Selection_v()).get()
 	print ( "_selection=" + _selection.count as string )
 	mat_id	= random 1 32
@@ -43,7 +45,7 @@ buttonText:"Random Material"
 	print ( "_selection=" + _selection.count as string )
 	
 	for i=1 to _selection.count do
-		(EditPoly_v obj:_selection[i]).setMatId mat_id
+		(EditPoly_v_old obj:_selection[i]).setMatId mat_id
  
 	--select _selection
 	completeRedraw() 
@@ -51,7 +53,7 @@ buttonText:"Random Material"
 
 macroScript SelectObjsByMaterial
 category:"_Material"  
-buttonText:"Select By Material"
+buttonText:"Select By Mat"
 tooltip:"Select Objects By Material"
 
 (

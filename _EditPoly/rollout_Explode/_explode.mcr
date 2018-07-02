@@ -11,7 +11,7 @@ toolTip:	"Explode by Elements"
 
 macroscript ExplodeByMaterial
 category:	"_EditPoly-Explode"
-buttontext:	"Explode by mat"
+buttontext:	"Material"
 toolTip:	"Explode by Material"
 (
 	(EditPolyObjects_v()).explode "explodeByMaterialId"
@@ -19,7 +19,7 @@ toolTip:	"Explode by Material"
 	
 macroscript explodeBySG
 category:"_EditPoly-Explode"  
-buttonText:"SmoothGroup"
+buttonText:"Smooth Groups"
 toolTip:	"Explode by SmoothGroups"
 
 (

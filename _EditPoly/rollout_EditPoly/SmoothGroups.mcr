@@ -3,20 +3,20 @@
 
 macroscript smoothGroupByObject
 category:"_EditPoly-SmoothGroups"  
-buttonText:"SG by object"
+buttonText:"By object"
 ( 
-	EditPoly = EditPoly_v()
+	EditPoly = EditPoly_v_old()
 	_selection = (Selection_v()).get()
 	--print ( "_selection=" + _selection as string )
 	
 	for i=1 to _selection.count do
-		(EditPoly_v obj:_selection[i]).setSmoothGroup  i
+		(EditPoly_v_old obj:_selection[i]).setSmoothGroup  i
 		
 )
 macroscript repairSmoothGroupsByMaterial
 category:"_EditPoly-SmoothGroups"  
-buttonText:"SG by Mat"
-tooltip:"Repair Smooth Groups By Material"
+buttonText:"By Mat"
+tooltip:"Set Smooth Groups By Material"
 ( 
 	
 	

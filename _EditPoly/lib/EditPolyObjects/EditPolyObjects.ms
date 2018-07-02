@@ -15,7 +15,7 @@ struct EditPolyObjects_v
 		
 		for i=1 to _selection.count do
 		(
-			EditPoly = EditPoly_v obj: _selection[i]
+			EditPoly = EditPoly_v_old obj: _selection[i]
 
 			if( method=="explodeByElement" ) then
 				final_sel = EditPoly.explodeByElement()
@@ -50,7 +50,7 @@ struct EditPolyObjects_v
 		
 		for i=1 to _selection.count do
 		(
-			EditPoly = EditPoly_v obj: _selection[i]
+			EditPoly = EditPoly_v_old obj: _selection[i]
 
 			if( method=="autoSmooth" ) then
 				EditPoly.autoSmooth param1

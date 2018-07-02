@@ -6,6 +6,10 @@ struct Modifiers_v
 	Edit_Poly	= (EditPoly_Modifier_v()).get(),
 	XForm	= (XForm_Modifier_v()).get(),
 	Chamfer	= (Chamfer_Modifier_v()).get(),
+	Shell	= (Shell_Modifier_v()).get(),
+	Relax	= (Relax_Modifier_v()).get(),
+	--Relax	= (Relax Relax_Value:1 iterations:2),
+	--Relax	= (Relax ()),
 	--Normal, -- Normalmodifier
 
 	/** Add edit poly
@@ -18,7 +22,7 @@ struct Modifiers_v
 		(
 		modPanel.addModToSelection (Edit_Poly name:"select_hardedges" ignoreBackfacing:on selectAngle:20 SelectByAngle:on ) ui:on
 		for i=1 to selection.count do
-			(EditPoly_v obj: selection[i]).selectHardEdges()
+			(EditPoly_v_old obj: selection[i]).selectHardEdges()
 			
 			_Chamfer = Chamfer()
 			_Chamfer.amount = 10.0

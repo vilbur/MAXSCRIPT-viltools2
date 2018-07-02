@@ -22,6 +22,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_EditPoly/EditPoly.ms" )
 
 filein ( getFilenamePath(getSourceFileName()) + "/_EditPoly/lib/EditPolyObjects/EditPolyObjects.ms" )
 
+filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/SubobjectModifiers/SubobjectModifiers.ms" ) 
 filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/Subobject.ms" )
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Pivot/Pivot.ms" )

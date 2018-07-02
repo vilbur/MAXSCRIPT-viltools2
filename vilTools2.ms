@@ -9,7 +9,6 @@ try(DestroyDialog rollout_viltools2)catch()
 
 /** DEFINE FLOATER  */
 ini	= ( dotnetObject "System.Text.RegularExpressions.Regex" @"(ms|mscr)$" ).Replace (getSourceFileName()) "ini"
---Floater	= (Floater_v ini:ini).new "Test Floater"
 Floater	= (Floater_v ini:ini).new "VilTools2"
 
 
@@ -17,14 +16,14 @@ Floater	= (Floater_v ini:ini).new "VilTools2"
 	cotnent
 -----------------------------------------*/
 
-/* CLEAN CONTENT */
-Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
+/* FINAL CONTENT */
+--Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
 
 /* TEST CONTETNT */
 --Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*_test)$").load()
 
 /* ALL */
---Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
+Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
 
 
 /* Set content to ui */

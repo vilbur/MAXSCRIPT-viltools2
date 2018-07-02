@@ -4,7 +4,7 @@ macroScript vilTools2
 	buttontext:	"vT2"
 	toolTip:	"Open vilTools2"
 (
-	filein @"$userscripts\vilbur\viltools2.ms"
+	filein @"$userscripts\viltools2\viltools2.ms"
 	
 )
 

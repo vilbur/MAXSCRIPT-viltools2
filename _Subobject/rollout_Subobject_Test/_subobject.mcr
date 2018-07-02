@@ -1,21 +1,25 @@
 macroscript enter_subobject_test
 category:	"_Subobject_Test" 
 buttonText:	"Enter Subobject"
-tooltip:	"Loop all edit poly elements"
+tooltip:	"Loop all elements of current modifier\nResult in MAXScript Listener"
 (
-	--messagebox "epoly_test" beep:false
 	clearListener()
-	Subobject	= Subobject_v()
-	subobjects	= #(#vertex, #edge, #border, #polygon, #element)
-	
-	for s = 1 to subobjects.count do
-	(
-		Subobject.enter subobjects[s]
+	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
 
-		print ( "enter_subobject_test suboboject "+subobjects[s] as string +"	=	" + (s == subObjectLevel) as string )
-		
-	)
-		
+	
+	Subobject	= Subobject_v()
+	current_modifier	= Subobject.getCurrentModifier()
+	subobjects	= Subobject.subobjects current_modifier
+	_objects	= for o in selection where superClassOf o == GeometryClass collect o
+	
+	if( _objects.count > 0 ) then 
+		for s = 1 to subobjects.count do
+		(
+			Subobject.enter subobjects[s]
+			print ( "Macro=enter_subobject_test() Modifier="+current_modifier as string +" Subobject="+subobjects[s] as string +" 		Test: " + (s == subObjectLevel) as string )
+		)
+	else
+		messagebox "Macro:enter_subobject_test:\n\nNOTHING IS SELECTED"
 	
 	--subobjects	= Subobject.subobjects()
 	--print ( "subobjects=" + subobjects as string )
@@ -30,29 +34,4 @@ tooltip:	"Loop all edit poly elements"
 	--		sleep 1
 	--	)
 	
-	
 )
-
-
---macroscript enter_subobject_loop_test
---category:"_Subobject_Test"  
---buttonText:"Subobjects Loop"
---(
---	--messagebox "epoly_test" beep:false
---	clearListener()
---	Subobject	= Subobject_v()
---	subobjects	= Subobject.subobjects()
---	print ( "subobjects=" + subobjects as string )
---	if( subobjects==undefined ) then
---	(
---		(Modifiers_v()).addEditPoly()
---		subobjects	=  Subobject.subobjects()
---	)
---		for _subobject in subobjects  do
---		(
---			Subobject.enter _subobject
---			sleep 1
---		)
---	
---	
---)

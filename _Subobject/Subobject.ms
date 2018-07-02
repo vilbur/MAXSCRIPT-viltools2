@@ -17,14 +17,12 @@ struct Subobject_v
 	 */
 	function enter sub_obj =
 	(
-		max modify mode
-		
-		current_modifier	= modPanel.getCurrentObject()
+		current_modifier	= this.getCurrentModifier()
 		_subobjects	= this.subobjects ( current_modifier )
-		
 		--print ( "Subobject_v.enter() =" + sub_obj as string )
+		--print ( "current_modifier.name = " + current_modifier.name as string )
 		
-		if( this._modifierHasSubObject current_modifier == true ) then
+		if( this._modifierHasSubObject current_modifier ) then
 		(
 			index = (findItem _subobjects sub_obj)
 			
@@ -33,15 +31,6 @@ struct Subobject_v
 			else
 				subObjectLevel =  index
 		)
-	),
-	
-	function _modifierHasSubObject _modifier =  --start
-	(				  
-
-		_modifier = modPanel.getCurrentObject()
-		
-		if( _modifier!=undefined ) then
-			(findItem _editable_modifiers ( classof _modifier )) > 0 -- return
 	),
 
 	/** Get subobjects available for modifier
@@ -61,22 +50,32 @@ struct Subobject_v
 				FFD_3x3x3:	_modfier_elements[2]
 				FFD_4x4x4:	_modfier_elements[2]
 				Unwrap_UVW:	_modfier_elements[3]
-				--line:	line
-				--SplineShape:	SplineShape
-				--Edit_Spline:	Edit_Spline
-				--ProBoolean:	ProBoolean
-				--Casement:	Casement
+				----line:	line
+				----SplineShape:	SplineShape
+				----Edit_Spline:	Edit_Spline
+				----ProBoolean:	ProBoolean
+				----Casement:	Casement
 				default:	undefined
-				--"MODIFIER IS NOT SUPPORTED IN Subobject_v.subobjects() modifier " + (classOf _modifier)	
+				----"MODIFIER IS NOT SUPPORTED IN Subobject_v.subobjects() modifier " + (classOf _modifier)	
 			)
 	),
 	
 	/** _get Current modifier
 	 */
-	function _getCurrentModifier =
+	function getCurrentModifier =
 	(
+		max modify mode
 		
+		modPanel.getCurrentObject()
 	),
+	
+	function _modifierHasSubObject _modifier =  --start
+	(				  		
+		if( _modifier!=undefined ) then
+			(findItem _editable_modifiers ( classof _modifier )) > 0 -- return
+	),
+	
+	
 	function test =
 	(
 		messagebox "Subobject.test()"

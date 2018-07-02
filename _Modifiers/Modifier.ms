@@ -1,4 +1,4 @@
-/** Modifiers
+/** Modifier
  */
 
 struct Modifier_v
@@ -10,6 +10,7 @@ struct Modifier_v
 	--type="Edit_Poly",
 	
 	_modifier,
+	
 	/** Get
 	 */
 	function add =

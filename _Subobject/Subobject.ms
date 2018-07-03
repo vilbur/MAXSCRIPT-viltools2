@@ -5,21 +5,22 @@ struct Subobject_v
 	Subobjects 	= SubobjectModifiers_v(),
 	
 	/** Enter to subobject if Editable_Poly or modifier with subobjects
-	  * @param	#property	sub_obj	Item from _modfier_elements
+	  * @param	integer	sub_obj	Index of subobject
 	 */
 	function enter sub_obj =
 	(
-		--current_modifier	= this.getCurrentModifier()
-		subobjects_of_modifier	= Subobjects.get (this.getCurrentModifier())
+		--current_modifier	= this._getCurrentModifier()
+		subobjects_of_modifier	= Subobjects.get (this._getCurrentModifier())
 		
-		if( subobjects_of_modifier != undefined ) then
+		
+		if( subobjects_of_modifier != undefined and sub_obj <= subobjects_of_modifier.count ) then
 		(
-			index	= (findItem subobjects_of_modifier sub_obj)
+			--index	= (findItem subobjects_of_modifier sub_obj)
 			
-			if( subObjectLevel == index ) then 
+			if( subObjectLevel == sub_obj ) then 
 				subObjectLevel =  0
 			else
-				subObjectLevel =  index
+				subObjectLevel =  sub_obj
 		)
 	),
 	/** This method will enter to subobject in anyway
@@ -29,20 +30,20 @@ struct Subobject_v
 	  * 3) If modifier with subobjects is not found, then try select base object Editable_Poly
 	  * 3) If base object is not Editable_Poly, then add Edit_Poly modifier 
 	 */
-	function enterOrFindModifierOrAddEditPoly sub_obj =
+	function enterForced sub_obj =
 	(
 		if( this.enter sub_obj == undefined ) then
 		(
 			obj	= selection[1]
 			subobject_modifiers	= this._getModifiersWithSubobjects obj
 			
-			if( subobject_modifiers.count > 0 ) then
+			if( subobject_modifiers.count > 0 ) then -- find modifier with subobjects
 				modPanel.setCurrentObject obj.modifiers[subobject_modifiers[1]]
 
-			else if( this._isEditablePolyObject obj ) then
+			else if( this._isEditablePolyObject obj ) then -- find Editable_Poly base obejct
 				modPanel.setCurrentObject obj.baseObject
 			
-			else
+			else -- add Edit_Poly
 				(Modifier_v type:#Edit_Poly ).add()
 			
 			this.enter sub_obj
@@ -71,7 +72,7 @@ struct Subobject_v
 	),
 	/** _get Current modifier
 	 */
-	function getCurrentModifier =
+	function _getCurrentModifier =
 	(
 		max modify mode
 		

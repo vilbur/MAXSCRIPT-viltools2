@@ -9,14 +9,10 @@ struct Subobject_v
 	 */
 	function enter sub_obj =
 	(
-		--current_modifier	= this._getCurrentModifier()
 		subobjects_of_modifier	= Subobjects.get (this._getCurrentModifier())
-		
 		
 		if( subobjects_of_modifier != undefined and sub_obj <= subobjects_of_modifier.count ) then
 		(
-			--index	= (findItem subobjects_of_modifier sub_obj)
-			
 			if( subObjectLevel == sub_obj ) then 
 				subObjectLevel =  0
 			else
@@ -48,7 +44,6 @@ struct Subobject_v
 			
 			this.enter sub_obj
 		)
-
 	),
 
 	/** Get edit poly modifiers
@@ -86,13 +81,10 @@ struct Subobject_v
 		subobjects_of_modifier	= Subobjects.get _modifier
 		
 		subobjects_of_modifier != undefined --return
-
 	),
 	
 	function test =
 	(
 		messagebox "Subobject.test()"
 	)
-	
-
 )

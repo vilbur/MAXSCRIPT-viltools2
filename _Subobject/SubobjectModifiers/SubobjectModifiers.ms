@@ -2,10 +2,10 @@
  */
 struct SubobjectModifiers_v
 (
-	_modfier_elements = #(                              -- Available types of subobjects for modifier per type
-		#(#vertex, #edge, #border, #polygon, #element), -- EPoly
-		#(#vertex, #edge, #volume),                     -- FFD
-		#(#vertex, #edge, #polygon)                     -- Unwrap_UVW
+	_modfier_elements = #(                           -- Available types of subobjects for modifier per type
+		#(#vertex, #edge, #border, #face, #element), -- EPoly
+		#(#vertex, #edge, #volume),                  -- FFD
+		#(#vertex, #edge, #face)                     -- Unwrap_UVW
 	),
 	
 	Editable_Poly	= _modfier_elements[1],

@@ -16,9 +16,6 @@ struct SubobjectModifiers_v
 	FFD_4x4x4	= _modfier_elements[2],
 	Unwrap_UVW	= _modfier_elements[3],
 
-	--property_1 = "property_1 value", 
-	--property_2 = "property_2 value", 
-	--
 	/** Get subobjects of give modifier
 	  * @property	string	_modifier
 	  *
@@ -30,14 +27,9 @@ struct SubobjectModifiers_v
 		_modifier_class = classOf _modifier as string
 		
 		if( hasProperty this _modifier_class ) then
-			 getProperty this _modifier_class --return
+			getProperty this _modifier_class --return
 		--else
 			--false
 	)
 	
 )
-
-
---props = getPropNames (SubobjectModifiers_v())
---print ( "props = " + props as string )
---print ( superClassOf props[3] )

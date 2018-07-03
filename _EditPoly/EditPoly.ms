@@ -296,4 +296,4 @@ struct EditPoly_v
 		messagebox "EditPoly.test()"
 	)
 )
-filein ( getFilenamePath(getSourceFileName()) + "/lib/EditPolyObjects/EditPolyObjects.ms" )
+

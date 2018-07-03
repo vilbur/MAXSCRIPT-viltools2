@@ -57,24 +57,24 @@ struct EpolySelection_v
 	 */
 	function searchEditPolyModifier obj =
 	(
-		edit_poly_mods	= this._getEditPolyModifiers obj
+		edit_poly_modifiers	= this._getEditPolyModifiers obj
 	
-		if( edit_poly_mods.count > 0 ) then
-			edit_poly_mods[1] --return
-		--print ( "edit_poly_mods=" + edit_poly_mods as string )
+		if( edit_poly_modifiers.count > 0 ) then
+			edit_poly_modifiers[1] --return
+		--print ( "edit_poly_modifiers=" + edit_poly_modifiers as string )
 	),
 	/** Get edit poly modifiers
 	 */
 	function _getEditPolyModifiers obj =
 	(
 		modifiers	= obj.modifiers
-		edit_poly_mods	= #()
+		edit_poly_modifiers	= #()
 		print ( "modifiers=" + modifiers as string )
 
 		for m=1 to modifiers.count where  classOf modifiers[m] == Edit_Poly do
-			append edit_poly_mods m
+			append edit_poly_modifiers m
 		
-		edit_poly_mods --return
+		edit_poly_modifiers --return
 	),	
 	/** Get current Editable_Poly or Edit_Poly
 	  * @return	Editable_Poly|Edit_Poly|undefined	Return undefined if Editable_Poly or Edit_Poly is not active

@@ -1,29 +1,10 @@
-
---macroscript modifier_add_test
---category:"_Modifiers"  
---buttonText:"Add Test"
---tooltip:"Modifier get"
---(
---	clearListener()
---
---	--(Modifier_v type:#Edit_Poly name:"Edit Poly Test").add()
---	--(Modifier_v type:#Chamfer name:"Chamfer Test").add()
---	--(Modifier_v type:#xForm name:"Xform Test").add()
---	
---	redrawViews()
---)
-
 macroscript modifier_add_editpoly
 category:"_Modifiers"  
 buttonText:"EditPoly"
 tooltip:"Add EditPoly"
 (
-	--clearListener()
-
 	_Edit_Poly = (Modifier_v type:#Edit_Poly ).add()
 
-	--Xform.resetObject()
-	
 	redrawViews()
 )
 macroscript modifier_add_normal

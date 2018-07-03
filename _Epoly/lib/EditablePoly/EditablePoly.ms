@@ -5,6 +5,7 @@ struct EditablePoly_v
 	EditablePoly,
 	
 	/** Init
+	  * @return	boolean 	
 	 */
 	function init =
 	(

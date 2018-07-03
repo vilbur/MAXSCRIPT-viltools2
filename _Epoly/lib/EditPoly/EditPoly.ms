@@ -5,11 +5,14 @@ struct EditPoly_v
 	EditPoly,
 	
 	/** Init
+	  * @return	boolean 	
 	 */
 	function init =
 	(
 		--print "EditPoly_v.init()"
 		this._setEditPoly()
+		
+		true --return
 	),
 	/** Convert selection
 	 */

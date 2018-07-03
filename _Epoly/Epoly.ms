@@ -10,21 +10,22 @@ struct Epoly_v
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 	
 	/** Convert subobject 
-	 */
-	function convertSelection _to =
+	  * @param	name	sub_obj E.g.: #vertex
+	  */
+	function convertSelection sub_obj =
 	(
 		if( subobjectLevel > 0 ) then
 		(
 			_from = _subobjects[subobjectLevel]
 			
 			if( this.isEditablePoly() ) then
-				EditablePoly.convertSelection _from _to
+				EditablePoly.convertSelection _from sub_obj
 				
 			else if( this.isEditPoly() ) then
-				EditPoly.convertSelection _from _to
+				EditPoly.convertSelection _from sub_obj
 		)
 		
-		this.enterSubobject _to
+		(Subobject_v()).enterForced (this._getSubobjectIndex sub_obj)
 	),
 	/** Test if current modifier is editable poly
 	 */
@@ -38,7 +39,9 @@ struct Epoly_v
 	(
 		this.initSubClass Edit_Poly --return
 	),
-	/** Init sub class
+	/** Init EditPoly_v or EditablePoly_v
+	  * @param	Editable_Poly|Edit_Poly	epoly_type
+	  * @return	boolean
 	 */
 	function initSubClass epoly_type =
 	(
@@ -61,7 +64,14 @@ struct Epoly_v
 	function enterSubobject sub_obj =
 	(
 		--print ( "subobjectLevel = " + ( findItem _subobjects sub_obj ) as string )
-		subobjectLevel = ( findItem _subobjects sub_obj )
+		subobjectLevel = this._getSubobjectIndex sub_obj
+	),
+	/** Get subobject index
+	  * @param	name	sub_obj
+	 */
+	function _getSubobjectIndex sub_obj =
+	(
+		findItem _subobjects sub_obj --return
 	),
 	
 	function test =

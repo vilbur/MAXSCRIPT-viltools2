@@ -11,7 +11,7 @@ struct EditablePoly_v
 		--print "EditablePoly_v.init()"
 		this._setEditablePoly()
 		
-		--true --return
+		true --return
 	),
 	/** Convert selection
 	 */

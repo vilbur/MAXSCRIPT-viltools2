@@ -9,20 +9,20 @@ struct Epoly_v
 	
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 	
-	/** Convert selection
+	/** Convert subobject 
 	 */
-	function convertSelection _from _to =
+	function convertSelection _to =
 	(
-		print ( "_from = " + _from as string )
-		print ( "_to = " + _to as string )
-		--messagebox "convertSelection"
-		--print ( "this.isEditablePoly() = " + (this.isEditablePoly() ) as string )
-		--print ( "this.isEditablePoly() = " + (this.isEditablePoly() ) as string )
-		if( this.isEditablePoly() ) then
-			EditablePoly.convertSelection _from _to
+		if( subobjectLevel > 0 ) then
+		(
+			_from = _subobjects[subobjectLevel]
 			
-		else if( this.isEditPoly() ) then
-			EditPoly.convertSelection _from _to
+			if( this.isEditablePoly() ) then
+				EditablePoly.convertSelection _from _to
+				
+			else if( this.isEditPoly() ) then
+				EditPoly.convertSelection _from _to
+		)
 		
 		this.enterSubobject _to
 	),
@@ -43,27 +43,24 @@ struct Epoly_v
 	function initSubClass epoly_type =
 	(
 		max modify mode
-
-		_classof = classof ( modPanel.getCurrentObject())
 		
 		if( epoly_type == classof ( modPanel.getCurrentObject()) ) then
 		(
 			if( epoly_type == Editable_Poly ) then
-				EditablePoly.init()
+				EditablePoly.init() --return
 				
 			else if( epoly_type == Edit_Poly ) then
-				EditPoly.init()
-		
-			true --return
+				EditPoly.init() --return
 		)
 		else
 			false --return
 	),
-	/** Set subobject sub_obj
+	/** Enter to subobject
+	  * @param	name	sub_obj
 	 */
 	function enterSubobject sub_obj =
 	(
-		print ( "subobjectLevel = " + ( findItem _subobjects sub_obj ) as string )
+		--print ( "subobjectLevel = " + ( findItem _subobjects sub_obj ) as string )
 		subobjectLevel = ( findItem _subobjects sub_obj )
 	),
 	

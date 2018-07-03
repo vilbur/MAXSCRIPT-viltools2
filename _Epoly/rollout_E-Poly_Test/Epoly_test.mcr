@@ -8,9 +8,10 @@ buttonText:"Epoly test"
 
 macroscript convert_selection_test
 category:"_Epoly_Test"  
-buttonText:"Convert edge to face"
+buttonText:"Convert to face"
+tooltip:	"Convert to face"
 (
 	clearListener()
 	--messagebox "epoly_test" beep:false
-	(Epoly_v()).convertSelection #edge #face
+	(Epoly_v()).convertSelection #face
 )

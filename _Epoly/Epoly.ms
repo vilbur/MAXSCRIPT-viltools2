@@ -9,7 +9,10 @@ struct Epoly_v
 	
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 	
-	/** Convert subobject 
+	/** Convert current subobject to given subobject
+	  * 1) If not subobject active then enter to subobject
+	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
+	  * 
 	  * @param	name	sub_obj E.g.: #vertex
 	  */
 	function convertSelection sub_obj =

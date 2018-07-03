@@ -11,7 +11,8 @@ struct Epoly_v
 	
 	function test =
 	(
-		messagebox "EditPoly.test()"
+		messagebox "Epoly_v.test()"
 	)
+	
 )
 

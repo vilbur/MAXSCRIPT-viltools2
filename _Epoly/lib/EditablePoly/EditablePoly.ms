@@ -34,8 +34,7 @@ struct EditablePoly_v
 	(
 		--polyop.setFaceSmoothGroup obj #all 0
 
-		if( facelist==undefined ) then
-			facelist = this._allFaces()
+
 
 		polyop.setFaceSmoothGroup obj facelist smooth_group
 	),

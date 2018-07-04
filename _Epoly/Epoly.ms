@@ -30,23 +30,50 @@ struct Epoly_v
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex sub_obj)
 	),
+	/*---------------------------------------
+		SMOOTH GROUPS
+	-----------------------------------------*/
+	/** Auto smooth
+	  * @param	integer	_angle
+	 */
+	function autoSmooth _angle =
+	(
+		if( this.isEditablePoly() ) then
+			EditablePoly.autoSmooth _angle
+			
+		else if( this.isEditPoly() ) then
+			EditPoly.autoSmooth _angle
+	),
+	/** Clear smooth groups
+	 */
+	function clearSmoothGroups =
+	(
+		if( this.isEditablePoly() ) then
+			EditablePoly.clearSmoothGroups()
+			
+		else if( this.isEditPoly() ) then
+			EditPoly.clearSmoothGroups()
+	),
+	/*---------------------------------------
+		PRIVATE
+	-----------------------------------------*/
 	/** Test if current modifier is editable poly
 	 */
 	function isEditablePoly =
 	(
-		this.initSubClass Editable_Poly --return
+		this._initSubClass Editable_Poly --return
 	),
 	/** Test if current modifier is edit poly
 	 */
 	function isEditPoly =
 	(
-		this.initSubClass Edit_Poly --return
+		this._initSubClass Edit_Poly --return
 	),
 	/** Init EditPoly_v or EditablePoly_v
 	  * @param	Editable_Poly|Edit_Poly	epoly_type
 	  * @return	boolean
 	 */
-	function initSubClass epoly_type =
+	function _initSubClass epoly_type =
 	(
 		max modify mode
 		
@@ -60,14 +87,6 @@ struct Epoly_v
 		)
 		else
 			false --return
-	),
-	/** Enter to subobject
-	  * @param	name	sub_obj
-	 */
-	function enterSubobject sub_obj =
-	(
-		--print ( "subobjectLevel = " + ( findItem _subobjects sub_obj ) as string )
-		subobjectLevel = this._getSubobjectIndex sub_obj
 	),
 	/** Get subobject index
 	  * @param	name	sub_obj

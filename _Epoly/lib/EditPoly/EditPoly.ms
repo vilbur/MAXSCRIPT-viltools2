@@ -23,6 +23,25 @@ struct EditPoly_v
 		--print ( "_to = " + _to as string )
 		EditPoly.ConvertSelection _from _to
 	),
+	/** Auto smooth
+	  * @param	integer	_angle
+	 */
+	function autoSmooth _angle =
+	(
+		EditPoly.autoSmoothThreshold = _angle
+		EditPoly.ButtonOp #Autosmooth
+	),
+	/** Clear smooth groups
+	 */
+	function clearSmoothGroups =
+	(
+		EditPoly.SetOperation #SetSmooth
+		EditPoly.smoothingGroupsToSet = 0
+		EditPoly.smoothingGroupsToClear = -1
+	),
+	/*---------------------------------------
+		PRIVATE 
+	-----------------------------------------*/
 	/** Set current modifier
 	 */
 	function _setEditPoly =

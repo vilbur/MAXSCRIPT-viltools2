@@ -24,18 +24,16 @@ struct EditPolyExplode_v
 		--append final_sel detObj
 	),
 	/** Detach
-	  *
-	  * 
-	 */
+	  */
 	function detach poly_selection =
 	(
 		polyop.detachFaces obj poly_selection delete:false asNode:true name: "TempDet"
 		
-		detObj = getnodebyname "TempDet" 
-		detObj.name = (uniquename (obj.name + "_detach"))
-		detOBj.wirecolor =  color (random 0 255) (random 0 255) (random 0 255)
+		det_obj	= getnodebyname "TempDet" 
+		det_obj.name	= (uniquename (obj.name + "_detach"))
+		det_obj.wirecolor	=  color (random 0 255) (random 0 255) (random 0 255)
 		
-		append final_sel detObj
+		append final_sel det_obj
 	),
 
 	/** Attach
@@ -68,14 +66,13 @@ struct EditPolyExplode_v
 			)
 		)
 	),
-	/** Explode
+	/** Explode all elements
 	 */
 	function explodeByElement =
 	(	
 		this.explode ( this.getElements() ) --return
 	),
-	/**  
-	 *	
+	/**  Explode all smoothgroups
 	 */
 	function explodeBySG =
 	(
@@ -92,18 +89,16 @@ struct EditPolyExplode_v
 	 */
 	function getElements =
 	(
-
-		faces = #{}
-		objFaces = this._allFaces()
-		objFaces_count = objFaces.count
-		CurObj = polyop
+		faces	= #{}
+		obj_faces	= this._allFaces()
+		CurObj	= polyop
 
 		getElement = CurObj.getElementsUsingFace
 
-		elements = for i in objFaces where objFaces[i] == true collect
+		elements = for i in obj_faces where obj_faces[i] == true collect
 		(
 			element = getElement obj i
-			objFaces -= element
+			obj_faces -= element
 			element
 		)
 
@@ -163,7 +158,6 @@ struct EditPolyExplode_v
 	(
 		polyop.setFaceSmoothGroup obj #all 0
 
-		--print ( "facelist=" + facelist as string )
 		polyop.setFaceSmoothGroup obj (this._allFaces()) smooth_group
 	),
 	/** Set mat id
@@ -192,4 +186,3 @@ struct EditPolyExplode_v
 		messagebox "EditPoly.test()"
 	)
 )
-filein ( getFilenamePath(getSourceFileName()) + "/lib/EditPolyObjects/EditPolyObjects.ms" )

@@ -1,7 +1,9 @@
+clearListener();
 
 filein ( getFilenamePath(getSourceFileName()) + "/../Library/_UI/UI.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/includes.ms" )
-clearListener();
+
+(MacroAutoLoader_v()).importScripts()
 
 /* HOTFIX - Floater should be closed regularry */
 try(cui.UnRegisterDialogBar rollout_viltools2)catch() --try to unregister if already registered
@@ -13,7 +15,7 @@ Floater	= (Floater_v ini:ini).new "VilTools2"
 
 
 /*---------------------------------------
-	cotnent
+	Cotnent
 -----------------------------------------*/
 
 /* FINAL CONTENT */

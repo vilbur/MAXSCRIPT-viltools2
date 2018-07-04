@@ -1,4 +1,4 @@
-
+filein ( getFilenamePath(getSourceFileName()) + "/MacroAutoLoader/MacroAutoLoader.ms" )
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Selection/Selection.ms" )
 

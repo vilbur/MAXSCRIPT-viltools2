@@ -3,9 +3,9 @@
  */
 struct Epoly_v
 (
-	--current_modifier,
 	EditablePoly	= EditablePoly_v(),
 	EditPoly	= EditPoly_v(),
+	Epoly,
 	
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 	
@@ -13,22 +13,20 @@ struct Epoly_v
 	  * 1) If not subobject active then enter to subobject
 	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
 	  * 
-	  * @param	name	sub_obj E.g.: #vertex
+	  * @param	name	to_sub_obj E.g.: #vertex
 	  */
-	function convertSelection sub_obj =
+	function convertSelection to_sub_obj =
 	(
 		if( subobjectLevel > 0 ) then
 		(
-			_from = _subobjects[subobjectLevel]
+			this._setEpoly()
 			
-			if( this.isEditablePoly() ) then
-				EditablePoly.convertSelection _from sub_obj
-				
-			else if( this.isEditPoly() ) then
-				EditPoly.convertSelection _from sub_obj
+			from_sub_obj = _subobjects[subobjectLevel]
+			
+			Epoly.convertSelection from_sub_obj to_sub_obj
 		)
 		
-		(Subobject_v()).enterForced (this._getSubobjectIndex sub_obj)
+		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 	/*---------------------------------------
 		SMOOTH GROUPS
@@ -38,25 +36,31 @@ struct Epoly_v
 	 */
 	function autoSmooth _angle =
 	(
-		if( this.isEditablePoly() ) then
-			EditablePoly.autoSmooth _angle
-			
-		else if( this.isEditPoly() ) then
-			EditPoly.autoSmooth _angle
+		this._setEpoly()
+
+		Epoly.autoSmooth _angle
 	),
 	/** Clear smooth groups
 	 */
 	function clearSmoothGroups =
 	(
-		if( this.isEditablePoly() ) then
-			EditablePoly.clearSmoothGroups()
+		this._setEpoly()
 			
-		else if( this.isEditPoly() ) then
-			EditPoly.clearSmoothGroups()
+		Epoly.clearSmoothGroups()
 	),
 	/*---------------------------------------
 		PRIVATE
 	-----------------------------------------*/
+	/** Set EditablePoly or EditPoly to Epoly
+	 */
+	function _setEpoly =
+	(
+		if( this.isEditablePoly() ) then
+			Epoly = EditablePoly
+			
+		else if( this.isEditPoly() ) then
+			Epoly = EditPoly
+	),
 	/** Test if current modifier is editable poly
 	 */
 	function isEditablePoly =

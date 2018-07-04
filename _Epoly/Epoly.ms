@@ -18,16 +18,27 @@ struct Epoly_v
 	function convertSelection to_sub_obj =
 	(
 		if( subobjectLevel > 0 ) then
-		(
-			this._setEpoly()
-			
-			from_sub_obj = _subobjects[subobjectLevel]
-			
-			Epoly.convertSelection from_sub_obj to_sub_obj
-		)
+			(this._setEpoly()).convertSelection (_subobjects[subobjectLevel]) to_sub_obj
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
+
+	/** Ignore backfacing
+	 */
+	function ignoreBackfacing state:undefined =
+	(
+		print "ignoreBackfacing"
+		(this._setEpoly()).ignoreBackfacing state:state
+	),
+	/** Face count
+	 */
+	function faceCount =
+	(		
+		this._setEpoly()
+			
+		(this._setEpoly()).faceCount()
+	),
+	
 	/*---------------------------------------
 		SMOOTH GROUPS
 	-----------------------------------------*/
@@ -37,12 +48,7 @@ struct Epoly_v
 	 */
 	function setSmoothGroup smooth_group facelist:undefined =
 	(
-		this._setEpoly()
-		
-		if( facelist==undefined ) then
-			facelist = this._allFaces()
-			
-		Epoly.setSmoothGroup smooth_group facelist:facelist
+		(this._setEpoly()).setSmoothGroup smooth_group facelist:facelist
 	),
 	
 	/** Auto smooth
@@ -50,28 +56,23 @@ struct Epoly_v
 	 */
 	function autoSmooth _angle =
 	(
-		this._setEpoly()
-
-		Epoly.autoSmooth _angle
+		(this._setEpoly()).autoSmooth _angle
 	),
 	/** Clear smooth groups
 	 */
 	function clearSmoothGroups =
 	(
-		this._setEpoly()
-			
-		Epoly.clearSmoothGroups()
+		(this._setEpoly()).clearSmoothGroups()
 	),
 	/*---------------------------------------
 		PRIVATE
 	-----------------------------------------*/
-	--/** _all faces
-	-- */
-	--function _allFaces =
-	--(
-	--	#{1..( polyop.getNumFaces obj)} --return
-	--),
-	
+	/** _all faces
+	 */
+	function _allFaces =
+	(
+		#{1..( polyop.getNumFaces selection[1] )} --return
+	),
 	
 	/** Set EditablePoly or EditPoly to Epoly property
 	 */
@@ -82,6 +83,7 @@ struct Epoly_v
 			
 		else if( this.isEditPoly() ) then
 			Epoly = EditPoly
+		
 	),
 	/** Test if current modifier is editable poly
 	 */

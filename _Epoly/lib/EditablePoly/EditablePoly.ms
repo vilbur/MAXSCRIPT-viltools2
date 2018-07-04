@@ -10,9 +10,11 @@ struct EditablePoly_v
 	 */
 	function init =
 	(
-		this._setObj()
-		this._setEditablePoly()
-		
+		if( obj == undefined ) then
+		(
+			this._setObj()
+			this._setEditablePoly()
+		)
 		true --return
 	),
 	/** Convert selection
@@ -21,7 +23,22 @@ struct EditablePoly_v
 	(
 		EditablePoly.ConvertSelection _from _to
 	),
+	/** Ignore backfacing
+	 */
+	function ignoreBackfacing state:undefined =
+	(
+		if( state == undefined ) then
+			state = EditablePoly.ignoreBackfacing != true
+
+		EditablePoly.ignoreBackfacing  = state
+	),
 	
+	/** Face count
+	 */
+	function faceCount =
+	(		
+		polyop.getNumFaces obj --return 
+	),
 	
 	/*---------------------------------------
 		SMOOTH GROUPS
@@ -32,10 +49,9 @@ struct EditablePoly_v
 	 */
 	function setSmoothGroup smooth_group facelist:undefined =
 	(
-		--polyop.setFaceSmoothGroup obj #all 0
-
-
-
+		if( facelist==undefined ) then
+			facelist = this._allFaces()
+			
 		polyop.setFaceSmoothGroup obj facelist smooth_group
 	),
 	/** Auto smooth
@@ -63,7 +79,7 @@ struct EditablePoly_v
 	 */
 	function _allFaces =
 	(
-		#{1..( polyop.getNumFaces obj)} --return
+		#{1..( this.faceCount() )} --return
 	),
 	
 	/** _set obj

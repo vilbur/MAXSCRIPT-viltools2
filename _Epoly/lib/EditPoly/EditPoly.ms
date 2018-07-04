@@ -3,15 +3,17 @@
 struct EditPoly_v
 (
 	EditPoly,
-	
+	_objects,
+
 	/** Init
 	  * @return	boolean 	
 	 */
 	function init =
 	(
 		--print "EditPoly_v.init()"
+		this._setObjects()
 		this._setEditPoly()
-		
+
 		true --return
 	),
 	/** Convert selection
@@ -19,6 +21,40 @@ struct EditPoly_v
 	function convertSelection _from _to =
 	(
 		EditPoly.ConvertSelection _from _to
+	),
+	/** Ignore backfacing
+	 */
+	function ignoreBackfacing state:undefined =
+	(
+		if( state == undefined ) then
+			state = EditPoly.ignoreBackfacing != true
+		
+		EditPoly.ignoreBackfacing  = state
+	),
+	
+	/** Face count
+	 */
+	function faceCount =
+	(		
+		face_counts = #()
+		
+		for obj in _objects do
+			append face_counts ( polyop.getNumFaces obj )
+		
+		face_counts --return	
+	),
+	
+	/*---------------------------------------
+		SMOOTH GROUPS
+	-----------------------------------------*/
+	/** Set smooth group
+	  * @param	integer	smooth_group	
+	  * @param	bitArray	facelists 	All faces used if facelist==undefined
+	 */
+	function setSmoothGroup smooth_group facelist:undefined =
+	(
+		EditPoly.SetOperation #SetSmooth
+		EditPoly.smoothingGroupsToSet = smooth_group
 	),
 	/** Auto smooth
 	  * @param	integer	_angle
@@ -33,12 +69,18 @@ struct EditPoly_v
 	function clearSmoothGroups =
 	(
 		EditPoly.SetOperation #SetSmooth
-		EditPoly.smoothingGroupsToSet = 0
-		EditPoly.smoothingGroupsToClear = -1
+		EditPoly.smoothingGroupsToSet	= 0
+		EditPoly.smoothingGroupsToClear	= -1
 	),
 	/*---------------------------------------
 		PRIVATE 
 	-----------------------------------------*/
+	/** Set object
+	 */
+	function _setObjects =
+	(
+		_objects = (Selection_v()).get()
+	),
 	/** Set current modifier
 	 */
 	function _setEditPoly =

@@ -1,0 +1,7 @@
+--macroscript convert_to_subobject_1
+--category:"_Epoly"  
+--buttonText:"Convert to vertex"
+--tooltip:	"Convert subobject to vertex"
+--(
+--	(Epoly_v()).convertSelection #vertex
+--)

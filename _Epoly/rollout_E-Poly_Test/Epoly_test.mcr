@@ -23,3 +23,20 @@ tooltip:	"setSmoothGroup"
 (
 	(Epoly_v()).setSmoothGroup 1
 )
+
+macroscript	ignoreBackfacing_toggle_test
+category:	"_Epoly_Test"  
+buttonText:	"ignoreBackfacing"
+tooltip:	"ignoreBackfacing Toggle"
+(
+	(Epoly_v()).ignoreBackfacing()
+)
+
+macroscript	ignoreBackfacing_on_test
+category:	"_Epoly_Test"  
+buttonText:	"ignoreBackfacing"
+tooltip:	"ignoreBackfacing ON"
+(
+	--messagebox "right" beep:false
+	(Epoly_v()).ignoreBackfacing state:true
+)

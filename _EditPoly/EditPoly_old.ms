@@ -228,6 +228,7 @@ struct EditPoly_v_old
 		--print ( "facelist=" + facelist as string )
 		polyop.setFaceSmoothGroup obj facelist smooth_group
 
+
 	),
 	/** Set mat id
 	 */

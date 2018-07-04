@@ -15,7 +15,7 @@ struct EpolySelection_v
 		this._setCurrentMod()
 	),
 	/** Get current subobejct selection
-	  *
+	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
 	  */
 	function getSelection sub_obj =
 	(		
@@ -26,15 +26,13 @@ struct EpolySelection_v
 		print ( "sub_selection = " + sub_selection as string )
 	),
 	/** Get current subobejct selection
-	  *
+	  * @param	bitArray|[bitArray]	_selection	bitArray of elements to select, for Edit_Poly can be array of bitArrays for each object
 	 */
 	function setSelection sub_obj _selection =
 	(		
 		this._init()
 		
 		if( classOf _mod == Editable_Poly ) then this._setEditablePolySelection sub_obj _selection else this._setEditPolySelection sub_obj _selection
-		
-		--print ( "sub_selection = " + sub_selection as string )
 	),
 
 	/*------------------------------------------------------------------------------

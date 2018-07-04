@@ -18,9 +18,6 @@ struct EditPoly_v
 	 */
 	function convertSelection _from _to =
 	(
-		--print "EditPoly_v.convertSelection()"
-		--print ( "_from = " + _from as string )
-		--print ( "_to = " + _to as string )
 		EditPoly.ConvertSelection _from _to
 	),
 	/** Auto smooth

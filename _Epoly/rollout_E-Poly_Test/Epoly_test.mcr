@@ -1,17 +1,25 @@
-macroscript epoly_test
-category:"_Epoly_Test"  
-buttonText:"Epoly test"
+macroscript	epoly_test
+category:	"_Epoly_Test"  
+buttonText:	"Epoly test"
 (
-	--messagebox "epoly_test" beep:false
+	--messagebox "epoly_test" beep:	false
 	(Epoly_v()).test()
 )
 
-macroscript convert_selection_test
-category:"_Epoly_Test"  
-buttonText:"Convert to face"
+macroscript	convert_selection_test
+category:	"_Epoly_Test"  
+buttonText:	"Convert to face"
 tooltip:	"Convert to face"
 (
 	clearListener()
-	--messagebox "epoly_test" beep:false
+	--messagebox "epoly_test" beep:	false
 	(Epoly_v()).convertSelection #face
+)
+
+macroscript	setSmoothGroup_test
+category:	"_Epoly_Test"  
+buttonText:	"setSmoothGroup"
+tooltip:	"setSmoothGroup"
+(
+	(Epoly_v()).setSmoothGroup 1
 )

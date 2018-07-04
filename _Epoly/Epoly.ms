@@ -31,6 +31,20 @@ struct Epoly_v
 	/*---------------------------------------
 		SMOOTH GROUPS
 	-----------------------------------------*/
+	/** Set smooth group
+	  * @param	integer	smooth_group	
+	  * @param	bitArray	facelists 	All faces used if facelist==undefined
+	 */
+	function setSmoothGroup smooth_group facelist:undefined =
+	(
+		this._setEpoly()
+		
+		if( facelist==undefined ) then
+			facelist = this._allFaces()
+			
+		Epoly.setSmoothGroup smooth_group facelist:facelist
+	),
+	
 	/** Auto smooth
 	  * @param	integer	_angle
 	 */
@@ -51,7 +65,15 @@ struct Epoly_v
 	/*---------------------------------------
 		PRIVATE
 	-----------------------------------------*/
-	/** Set EditablePoly or EditPoly to Epoly
+	--/** _all faces
+	-- */
+	--function _allFaces =
+	--(
+	--	#{1..( polyop.getNumFaces obj)} --return
+	--),
+	
+	
+	/** Set EditablePoly or EditPoly to Epoly property
 	 */
 	function _setEpoly =
 	(

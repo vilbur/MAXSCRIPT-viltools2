@@ -215,49 +215,7 @@ struct EditPoly_v_old
 
 		this --return
 	),
-	/** Auto smooth
-	 */
-	function autoSmooth value =
-	(
-		this.setEditPoly()
 
-		if( EditPoly!=undefined ) then
-		(
-			--EditPoly.autoSmoothThreshold = value
-			EditPoly.ButtonOp #Autosmooth
-		)
-		else if( EditablePoly!=undefined ) then
-		(
-			--EditablePoly.autoSmoothThreshold = value
-
-			EditablePoly.autosmooth()
-		)
-	),
-	/** Clear smooth groups
-	 */
-	function clearSmoothGroups =
-	(
-		this.setEditPoly()
-
-		if( EditPoly!=undefined ) then(
-			--EditPoly.ButtonOp #Autosmooth
-			EditPoly.SetOperation #SetSmooth
-			EditPoly.smoothingGroupsToSet = 0
-			EditPoly.smoothingGroupsToClear = -1
-
-		)else if( EditablePoly!=undefined ) then
-		(
-			--EditablePoly.SetSelection #Face (this._allFaces())
-			--EditablePoly.setSmoothingGroups 0
-
-			theObj = obj.baseObject
-			facelist = polyop.getnumfaces theObj
-
-			for i = 1 to facelist do
-				polyop.setFaceSmoothGroup theObj i 0
-
-		)
-	),
 
 	/** Set smooth group
 	 */
@@ -269,6 +227,7 @@ struct EditPoly_v_old
 			facelist = this._allFaces()
 		--print ( "facelist=" + facelist as string )
 		polyop.setFaceSmoothGroup obj facelist smooth_group
+
 	),
 	/** Set mat id
 	 */

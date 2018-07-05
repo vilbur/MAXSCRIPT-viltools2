@@ -25,3 +25,14 @@ tooltip:	"Preserve UVs Toggle"
 (
 	(Epoly_v()).preserveUvs()
 )
+
+macroscript	epoly_remove
+category:	"_Epoly"  
+buttonText:	"Remove"
+tooltip:	"Remove subobject"
+(
+	undo "Remove subobject" on
+	(
+		(Epoly_v()).remove()
+	)
+)

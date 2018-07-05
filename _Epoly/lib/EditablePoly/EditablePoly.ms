@@ -17,13 +17,30 @@ struct EditablePoly_v
 		)
 		true --return
 	),
-	/** Remove
-	  * Remove edge with vertices
+	/** Connect subobject
+	 */
+	function connect =
+	(
+		sub_obj = SubObjectLevel
+		
+		if sub_obj == 4 then
+		(
+			$.EditablePoly.ConvertSelection #face #vertex
+			SubObjectLevel = 1
+			mod.ConnectVertices ()
+		)
+		else if sub_obj == 1 then
+			mod.ConnectVertices () 
+
+		else if sub_obj == 2 then
+			mod.ConnectEdges ()	
+	),
+	/** Remove edge with vertices
 	  */
 	function remove =
 	(
 		if subobjectLevel != 2 then
-			curObj.Remove selLevel:#CurrentLevel 
+			mod.Remove selLevel:#CurrentLevel 
 		else
 		(
 			edges = polyOp.getEdgeSelection obj

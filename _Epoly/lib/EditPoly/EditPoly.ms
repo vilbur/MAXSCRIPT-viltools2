@@ -16,7 +16,25 @@ struct EditPoly_v
 
 		true --return
 	),
-	/** Remove
+	/** Connect subobject
+	 */
+	function connect =
+	(
+		sub_obj = SubObjectLevel
+		
+		if sub_obj == 4 or sub_obj == 5 then
+		(
+			mod.ConvertSelection #face #vertex
+			SubObjectLevel = 1
+			mod.ButtonOp #ConnectVertices
+		)
+		else if sub_obj == 1 then
+			mod.ButtonOp #ConnectVertices
+
+		else if sub_obj == 2 then	
+		    mod.ButtonOp #ConnectEdges
+	),
+	/** Remove subobject
 	 */
 	function remove =
 	(

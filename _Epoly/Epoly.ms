@@ -23,8 +23,13 @@ struct Epoly_v
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 
-
-	/** Remove
+	/** Connect subobject
+	 */
+	function connect =
+	(
+		(this._setEpoly()).connect()
+	),
+	/** Remove subobject
 	 */
 	function remove =
 	(

@@ -65,8 +65,23 @@ category:	"_Epoly_Test"
 buttonText:	"Remove"
 tooltip:	"Remove"
 (
-	(Epoly_v()).remove()
+	undo "Remove subobject" on
+	(
+		(Epoly_v()).remove()
+	)
 )
+
+macroscript	epoly_connect_test
+category:	"_Epoly_Test"  
+buttonText:	"Connect"
+tooltip:	"Connect"
+(
+	undo "Connect subobject" on
+	(
+		(Epoly_v()).connect()
+	)
+)
+
 
 
 

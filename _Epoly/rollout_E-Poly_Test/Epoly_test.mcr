@@ -18,33 +18,45 @@ tooltip:	"Convert to face"
 
 macroscript	setSmoothGroup_test
 category:	"_Epoly_Test"  
-buttonText:	"setSmoothGroup"
-tooltip:	"setSmoothGroup"
+buttonText:	"SetSmoothGroup"
+tooltip:	"SetSmoothGroup"
 (
 	(Epoly_v()).setSmoothGroup 1
 )
 
 macroscript	ignoreBackfacing_toggle_test
 category:	"_Epoly_Test"  
-buttonText:	"ignoreBackfacing"
-tooltip:	"ignoreBackfacing Toggle"
+buttonText:	"IgnoreBackfacing"
+tooltip:	"IgnoreBackfacing Toggle"
 (
 	(Epoly_v()).ignoreBackfacing()
 )
 
 macroscript	ignoreBackfacing_on_test
 category:	"_Epoly_Test"  
-buttonText:	"ignoreBackfacing"
-tooltip:	"ignoreBackfacing ON"
+buttonText:	"IgnoreBackfacing"
+tooltip:	"IgnoreBackfacing ON"
 (
 	(Epoly_v()).ignoreBackfacing state:true
 )
 
-
 macroscript	constrain_test
 category:	"_Epoly_Test"  
-buttonText:	"constrain"
-tooltip:	"constrain"
+buttonText:	"Constrain"
+tooltip:	"Constrain Toggle 'Edge' & 'None'"
 (
-	(Epoly_v()).constrain state:true
+	Epoly = Epoly_v()
+	
+	new_state	= if( Epoly.constrain state:#get == 1 ) then 0 else 1 
+	
+	Epoly.constrain state:new_state
 )
+
+macroscript	preserveuvs_test
+category:	"_Epoly_Test"  
+buttonText:	"Preserve UVs"
+tooltip:	"Preserve UVs Toggle"
+(
+	(Epoly_v()).preserveUvs()
+)
+

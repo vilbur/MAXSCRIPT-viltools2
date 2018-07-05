@@ -44,7 +44,8 @@ struct EpolyCallbacks_v
 			print ("onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
 			
 			print ( "ignoreBackfacing " + ((Epoly_v()).ignoreBackfacing state:#get) as string  )
-			print ( "constrain " + ((Epoly_v()).constrain #get) as string  )
+			print ( "constrain " + ((Epoly_v()).constrain state:#get) as string  )
+			print ( "preserveUvs " + ((Epoly_v()).preserveUvs state:#get) as string  )
 			
 			
 		)

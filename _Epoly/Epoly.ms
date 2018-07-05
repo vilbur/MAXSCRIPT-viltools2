@@ -42,14 +42,39 @@ struct Epoly_v
 		state --return
 	),
 	/** Set constrain type
-	  * @param	integer	type	0-None|1-Edge|2-Face|3-Normal
+	  * @param	integer	state	0-None|1-Edge|2-Face|3-Normal
 	 */
-	function constrain type =
+	function constrain state:undefined =
 	(
-		if( type == #get ) then
-			(this._mod()).constrainType
+		mod	= this._mod()
+
+		if( state == undefined ) then
+			state = mod.constrainType != true
+		
+		if( state == #get ) then
+			state = mod.constrainType
 		else
-			(this._mod()).constrainType = type
+			mod.constrainType = state
+		
+		state --return
+	),
+	/** Preserve UVs
+	  * @param	boolean|undefined|#get	state	1) Toggle state if undefined 2) Get current state if #get 3) Set state if boolean
+	  * @return	boolean		State of ignoreBackfacing
+	 */
+	function preserveUvs state:undefined =
+	(
+		mod	= this._mod()
+
+		if( state == undefined ) then
+			state = mod.preserveUVs != true
+		
+		if( state == #get ) then
+			state = mod.preserveUVs
+		else
+			mod.preserveUVs = state
+		
+		state --return
 	),
 	
 	/** Face count

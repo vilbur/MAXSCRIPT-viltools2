@@ -24,13 +24,16 @@ struct EditablePoly_v
 		EditablePoly.ConvertSelection _from _to
 	),
 	/** Ignore backfacing
+	  * @return	boolean	new state
 	 */
 	function ignoreBackfacing state:undefined =
 	(
 		if( state == undefined ) then
 			state = EditablePoly.ignoreBackfacing != true
 
-		EditablePoly.ignoreBackfacing  = state
+		EditablePoly.ignoreBackfacing = state
+		
+		state --return
 	),
 	
 	/** Face count

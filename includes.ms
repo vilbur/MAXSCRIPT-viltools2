@@ -1,3 +1,5 @@
+
+
 filein ( getFilenamePath(getSourceFileName()) + "/MacroAutoLoader/MacroAutoLoader.ms" )
 
 
@@ -32,12 +34,14 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/Epol
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPoly/EditPoly.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditablePoly/EditablePoly.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/Epoly.ms" )
-
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyCallbacks/EpolyCallbacks.ms" )
 
 filein ( getFilenamePath(getSourceFileName()) + "/_EditPoly/lib/EditPolyObjects/EditPolyObjects.ms" )
 
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Pivot/Pivot.ms" )
 
+
 filein ( getFilenamePath(getSourceFileName()) + "/_Objects/Objects.ms" )
+
 

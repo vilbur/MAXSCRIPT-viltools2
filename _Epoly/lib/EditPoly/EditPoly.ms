@@ -23,6 +23,7 @@ struct EditPoly_v
 		EditPoly.ConvertSelection _from _to
 	),
 	/** Ignore backfacing
+	  * @return	boolean	new state
 	 */
 	function ignoreBackfacing state:undefined =
 	(
@@ -30,6 +31,8 @@ struct EditPoly_v
 			state = EditPoly.ignoreBackfacing != true
 		
 		EditPoly.ignoreBackfacing  = state
+		
+		state --return
 	),
 	
 	/** Face count

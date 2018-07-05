@@ -27,8 +27,9 @@ struct Epoly_v
 	 */
 	function ignoreBackfacing state:undefined =
 	(
-		print "ignoreBackfacing"
-		(this._setEpoly()).ignoreBackfacing state:state
+		--print "ignoreBackfacing"
+		new_state = (this._setEpoly()).ignoreBackfacing state:state
+		--print ( "new_state = " + new_state as string )
 	),
 	/** Face count
 	 */

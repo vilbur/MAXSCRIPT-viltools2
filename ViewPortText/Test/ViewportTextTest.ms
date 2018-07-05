@@ -22,6 +22,7 @@ function showTextTest =
 (
 	_ViewportText.show "Lorem ipsum"
 )
+
 /** Hide text test
  */
 function hideTextTest =

@@ -38,3 +38,10 @@ Content.setControlsToUI Floater
 --loadContent()
 Floater.create()
 Floater.dock "right"
+
+
+
+/*---------------------------------------
+	CALLBACKS
+-----------------------------------------*/
+(EpolyCallbacks_v()).add()

@@ -39,9 +39,11 @@ struct EpolyCallbacks_v
 	(
 		current_mod	= modPanel.getCurrentObject() 
 		
-		if( current_mod != undefined ) then
+		if( classOf current_mod == Editable_Poly or classOf current_mod == Edit_Poly ) then
 		(
 			print ("onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
+			
+			print ( "ignoreBackfacing " + ((Epoly_v()).ignoreBackfacing state:#get) as string  )
 			
 			
 		)

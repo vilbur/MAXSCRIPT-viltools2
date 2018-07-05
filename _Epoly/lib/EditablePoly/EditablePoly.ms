@@ -2,8 +2,8 @@
  */
 struct EditablePoly_v
 (
+	mod,
 	obj,
-	EditablePoly,
 	
 	/** Init
 	  * @return	boolean 	
@@ -17,24 +17,12 @@ struct EditablePoly_v
 		)
 		true --return
 	),
-	/** Convert selection
-	 */
-	function convertSelection _from _to =
-	(
-		EditablePoly.ConvertSelection _from _to
-	),
-	/** Ignore backfacing
-	  * @return	boolean	new state
-	 */
-	function ignoreBackfacing state:undefined =
-	(
-		if( state == undefined ) then
-			state = EditablePoly.ignoreBackfacing != true
-
-		EditablePoly.ignoreBackfacing = state
-		
-		state --return
-	),
+	--/** Convert selection
+	-- */
+	--function convertSelection _from _to =
+	--(
+	--	mod.ConvertSelection _from _to
+	--),
 	
 	/** Face count
 	 */
@@ -62,8 +50,8 @@ struct EditablePoly_v
 	 */
 	function autoSmooth _angle =
 	(
-		EditablePoly.autoSmoothThreshold = _angle
-		EditablePoly.autosmooth()
+		mod.autoSmoothThreshold = _angle
+		mod.autosmooth()
 	),
 	/** Clear smooth groups
 	 */
@@ -95,7 +83,7 @@ struct EditablePoly_v
 	 */
 	function _setEditablePoly =
 	(
-		EditablePoly = modPanel.getCurrentObject()
+		mod = modPanel.getCurrentObject()
 	),
 	function test =
 	(

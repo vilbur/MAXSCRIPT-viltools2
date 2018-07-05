@@ -18,25 +18,33 @@ struct Epoly_v
 	function convertSelection to_sub_obj =
 	(
 		if( subobjectLevel > 0 ) then
-			(this._setEpoly()).convertSelection (_subobjects[subobjectLevel]) to_sub_obj
+			(this._mod()).convertSelection (_subobjects[subobjectLevel]) to_sub_obj
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 
 	/** Ignore backfacing
-	 */
+	  * @param	boolean|undefined|#get	state	1) Toggle state if undefined 2) Get current state if #get 3) Set state if boolean
+	  * @return	boolean		State of ignoreBackfacing
+	  */
 	function ignoreBackfacing state:undefined =
 	(
-		--print "ignoreBackfacing"
-		new_state = (this._setEpoly()).ignoreBackfacing state:state
-		--print ( "new_state = " + new_state as string )
+		mod	= this._mod()
+
+		if( state == undefined ) then
+			state = mod.ignoreBackfacing != true
+		
+		if( state == #get ) then
+			state = mod.ignoreBackfacing
+		else
+			mod.ignoreBackfacing = state
+		
+		state --return
 	),
 	/** Face count
 	 */
 	function faceCount =
 	(		
-		this._setEpoly()
-			
 		(this._setEpoly()).faceCount()
 	),
 	
@@ -85,6 +93,15 @@ struct Epoly_v
 		else if( this.isEditPoly() ) then
 			Epoly = EditPoly
 		
+	),
+	/** _mod
+	 */
+	function _mod =
+	(
+		Epoly = this._setEpoly()
+		
+		if( Epoly != undefined ) then
+			Epoly.mod --return
 	),
 	/** Test if current modifier is editable poly
 	 */

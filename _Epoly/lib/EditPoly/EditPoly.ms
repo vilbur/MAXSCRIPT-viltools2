@@ -2,7 +2,7 @@
  */
 struct EditPoly_v
 (
-	EditPoly,
+	mod,
 	_objects,
 
 	/** Init
@@ -16,24 +16,12 @@ struct EditPoly_v
 
 		true --return
 	),
-	/** Convert selection
-	 */
-	function convertSelection _from _to =
-	(
-		EditPoly.ConvertSelection _from _to
-	),
-	/** Ignore backfacing
-	  * @return	boolean	new state
-	 */
-	function ignoreBackfacing state:undefined =
-	(
-		if( state == undefined ) then
-			state = EditPoly.ignoreBackfacing != true
-		
-		EditPoly.ignoreBackfacing  = state
-		
-		state --return
-	),
+	--/** Convert selection
+	-- */
+	--function convertSelection _from _to =
+	--(
+	--	mod.ConvertSelection _from _to
+	--),
 	
 	/** Face count
 	 */
@@ -56,24 +44,24 @@ struct EditPoly_v
 	 */
 	function setSmoothGroup smooth_group facelist:undefined =
 	(
-		EditPoly.SetOperation #SetSmooth
-		EditPoly.smoothingGroupsToSet = smooth_group
+		mod.SetOperation #SetSmooth
+		mod.smoothingGroupsToSet = smooth_group
 	),
 	/** Auto smooth
 	  * @param	integer	_angle
 	 */
 	function autoSmooth _angle =
 	(
-		EditPoly.autoSmoothThreshold = _angle
-		EditPoly.ButtonOp #Autosmooth
+		mod.autoSmoothThreshold = _angle
+		mod.ButtonOp #Autosmooth
 	),
 	/** Clear smooth groups
 	 */
 	function clearSmoothGroups =
 	(
-		EditPoly.SetOperation #SetSmooth
-		EditPoly.smoothingGroupsToSet	= 0
-		EditPoly.smoothingGroupsToClear	= -1
+		mod.SetOperation #SetSmooth
+		mod.smoothingGroupsToSet	= 0
+		mod.smoothingGroupsToClear	= -1
 	),
 	/*---------------------------------------
 		PRIVATE 
@@ -88,7 +76,7 @@ struct EditPoly_v
 	 */
 	function _setEditPoly =
 	(
-		EditPoly = modPanel.getCurrentObject()
+		mod = modPanel.getCurrentObject()
 	),
 	function test =
 	(

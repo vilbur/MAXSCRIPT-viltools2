@@ -29,34 +29,15 @@ struct Epoly_v
 	  */
 	function ignoreBackfacing state:undefined =
 	(
-		mod	= this._mod()
-
-		if( state == undefined ) then
-			state = mod.ignoreBackfacing != true
-		
-		if( state == #get ) then
-			state = mod.ignoreBackfacing
-		else
-			mod.ignoreBackfacing = state
-		
-		state --return
+		this._toggleState "ignoreBackfacing" state:state --return
 	),
+
 	/** Set constrain type
 	  * @param	integer	state	0-None|1-Edge|2-Face|3-Normal
 	 */
 	function constrain state:undefined =
 	(
-		mod	= this._mod()
-
-		if( state == undefined ) then
-			state = mod.constrainType != true
-		
-		if( state == #get ) then
-			state = mod.constrainType
-		else
-			mod.constrainType = state
-		
-		state --return
+		this._toggleState "constrainType" state:state --return
 	),
 	/** Preserve UVs
 	  * @param	boolean|undefined|#get	state	1) Toggle state if undefined 2) Get current state if #get 3) Set state if boolean
@@ -64,19 +45,19 @@ struct Epoly_v
 	 */
 	function preserveUvs state:undefined =
 	(
-		mod	= this._mod()
-
-		if( state == undefined ) then
-			state = mod.preserveUVs != true
-		
-		if( state == #get ) then
-			state = mod.preserveUVs
-		else
-			mod.preserveUVs = state
-		
-		state --return
+		this._toggleState "preserveUVs" state:state --return
 	),
-	
+	/** Select by angle
+	 */
+	function selectByAngle state:undefined angle:45 =
+	(
+		--mod.selectAngle = angle
+		--mod	= this._mod()
+		
+		this._toggleState "SelectByAngle" state:state --return
+		
+		--#( state, angle) --return
+	),
 	/** Face count
 	 */
 	function faceCount =
@@ -112,6 +93,25 @@ struct Epoly_v
 	/*---------------------------------------
 		PRIVATE
 	-----------------------------------------*/
+	/** Toggle state
+	 */
+	function _toggleState method state:undefined =
+	(
+		--mod	= modPanel.getCurrentObject()
+		if( mod != undefined ) then
+		(
+			if( state == undefined ) then
+				state = execute ( "(modPanel.getCurrentObject())."+method+" != true" )
+			
+			if( state == #get ) then
+				state = execute ( "(modPanel.getCurrentObject())."+method )
+			
+			else
+				execute ( "(modPanel.getCurrentObject())."+method+" = "+state as string )
+			
+			state --return
+		)
+	),
 	/** _all faces
 	 */
 	function _allFaces =
@@ -180,8 +180,8 @@ struct Epoly_v
 	
 	function test =
 	(
-		this._setCurrentModifier()
-		--messagebox "Epoly_v.test()"
+		--this._setCurrentModifier()
+		messagebox "Epoly_v.test()"
 
 	)
 	

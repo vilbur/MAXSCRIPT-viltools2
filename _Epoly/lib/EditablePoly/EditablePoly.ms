@@ -13,7 +13,7 @@ struct EditablePoly_v
 		if( obj == undefined ) then
 		(
 			this._setObj()
-			this._setEditablePoly()
+			this._setMod()
 		)
 		true --return
 	),
@@ -81,7 +81,7 @@ struct EditablePoly_v
 	),
 	/** Set current modifier
 	 */
-	function _setEditablePoly =
+	function _setMod =
 	(
 		mod = modPanel.getCurrentObject()
 	),

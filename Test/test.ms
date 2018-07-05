@@ -1,34 +1,51 @@
-
-
-
-
-
-_text  = "global GW_displayText"
-_text += "\nunregisterRedrawViewsCallback GW_displayText"
-_text += "\nfn GW_displayText ="
-_text += "\n("
-_text += "\ngw.htext [40,40,0] \"LoremIpsum\" color:green"
-_text += "\ngw.updateScreen() "
-_text += "\n)"
-_text += "\nregisterRedrawViewsCallback GW_displayText"
-
-execute _text 
-
---unregisterRedrawViewsCallback GW_displayText
-
-
-
-
-----(
---	global GW_displayText
---	unregisterRedrawViewsCallback GW_displayText
---	fn GW_displayText =
+--/** Test
+-- */
+--struct TestCalled_v
+--(
+--	
+--	/** Call function
+--	 */
+--	function callFunction =
 --	(
---		gw.htext [40,40,0] "LoremIpsum" color:green
---		
---		gw.updateScreen() 
---	)
---	registerRedrawViewsCallback GW_displayText
-----)
+--		messagebox "TestCalled_v.callFunction"
 --
---unregisterRedrawViewsCallback GW_displayText
+--	)
+--)
+--
+--/** Test
+-- */
+--struct Test_v
+--(
+--	TestCalled = TestCalled_v(),
+--	
+--	/** Call function
+--	 */
+--	function callFunction =
+--	(
+--		messagebox "callFunction"
+--
+--	),
+--	/** Call struct
+--	 */
+--	function callStruct =
+--	(
+--		TestCalled_v()
+--	),
+--	/** Exe function
+--	 */
+--	function exeFunction =
+--	(
+--
+--		--execute ( this as string +".callFunction()" )
+--		--execute ( TestCalled_v() as string +".callFunction()" )
+--		--execute ( TestCalled as string +".callFunction()" )
+--		execute ( this.callStruct() as string +".callFunction()" )
+--	)
+--)
+--
+--
+--(Test_v()).exeFunction()
+
+--( modPanel.getCurrentObject() ).ignoreBackfacing = true
+
+execute ( "( modPanel.getCurrentObject() ).ignoreBackfacing = true" )

@@ -12,7 +12,7 @@ struct EditPoly_v
 	(
 		--print "EditPoly_v.init()"
 		this._setObjects()
-		this._setEditPoly()
+		this._setMod()
 
 		true --return
 	),
@@ -74,7 +74,7 @@ struct EditPoly_v
 	),
 	/** Set current modifier
 	 */
-	function _setEditPoly =
+	function _setMod =
 	(
 		mod = modPanel.getCurrentObject()
 	),

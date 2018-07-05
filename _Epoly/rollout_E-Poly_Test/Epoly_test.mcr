@@ -60,3 +60,18 @@ tooltip:	"Preserve UVs Toggle"
 	(Epoly_v()).preserveUvs()
 )
 
+macroscript	selectByAngle_test
+category:	"_Epoly_Test"  
+buttonText:	"selectByAngle"
+tooltip:	"selectByAngle Toggle"
+(
+	(Epoly_v()).selectByAngle()
+)
+
+
+
+
+
+
+
+

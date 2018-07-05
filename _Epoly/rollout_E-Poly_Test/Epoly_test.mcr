@@ -37,6 +37,14 @@ category:	"_Epoly_Test"
 buttonText:	"ignoreBackfacing"
 tooltip:	"ignoreBackfacing ON"
 (
-	--messagebox "right" beep:false
 	(Epoly_v()).ignoreBackfacing state:true
+)
+
+
+macroscript	constrain_test
+category:	"_Epoly_Test"  
+buttonText:	"constrain"
+tooltip:	"constrain"
+(
+	(Epoly_v()).constrain state:true
 )

@@ -41,6 +41,17 @@ struct Epoly_v
 		
 		state --return
 	),
+	/** Set constrain type
+	  * @param	integer	type	0-None|1-Edge|2-Face|3-Normal
+	 */
+	function constrain type =
+	(
+		if( type == #get ) then
+			(this._mod()).constrainType
+		else
+			(this._mod()).constrainType = type
+	),
+	
 	/** Face count
 	 */
 	function faceCount =

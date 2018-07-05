@@ -2,14 +2,14 @@
  */
 struct EpolyCallbacks_v
 (
-	
+	id	= #onSelectionChangengeCallback_modPanelObjPostChange,
 
 	/** Remove edpoly callbacks
 	 */
 	function remove =
 	(
-		try( callbacks.removeScripts #selectionSetChanged id:#onSelectionChangengeCallback_selectionSetChanged )catch()
-		try( callbacks.removeScripts #modPanelObjPostChange id:#onSelectionChangengeCallback_modPanelObjPostChange )catch()
+		--try( callbacks.removeScripts #selectionSetChanged id:#onSelectionChangengeCallback_selectionSetChanged )catch()
+		try( callbacks.removeScripts #modPanelObjPostChange id:id )catch()
 	),
 	
 	/** Add edpoly callbacks
@@ -20,7 +20,7 @@ struct EpolyCallbacks_v
 		this.remove()
 		
 		--try( callbacks.addScript     #selectionSetChanged "onSelectionChangengeCallback()" id:#onSelectionChangengeCallback_selectionSetChanged )catch()
-		try( callbacks.addScript     #modPanelObjPostChange "onSelectionChangengeCallback()" id:#onSelectionChangengeCallback_modPanelObjPostChange )catch()
+		try( callbacks.addScript     #modPanelObjPostChange "onSelectionChangengeCallback()" id:id )catch()
 	),
 	
 	/*------------------------------------------------------------------------------
@@ -44,6 +44,7 @@ struct EpolyCallbacks_v
 			print ("onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
 			
 			print ( "ignoreBackfacing " + ((Epoly_v()).ignoreBackfacing state:#get) as string  )
+			print ( "constrain " + ((Epoly_v()).constrain #get) as string  )
 			
 			
 		)

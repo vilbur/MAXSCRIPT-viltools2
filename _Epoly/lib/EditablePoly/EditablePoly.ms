@@ -17,13 +17,35 @@ struct EditablePoly_v
 		)
 		true --return
 	),
-	--/** Convert selection
-	-- */
-	--function convertSelection _from _to =
-	--(
-	--	mod.ConvertSelection _from _to
-	--),
-	
+	/** Remove
+	  * Remove edge with vertices
+	  */
+	function remove =
+	(
+		if subobjectLevel != 2 then
+			curObj.Remove selLevel:#CurrentLevel 
+		else
+		(
+			edges = polyOp.getEdgeSelection obj
+			
+			if edges.numberset!=0 do
+			(
+				vertices = #()
+				for edge in edges do ( join vertices ((polyop.getVertsUsingEdge obj edge) as array) )
+				
+				theVertsToRemove = vertices as bitarray
+				
+				for v in theVertsToRemove do ( deleteItem vertices (findItem vertices v) )
+				
+				
+				obj.EditablePoly.Remove selLevel:#Edge
+				polyop.setVertSelection obj (vertices as bitarray)
+				obj.EditablePoly.Remove selLevel:#Vertex
+				
+			)
+		)
+	),
+
 	/** Face count
 	 */
 	function faceCount =

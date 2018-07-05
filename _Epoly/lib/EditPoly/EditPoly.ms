@@ -16,12 +16,24 @@ struct EditPoly_v
 
 		true --return
 	),
-	--/** Convert selection
-	-- */
-	--function convertSelection _from _to =
-	--(
-	--	mod.ConvertSelection _from _to
-	--),
+	/** Remove
+	 */
+	function remove =
+	(
+		for obj in _objects do
+		(
+			case subobjectLevel of
+			(
+				1:( for_remove = #RemoveVertex )
+				2:( for_remove = #RemoveEdgeRemoveVertices )
+				3:( for_remove = #RemoveEdgeRemoveVertices )
+				4:( mod.ConvertSelection #Face #Vertex; for_remove = #DeleteFace )
+				5:( mod.ConvertSelection #Face #Vertex; for_remove = #DeleteFace )
+			)
+			
+			mod.ButtonOp for_remove
+		)
+	),
 	
 	/** Face count
 	 */

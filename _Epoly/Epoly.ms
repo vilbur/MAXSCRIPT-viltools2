@@ -23,6 +23,16 @@ struct Epoly_v
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 
+
+	/** Remove
+	 */
+	function remove =
+	(
+		(this._setEpoly()).remove()
+	),
+	/*---------------------------------------
+		TOGGLE SETTINGS
+	-----------------------------------------*/
 	/** Ignore backfacing
 	  * @param	boolean|undefined|#get	state	1) Toggle state if undefined 2) Get current state if #get 3) Set state if boolean
 	  * @return	boolean		State of ignoreBackfacing
@@ -31,7 +41,6 @@ struct Epoly_v
 	(
 		this._toggleState "ignoreBackfacing" state:state --return
 	),
-
 	/** Set constrain type
 	  * @param	integer	state	0-None|1-Edge|2-Face|3-Normal
 	 */
@@ -58,6 +67,8 @@ struct Epoly_v
 		
 		--#( state, angle) --return
 	),
+	
+	
 	/** Face count
 	 */
 	function faceCount =

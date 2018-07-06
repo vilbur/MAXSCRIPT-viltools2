@@ -23,12 +23,27 @@ struct Epoly_v
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 
+
+	
+	/** Bevel
+	 */
+	function bevel =
+	(
+		messagebox "Epoly_v.bevel()" 	
+	),
+	/** Extrude
+	 */
+	function extrude =
+	(
+		messagebox "Epoly_v.extrude()" 	
+	),
 	/** Connect subobject
 	 */
 	function connect =
 	(
 		(this._setEpoly()).connect()
 	),
+	
 	/** Remove subobject
 	 */
 	function remove =

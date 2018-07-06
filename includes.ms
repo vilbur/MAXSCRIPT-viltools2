@@ -29,6 +29,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_EditPoly/lib/EditPolyMaterial
 
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/EpolySelection.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyExplode/EditPolyExplode.ms" )
 
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPoly/EditPoly.ms" )

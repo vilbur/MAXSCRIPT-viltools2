@@ -1,5 +1,3 @@
-
-
 /** Edit poly objects
  */
 struct EditPolyObjects_v

@@ -20,12 +20,12 @@ struct EditPoly_v
 	 */
 	function connect =
 	(
-		sub_obj = SubObjectLevel
+		sub_obj = subObjectLevel
 		
 		if sub_obj == 4 or sub_obj == 5 then
 		(
 			mod.ConvertSelection #face #vertex
-			SubObjectLevel = 1
+			subObjectLevel = 1
 			mod.ButtonOp #ConnectVertices
 		)
 		else if sub_obj == 1 then
@@ -40,16 +40,15 @@ struct EditPoly_v
 	(
 		for obj in _objects do
 		(
-			case subobjectLevel of
+			case subObjectLevel of
 			(
 				1:( for_remove = #RemoveVertex )
 				2:( for_remove = #RemoveEdgeRemoveVertices )
 				3:( for_remove = #RemoveEdgeRemoveVertices )
-				4:( mod.ConvertSelection #Face #Vertex; for_remove = #DeleteFace )
-				5:( mod.ConvertSelection #Face #Vertex; for_remove = #DeleteFace )
+				4:( mod.ConvertSelection #Face #Edge; for_remove = #RemoveEdgeRemoveVertices )
 			)
-			
-			mod.ButtonOp for_remove
+			if( for_remove != undefined ) then
+				mod.ButtonOp for_remove
 		)
 	),
 	

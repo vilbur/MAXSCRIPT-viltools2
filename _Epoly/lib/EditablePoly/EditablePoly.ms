@@ -21,43 +21,51 @@ struct EditablePoly_v
 	 */
 	function connect =
 	(
-		sub_obj = SubObjectLevel
+		--sub_obj = subObjectLevel
 		
-		if sub_obj == 4 then
+		if subObjectLevel == 4 then
 		(
-			$.EditablePoly.ConvertSelection #face #vertex
-			SubObjectLevel = 1
+			mod.ConvertSelection #face #vertex
+			subObjectLevel = 1
 			mod.ConnectVertices ()
 		)
-		else if sub_obj == 1 then
+		else if subObjectLevel == 1 then
 			mod.ConnectVertices () 
 
-		else if sub_obj == 2 then
+		else if subObjectLevel == 2 then
 			mod.ConnectEdges ()	
 	),
 	/** Remove edge with vertices
 	  */
 	function remove =
 	(
-		if subobjectLevel != 2 then
-			mod.Remove selLevel:#CurrentLevel 
+		--sub_obj = subObjectLevel
+		if subObjectLevel == 4 then
+		(
+			mod.ConvertSelection #Face #Vertex
+			subObjectLevel = 1	
+		)
+		
+		if subObjectLevel != 2 then
+			mod.Remove selLevel:#CurrentLevel
+			
 		else
 		(
-			edges = polyOp.getEdgeSelection obj
+			edges = polyop.getEdgeSelection obj
 			
 			if edges.numberset!=0 do
 			(
 				vertices = #()
-				for edge in edges do ( join vertices ((polyop.getVertsUsingEdge obj edge) as array) )
 				
-				theVertsToRemove = vertices as bitarray
+				for edge in edges do ( join vertices (( polyop.getVertsUsingEdge obj edge ) as Array ) )
+				
+				theVertsToRemove = vertices as BitArray
 				
 				for v in theVertsToRemove do ( deleteItem vertices (findItem vertices v) )
 				
-				
-				obj.EditablePoly.Remove selLevel:#Edge
-				polyop.setVertSelection obj (vertices as bitarray)
-				obj.EditablePoly.Remove selLevel:#Vertex
+				mod.Remove selLevel:#Edge
+				polyop.setVertSelection obj ( vertices as BitArray )
+				mod.Remove selLevel:#Vertex
 				
 			)
 		)

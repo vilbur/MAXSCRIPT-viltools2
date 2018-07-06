@@ -21,7 +21,7 @@ struct EpolySelection_v
 	(		
 		this._init()
 		
-		sub_selection	= if( classOf _mod == Editable_Poly ) then this._getEditablePolySelection() else this._getEditPolySelection()
+		sub_selection	= if( classOf _mod == Editable_Poly ) then this._getEditablePolySelection sub_obj else this._getEditPolySelection sub_obj
 		
 		print ( "sub_selection = " + sub_selection as string )
 	),

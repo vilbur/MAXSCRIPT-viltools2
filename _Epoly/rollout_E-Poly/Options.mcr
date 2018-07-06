@@ -26,13 +26,10 @@ tooltip:	"Preserve UVs Toggle"
 	(Epoly_v()).preserveUvs()
 )
 
-macroscript	epoly_remove
+macroscript	epoly_selectByAngle
 category:	"_Epoly"  
-buttonText:	"Remove"
-tooltip:	"Remove subobject"
+buttonText:	"selectByAngle"
+tooltip:	"selectByAngle Toggle"
 (
-	undo "Remove subobject" on
-	(
-		(Epoly_v()).remove()
-	)
+	(Epoly_v()).selectByAngle()
 )

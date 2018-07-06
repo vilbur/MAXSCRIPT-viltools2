@@ -8,6 +8,7 @@ struct Epoly_v
 	EpolySelection	= EpolySelection_v(),
 	EpolySmoothGroups	= EpolySmoothGroups_v(),
 	EpolyEdges	= EpolyEdges_v(),
+	EditPolyExplode	= EditPolyExplode_v(),
 
 	/*---------------------------------------
 		EXTENDS
@@ -18,7 +19,6 @@ struct Epoly_v
 	constrain	= EpolyOptions.constrain,
 	preserveUvs	= EpolyOptions.preserveUvs,
 	selectByAngle	= EpolyOptions.selectByAngle,
-	--EpolyOptionsTest	= EpolyOptions.test,
 	
 	/*------ EpolySmoothGroups ------*/
 	setSmoothGroup	= EpolySmoothGroups.setSmoothGroup,
@@ -30,6 +30,13 @@ struct Epoly_v
 	
 	/*------ EpolyEdges ------*/
 	selectHardEdges	= EpolyEdges.selectHardEdges,
+	splitEdges	= EpolyEdges.splitEdges,
+	
+	/*------ EditPolyExplode ------*/
+	explodeByHardEdges	= EditPolyExplode.explodeByHardEdges,
+	explodeByMaterialId	= EditPolyExplode.explodeByMaterialId,
+	explodeBySG	= EditPolyExplode.explodeBySG,
+	explodeByElement	= EditPolyExplode.explodeByElement,
 	
 	/** Bevel
 	 */

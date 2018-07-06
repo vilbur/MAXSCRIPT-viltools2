@@ -1,4 +1,3 @@
-
 /** Edit poly
  */
 struct EditPolyExplode_v
@@ -23,49 +22,6 @@ struct EditPolyExplode_v
 		final_sel --return
 		--append final_sel detObj
 	),
-	/** Detach
-	  */
-	function detach poly_selection =
-	(
-		polyop.detachFaces obj poly_selection delete:false asNode:true name: "TempDet"
-		
-		det_obj	= getnodebyname "TempDet" 
-		det_obj.name	= (uniquename (obj.name + "_detach"))
-		det_obj.wirecolor	=  color (random 0 255) (random 0 255) (random 0 255)
-		
-		append final_sel det_obj
-	),
-
-	/** Attach
-	 */
-	function attachSelection weld =
-	(
-		if selection.count > 1 do
-		(
-			undo "Attach_Selected_v" on
-			(
-				for o=1 to (selection.count - 1 ) where superclassof selection[o] == geometryclass do 
-				(
-					AddModifier selection[o] (Edit_Poly())
-					maxOps.CollapseNode selection[o] off
-				)
-	
-				maxOps.CollapseNodeTo  selection[selection.count] 1 off
-	
-				while selection.count > 1 do
-				(
-					selcount = selection.count
-					for i = selcount to 2 by -2 do
-						polyop.attach selection[i] selection[i-1]
-				)
-				update selection[1]
-	
-				if weld == true do
-					(polyop.weldVertsByThreshold selection[1] #{1..( polyop.getNumVerts selection[1])}) --weld vetices
-	
-			)
-		)
-	),
 	/** Explode all elements
 	 */
 	function explodeByElement =
@@ -79,11 +35,26 @@ struct EditPolyExplode_v
 		print ( "----explodeBySG" )
 		this.explode ( _getSmoothGroups() ) --return
 	),
+	
 	/** Explode by material id
 	 */
 	function explodeByMaterialId =
 	(
 		this.explode ( this._getMaterialElements() ) --return
+	),
+	/**  
+	 */
+	function explodeByHardEdges =
+	(
+		--print "explodeByHardEdges()"
+		this.selectHardEdges()
+
+		this.splitEdges()
+
+		this.explodeByElement() --return
+
+		--#(obj)
+		--undefined --return
 	),
 	/** Get elements
 	 */
@@ -151,29 +122,6 @@ struct EditPolyExplode_v
 	),
 
 
-
-	/** Set smooth group
-	 */
-	function setSmoothGroup facelist smooth_group =
-	(
-		polyop.setFaceSmoothGroup obj #all 0
-
-		polyop.setFaceSmoothGroup obj (this._allFaces()) smooth_group
-	),
-	/** Set mat id
-	 */
-	function setMatId id =
-	(
-		print ( "setMatId=" + id as string )
-		--if (classOf obj != Editable_Poly) do
-		--(
-		--	convertTo obj Editable_Poly
-		--	polyop.deleteIsoVerts obj
-		--)
-		
-		polyop.setFaceMatID obj #{1..( polyop.getNumFaces obj)} id
-   
-	),
 	/** _all faces
 	 */
 	function _allFaces =

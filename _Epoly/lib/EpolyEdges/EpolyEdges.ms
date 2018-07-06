@@ -14,6 +14,7 @@ struct EpolyEdges_v
 	----	max modify mode
 	----
 	----	subObjectLevel = 2   
+	
 		macros.run "PolyTools" "SharpEdges"
 
 		this --return

@@ -33,8 +33,8 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/Epol
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyExplode/EditPolyExplode.ms" )
 
 
-filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPoly/EditPoly.ms" )
-filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditablePoly/EditablePoly.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyMod/EditPoly/EditPoly.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyMod/EditablePoly/EditablePoly.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyMod/EpolyMod.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/Epoly.ms" )
 

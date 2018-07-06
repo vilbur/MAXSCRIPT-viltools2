@@ -1,4 +1,4 @@
-/** Edit poly
+/** Methods for Editable_Poly baseobject
  */
 struct EditablePoly_v
 (

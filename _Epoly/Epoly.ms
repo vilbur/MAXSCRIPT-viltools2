@@ -3,14 +3,10 @@
  */
 struct Epoly_v
 (
-	--EditablePoly	= EditablePoly_v(),
-	--EditPoly	= EditPoly_v(),
-	
 	EpolyMod	= EpolyMod_v(),
 	EpolyOptions	= EpolyOptions_v(),
+	EpolySelection	= EpolySelection_v(),
 	EpolySmoothGroups	= EpolySmoothGroups_v(),
-	
-	--Epoly,
 	
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 	
@@ -31,20 +27,8 @@ struct Epoly_v
 	autoSmooth	= EpolySmoothGroups.autoSmooth,
 	clearSmoothGroups	= EpolySmoothGroups.clearSmoothGroups,
 	
-	
-	/** Convert current subobject to given subobject
-	  * 1) If not subobject active then enter to subobject
-	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
-	  * 
-	  * @param	name	to_sub_obj E.g.: #vertex
-	  */
-	function convertSelection to_sub_obj =
-	(
-		if( subobjectLevel > 0 ) then
-			(this._mod()).convertSelection (_subobjects[subobjectLevel]) to_sub_obj
-		
-		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
-	),
+	/*------ EpolySelection ------*/
+	convertSelection	= EpolySelection.convertSelection,
 	
 	/** Bevel
 	 */
@@ -83,20 +67,14 @@ struct Epoly_v
 		PRIVATE
 	-----------------------------------------*/
 
-	/** _all faces
-	 */
-	function _allFaces =
-	(
-		#{1..( polyop.getNumFaces selection[1] )} --return
-	),
+	--/** _all faces
+	-- */
+	--function _allFaces =
+	--(
+	--	#{1..( polyop.getNumFaces selection[1] )} --return
+	--),
 
-	/** Get subobject index
-	  * @param	name	sub_obj
-	 */
-	function _getSubobjectIndex sub_obj =
-	(
-		findItem _subobjects sub_obj --return
-	),
+
 	
 	function test =
 	(

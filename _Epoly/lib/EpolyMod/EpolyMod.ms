@@ -1,4 +1,4 @@
-/** Epoly
+/** Get EditablePoly_v or EditPoly_v class
  *
  */
 struct EpolyMod_v
@@ -40,8 +40,8 @@ struct EpolyMod_v
 		this._initSubClass Edit_Poly --return
 	),
 	/** Init EditPoly_v or EditablePoly_v
-	  * @param	Editable_Poly|Edit_Poly	epoly_type
-	  * @return	boolean
+	 * @param	Editable_Poly|Edit_Poly	epoly_type
+	 * @return	boolean
 	 */
 	function _initSubClass epoly_type =
 	(
@@ -61,9 +61,7 @@ struct EpolyMod_v
 	
 	function test =
 	(
-		--this._setCurrentModifier()
 		messagebox "Epoly_v.test()"
-
 	)
 	
 )

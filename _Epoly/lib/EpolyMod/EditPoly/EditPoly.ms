@@ -1,4 +1,4 @@
-/** Edit poly
+/** Methods for Edit_Poly modifier
  */
 struct EditPoly_v
 (

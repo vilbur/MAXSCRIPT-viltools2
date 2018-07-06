@@ -14,6 +14,21 @@ struct EpolySelection_v
 		this._setObjects()
 		this._setCurrentMod()
 	),
+	
+	/** Convert current subobject to given subobject
+	  * 1) If not subobject active then enter to subobject
+	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
+	  * 
+	  * @param	name	to_sub_obj E.g.: #vertex
+	  */
+	function convertSelection to_sub_obj =
+	(
+		if( subobjectLevel > 0 ) then
+			(this._mod()).convertSelection (_subobjects[subobjectLevel]) to_sub_obj
+		
+		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
+	),
+	
 	/** Get current subobejct selection
 	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
 	  */
@@ -39,6 +54,16 @@ struct EpolySelection_v
 		PRIVATE
 	--------------------------------------------------------------------------------*/
 	
+	/** Get subobject index
+	  * @param	name	sub_obj
+	 */
+	function _getSubobjectIndex sub_obj =
+	(
+		findItem _subobjects sub_obj --return
+	),
+	
+	/* ========= GET SELECTION ========= */
+	
 	/** Get editable poly selection of subobjects
 	  * @return	bitArray	
 	 */
@@ -53,6 +78,8 @@ struct EpolySelection_v
 	(
 		for o in _objects collect (_mod.GetSelection sub_obj node:o)
 	),
+	
+	/* ========= SET SELECTION ========= */
 	
 	/** Set editable poly selection of subobjects
 	 */
@@ -73,6 +100,10 @@ struct EpolySelection_v
 			_mod.Select	sub_obj sub_selection	node: _objects[o]
 		)
 	),
+	
+	/*---------------------------------------
+		INIT METHODS
+	-----------------------------------------*/
 	
 	/** Set object
 	 */

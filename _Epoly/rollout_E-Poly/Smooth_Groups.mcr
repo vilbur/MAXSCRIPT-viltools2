@@ -25,23 +25,22 @@ toolTip:	"Clear smooth groups"
 	(Epoly_v()).clearSmoothGroups()
 )
 
-macroscript smoothGroupByObject
-category:"_EditPoly-SmoothGroups"  
-buttonText:"By object"
+macroscript	smoothGroupByObject
+category:	"_EditPoly-SmoothGroups"  
+buttonText:	"By object"
+tooltip:	"Set one smooth group for ach selected object"
 ( 
 	EditPoly = EditPoly_v_old()
 	_selection = (Selection_v()).get()
-	--print ( "_selection=" + _selection as string )
 	
 	for i=1 to _selection.count do
 		(EditPoly_v_old obj:_selection[i]).setSmoothGroup  i
-		
 )
 
-macroscript repairSmoothGroupsByMaterial
-category:"_EditPoly-SmoothGroups"  
-buttonText:"By Mat"
-tooltip:"Set Smooth Groups By Material"
+macroscript	repairSmoothGroupsByMaterial
+category:	"_EditPoly-SmoothGroups"  
+buttonText:	"By Mat"
+tooltip:	"Set Smooth Groups By Material"
 ( 
 	
 	

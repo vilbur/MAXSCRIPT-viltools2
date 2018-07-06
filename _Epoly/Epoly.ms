@@ -1,4 +1,4 @@
-/** Epoly
+/** Epoly is command bus class for Epoly classes
  *
  */
 struct Epoly_v
@@ -7,6 +7,7 @@ struct Epoly_v
 	EpolyOptions	= EpolyOptions_v(),
 	EpolySelection	= EpolySelection_v(),
 	EpolySmoothGroups	= EpolySmoothGroups_v(),
+	EpolyEdges	= EpolyEdges_v(),
 
 	/*---------------------------------------
 		EXTENDS
@@ -26,6 +27,9 @@ struct Epoly_v
 	
 	/*------ EpolySelection ------*/
 	convertSelection	= EpolySelection.convertSelection,
+	
+	/*------ EpolyEdges ------*/
+	selectHardEdges	= EpolyEdges.selectHardEdges,
 	
 	/** Bevel
 	 */

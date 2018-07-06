@@ -217,19 +217,6 @@ struct EditPoly_v_old
 	),
 
 
-	/** Set smooth group
-	 */
-	function setSmoothGroup smooth_group facelist:undefined =
-	(
-		polyop.setFaceSmoothGroup obj #all 0
-
-		if( facelist==undefined ) then
-			facelist = this._allFaces()
-		--print ( "facelist=" + facelist as string )
-		polyop.setFaceSmoothGroup obj facelist smooth_group
-
-
-	),
 	/** Set mat id
 	 */
 	function setMatId id =

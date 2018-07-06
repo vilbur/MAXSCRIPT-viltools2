@@ -25,9 +25,9 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/SubobjectModifiers/
 filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/Subobject.ms" )
 
 
-filein ( getFilenamePath(getSourceFileName()) + "/_EditPoly/lib/EditPolyMaterial/EditPolyMaterial.ms" )
-
-
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyOptions/EpolyOptions.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyObjects/EditPolyObjects.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyMaterial/EditPolyMaterial.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/EpolySelection.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyExplode/EditPolyExplode.ms" )
 
@@ -38,7 +38,6 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/Epoly.ms" )
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyCallbacks/EpolyCallbacks.ms" )
 
-filein ( getFilenamePath(getSourceFileName()) + "/_EditPoly/lib/EditPolyObjects/EditPolyObjects.ms" )
 
 
 filein ( getFilenamePath(getSourceFileName()) + "/_Pivot/Pivot.ms" )

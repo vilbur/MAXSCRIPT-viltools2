@@ -1,12 +1,3 @@
-macroscript	epoly_convert_selection_test
-category:	"_Epoly_Test"  
-buttonText:	"Convert to face"
-tooltip:	"Convert to face"
-(
-	clearListener()
-
-	(Epoly_v()).convertSelection #face
-)
 
 macroscript	epoly_setSmoothGroup_test
 category:	"_Epoly_Test"  

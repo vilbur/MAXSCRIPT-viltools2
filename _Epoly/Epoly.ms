@@ -7,10 +7,7 @@ struct Epoly_v
 	EpolyOptions	= EpolyOptions_v(),
 	EpolySelection	= EpolySelection_v(),
 	EpolySmoothGroups	= EpolySmoothGroups_v(),
-	
-	_subobjects	= #(#vertex, #edge, #border, #face, #element),
-	
-	
+
 	/*---------------------------------------
 		EXTENDS
 	-----------------------------------------*/

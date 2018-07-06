@@ -4,8 +4,12 @@
  */
 struct EpolySelection_v
 (
+	EpolyMod	= EpolyMod_v(),
+
 	_objects,
-	_mod,
+	--_mod,
+	
+	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 
 	/** Init
 	 */
@@ -23,8 +27,8 @@ struct EpolySelection_v
 	  */
 	function convertSelection to_sub_obj =
 	(
-		if( subobjectLevel > 0 ) then
-			(this._mod()).convertSelection (_subobjects[subobjectLevel]) to_sub_obj
+		if( subObjectLevel > 0 ) then
+			(EpolyMod.mod()).convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
@@ -122,7 +126,7 @@ struct EpolySelection_v
 
 	function test =
 	(
-		messagebox "EditPoly.test()"
+		messagebox "EpolySelection_v.test()"
 	)
 )
 

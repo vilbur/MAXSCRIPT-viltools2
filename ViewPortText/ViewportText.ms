@@ -7,6 +7,24 @@ struct ViewportText_v
 	color	= yellow,
 	position	= [40, 40, 0],
 	
+	/** Instance
+	 */
+	function instance _id =
+	(
+		this.setId _id
+		
+		if( global_vievporttext == undefined ) then
+			execute ( "global global_vievporttext = " + List_v() as string ) --return
+		
+		_instance = 	global_vievporttext.getVal _id
+		
+		if( _instance == undefined ) then
+		(
+			_instance = 	this
+			global_vievporttext.setVal _id _instance
+		)
+		_instance --return 
+	),
 	/** Show
 	 */
 	function show text =
@@ -34,6 +52,12 @@ struct ViewportText_v
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
+	/** Set id
+	 */
+	function setId _id =
+	(
+		id = "gw_"+_id
+	),
 	/** _get position
 	 */
 	function _getPosition =

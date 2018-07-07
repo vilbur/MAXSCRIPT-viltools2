@@ -33,25 +33,37 @@ struct EpolyCallbacks_v
 	)
 )
 
-	/** On selection changenge callback
-	 */
-	function onSelectionChangengeCallback =
+/** On selection changenge callback
+ */
+function onSelectionChangengeCallback =
+(
+	current_mod	= modPanel.getCurrentObject() 
+	
+	if( classOf current_mod == Editable_Poly or classOf current_mod == Edit_Poly ) then
 	(
-		current_mod	= modPanel.getCurrentObject() 
+		Epoly	= Epoly_v()
+		_ViewportText 	= (ViewportText_v()).instance "ViewportTexTest" 
+
+		print ("\n\n====== onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
 		
-		if( classOf current_mod == Editable_Poly or classOf current_mod == Edit_Poly ) then
-		(
-			print ("onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
-			
-			print ( "ignoreBackfacing " + ((Epoly_v()).ignoreBackfacing state:#get) as string  )
-			print ( "constrain " + ((Epoly_v()).constrain state:#get) as string  )
-			print ( "preserveUvs " + ((Epoly_v()).preserveUvs state:#get) as string  )
-			
-			
-		)
+		--print ( "ignoreBackfacing " + ((Epoly_v()).ignoreBackfacing state:#get) as string  )
+		--print ( "constrain " + ((Epoly_v()).constrain state:#get) as string  )
+		--print ( "preserveUvs " + ((Epoly_v()).preserveUvs state:#get) as string  )
 		
+		if(Epoly.ignoreBackfacing state:#get == true ) then
+			_ViewportText.show "Backfacing"
+
+		else			
+			_ViewportText.hide()
+		
+		print ( "ignoreBackfacing " +	Epoly.ignoreBackfacing state:#get as string  )
+		--print ( "constrain " +	Epoly.constrain state:#get as string  )
+		--print ( "preserveUvs " +	Epoly.preserveUvs state:#get as string  )			
 		
 	)
+	
+	
+)
 	
 
 

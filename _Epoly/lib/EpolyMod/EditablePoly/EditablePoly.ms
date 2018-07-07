@@ -17,6 +17,17 @@ struct EditablePoly_v
 		)
 		true --return
 	),
+	/** Get facelist or all faces
+	 */
+	function getSelectedOrAllFaces  =
+	(
+		_selection = (EpolySelection_v()).getSel #Face --return
+
+		if( _selection.isEmpty ) then
+			this._allFaces() --return
+		else
+			_selection --return
+	),
 	/** Connect subobject
 	 */
 	function connect =
@@ -78,6 +89,18 @@ struct EditablePoly_v
 		polyop.getNumFaces obj --return 
 	),
 	
+	/** Set mat id
+	 */
+	function setMatId facelist id =
+	(
+		--print ( "setMatId = " + facelist as string )
+		--print ( "classOf facelist = " + (classOf facelist as BitArray ) as string )
+		--print ( "obj = " + obj as string )
+		--print ( "id = " + id as string )
+		polyop.setFaceMatID obj facelist id
+		--polyop.setFaceMatID obj ( facelist as BitArray ) id
+	),
+	
 	/*---------------------------------------
 		SMOOTH GROUPS
 	-----------------------------------------*/
@@ -87,10 +110,7 @@ struct EditablePoly_v
 	 */
 	function setSmoothGroup smooth_group facelist:undefined =
 	(
-		if( facelist==undefined ) then
-			facelist = this._allFaces()
-			
-		polyop.setFaceSmoothGroup obj facelist smooth_group
+		polyop.setFaceSmoothGroup obj (this._getFacelist facelist) smooth_group
 	),
 	/** Auto smooth
 	  * @param	integer	_angle
@@ -102,12 +122,12 @@ struct EditablePoly_v
 	),
 	/** Clear smooth groups
 	 */
-	function clearSmoothGroups =
+	function clearSmoothGroups facelist:undefined =
 	(
 		--obj = obj.baseObject
-		facelist = polyop.getNumFaces obj
+		--facelist = polyop.getNumFaces obj
 	
-		for i = 1 to facelist do
+		for i = 1 to (this._getFacelist facelist) do
 			polyop.setFaceSmoothGroup obj i 0
 	),
 	/*---------------------------------------

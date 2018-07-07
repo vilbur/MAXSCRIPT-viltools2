@@ -4,10 +4,10 @@
  */
 struct EpolySelection_v
 (
-	EpolyMod	= EpolyMod_v(),
+	--EpolyMod	= EpolyMod_v(),
 
 	_objects,
-	--_mod,
+	_mod,
 	
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 
@@ -16,7 +16,7 @@ struct EpolySelection_v
 	function _init =
 	(
 		this._setObjects()
-		this._setCurrentMod()
+		this._setMod()
 	),
 	
 	/** Convert current subobject to given subobject
@@ -27,8 +27,11 @@ struct EpolySelection_v
 	  */
 	function convertSelection to_sub_obj =
 	(
+		this._init()
+
 		if( subObjectLevel > 0 ) then
-			(EpolyMod.mod()).convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
+			_mod.convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
+			--(EpolyMod.mod()).convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
@@ -37,19 +40,20 @@ struct EpolySelection_v
 	  * @param	name	sub_obj
 	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
 	  */
-	function getSelection sub_obj =
+	function getSel sub_obj =
 	(		
 		this._init()
 		
 		sub_selection	= if( classOf _mod == Editable_Poly ) then this._getEditablePolySelection sub_obj else this._getEditPolySelection sub_obj
 		
-		print ( "sub_selection = " + sub_selection as string )
+		--print ( "sub_selection = " + sub_selection as string )
+		sub_selection --return
 	),
 	/** Get current subobejct selection
 	  * @param	name	sub_obj
 	  * @param	bitArray|[bitArray]	_selection	bitArray of elements to select, for Edit_Poly can be array of bitArrays for each object
 	 */
-	function setSelection sub_obj _selection =
+	function setSel sub_obj _selection =
 	(		
 		this._init()
 		
@@ -76,14 +80,15 @@ struct EpolySelection_v
 	 */
 	function _getEditablePolySelection sub_obj =
 	(
-		_mod.GetSelection sub_obj 
+		_mod.GetSelection sub_obj  --return
 	),
 	/** Get edit poly selection of subobjects 
 	  * @param	name	sub_obj
 	  * @return	[bitArray]	array of bitArrays, bitArray for each selected object
 	 */
-	function _getEditPolySelection sub_obj _selection =
+	function _getEditPolySelection sub_obj =
 	(
+		print "***_getEditPolySelection()"
 		for o in _objects collect (_mod.GetSelection sub_obj node:o)
 	),
 	
@@ -92,20 +97,20 @@ struct EpolySelection_v
 	/** Set editable poly selection of subobjects
 	  * @param	name	sub_obj
 	 */
-	function _setEditablePolySelection sub_obj _selection =
+	function _setEditablePolySelection sub_obj facelist =
 	(
-		_mod.SetSelection sub_obj _selection
+		_mod.SetSelection sub_obj facelist
 	),
 	/** Set edit poly selection of subobjects 
 	  * @param	name	sub_obj
 	 */
-	function _setEditPolySelection sub_obj _selection =
+	function _setEditPolySelection sub_obj facelist_array =
 	(
-		print "_setEditPolySelection()"
+		--print "======= _setEditPolySelection()"
 
 		for o=1 to _objects.count do
 		(
-			sub_selection	= if( classOf _selection == Array )then _selection[o] else _selection
+			sub_selection	= if( classOf facelist_array == Array )then facelist_array[o] else facelist_array
 			_mod.SetSelection	sub_obj #{}	node: _objects[o]
 			_mod.Select	sub_obj sub_selection	node: _objects[o]
 		)
@@ -123,7 +128,7 @@ struct EpolySelection_v
 	),
 	/** Set current mod
 	 */
-	function _setCurrentMod =
+	function _setMod =
 	(
 		max modify mode
 		

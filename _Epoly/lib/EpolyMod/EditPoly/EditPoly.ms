@@ -3,7 +3,7 @@
 struct EditPoly_v
 (
 	mod,
-	_objects,
+	_selection,
 
 	/** Init
 	  * @return	boolean 	
@@ -15,6 +15,17 @@ struct EditPoly_v
 		this._setMod()
 
 		true --return
+	),
+	/** Get facelist or all faces
+	 */
+	function getSelectedOrAllFaces  =
+	(
+		_selection_sub = (EpolySelection_v()).getSel #Face --return
+		--print ( "EditPoly_v _selection_sub = " + _selection as string )
+		if( _selection_sub.count == 1 and _selection_sub[1].isEmpty ) then
+			this._allFaces() --return
+		else
+			_selection_sub --return
 	),
 	/** Connect subobject
 	 */
@@ -38,7 +49,7 @@ struct EditPoly_v
 	 */
 	function remove =
 	(
-		for obj in _objects do
+		for obj in _selection do
 		(
 			case subObjectLevel of
 			(
@@ -58,12 +69,21 @@ struct EditPoly_v
 	(		
 		face_counts = #()
 		
-		for obj in _objects do
+		for obj in _selection do
 			append face_counts ( polyop.getNumFaces obj )
 		
 		face_counts --return	
 	),
 	
+	/** Set mat id
+	 */
+	function setMatId facelist id =
+	(
+		--messageBox "setMatId" beep:false
+		(EpolySelection_v()).setSel #Face facelist
+		mod.SetOperation #SetMaterial
+		mod.materialIDToSet = id
+	),
 	/*---------------------------------------
 		SMOOTH GROUPS
 	-----------------------------------------*/
@@ -95,11 +115,24 @@ struct EditPoly_v
 	/*---------------------------------------
 		PRIVATE 
 	-----------------------------------------*/
+	/** _all faces
+	 */
+	function _allFaces =
+	(
+		all_faces	= #()
+		face_counts	= this.faceCount()
+
+		for face_count in face_counts do
+			append all_faces ( #{1..( face_count )} )
+		print ( "all_faces = " + all_faces as string )
+		all_faces --return
+	),
+
 	/** Set object
 	 */
 	function _setObjects =
 	(
-		_objects = (Selection_v()).get()
+		_selection = (Selection_v()).get()
 	),
 	/** Set current modifier
 	 */

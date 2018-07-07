@@ -1,11 +1,25 @@
 macroscript	epolyselection_getselselection_test
 category:	"_Epoly_Test"  
-buttonText:	"Get Selection"
+buttonText:	"Get\Set Selection"
 tooltip:	"Get current subobejct Selection"
 (
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
+	clearListener()
+	global sub_selection_test
+	sub_selection_test = (EpolySelection_v()).getSel subObjectLevel
 	
-	(EpolySelection_v()).getSelection subObjectLevel
+	print ( "Subobjects selected = " + sub_selection_test as string ) 
+)
+
+macroscript	epolyselection_setselselection_test
+category:	"_Epoly_Test"  
+buttonText:	"Get\Set Selection"
+tooltip:	"Set current subobejct Selection"
+(
+	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
+	clearListener()
+	
+	(EpolySelection_v()).setSel subObjectLevel sub_selection_test
 )
 
 macroscript	epoly_convert_selection_test

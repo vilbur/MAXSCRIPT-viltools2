@@ -2,19 +2,28 @@
  */
 struct EditPolyMaterial_v
 (
-	
-	/** Select material
+	EpolyMod	= EpolyMod_v(),
+
+	/** Set mat id
 	 */
-	function selectMaterial id =
+	function setMatId id =
 	(
-		
+		Epoly = EpolyMod.getEpoly()
+
+		Epoly.setMatId (Epoly.getSelectedOrAllFaces()) id 
 	),
-	/** Unselect material
-	 */
-	function unselectMaterial id =
-	(
-		
-	),
+	--/** Select material
+	-- */
+	--function selectMaterial id =
+	--(
+	--	
+	--),
+	--/** Unselect material
+	-- */
+	--function unselectMaterial id =
+	--(
+	--	
+	--),
 	
 	function test =
 	(

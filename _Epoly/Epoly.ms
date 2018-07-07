@@ -1,4 +1,6 @@
-/** Epoly is command bus class for Epoly classes
+/** Command bus for
+ *		- EditablePoly_v
+ *		- EditPoly_v
  *
  */
 struct Epoly_v
@@ -9,6 +11,7 @@ struct Epoly_v
 	EpolySmoothGroups	= EpolySmoothGroups_v(),
 	EpolyEdges	= EpolyEdges_v(),
 	EditPolyExplode	= EditPolyExplode_v(),
+	EditPolyMaterial 	= EditPolyMaterial_v(),
 
 	/*---------------------------------------
 		EXTENDS
@@ -37,6 +40,9 @@ struct Epoly_v
 	explodeByMaterialId	= EditPolyExplode.explodeByMaterialId,
 	explodeBySG	= EditPolyExplode.explodeBySG,
 	explodeByElement	= EditPolyExplode.explodeByElement,
+	
+	/*------ EditPolyMaterial ------*/
+	setMatId 	= EditPolyMaterial.setMatId,
 	
 	/** Bevel
 	 */

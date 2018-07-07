@@ -1,42 +1,43 @@
---macroscript TEST
---category:"_Material"  
---buttonText:"TEST"
+--macroscript	TEST
+--category:	"_Material"  
+--buttonText:	"TEST"
 --(
 --	clearListener()
 --	--Material = Material_v()
 --
 --	--Material.createMaterial()
 --)
-macroscript createIdMaterial
-category:"_Material"  
-buttonText:"ID Mat"
-tooltip:"Create edit multi material with different ID"  
+macroscript	createIdMaterial
+category:	"_Material"  
+buttonText:	"ID Mat"
+tooltip:	"Create edit multi material with different ID"  
 (
 	Material = Material_v()
 	selection.material = Material.getIdMaterial()
 )
 
-macroscript materialByObject
-category:"_Material"  
-buttonText:"By Object"
-tooltip:"Set different material ID for each object"
+macroscript	materialByObject
+category:	"_Material"  
+buttonText:	"By Object"
+tooltip:	"Set different material ID for each object"
 (
-	--EditPoly = EditPoly_v_old()
+	--EditPoly = Epoly_v()
 	_selection = (Selection_v()).get()
 	print ( "_selection=" + _selection.count as string )
 	
 	for i=1 to _selection.count do
-		(EditPoly_v_old obj:_selection[i]).setMatId i
+		(Epoly_v obj:_selection[i]).setMatId i
  
 	--select _selection
 	completeRedraw() 
 )
-macroscript randomMaterial
-category:"_Material"  
-buttonText:"Random"
-tooltip:"Set random material id for selection"
+
+macroscript	randomMaterial
+category:	"_Material"  
+buttonText:	"Random"
+tooltip:	"Set random material id for selection"
 (
-	--EditPoly = EditPoly_v_old()
+	--EditPoly = Epoly_v()
 	_selection = (Selection_v()).get()
 	print ( "_selection=" + _selection.count as string )
 	mat_id	= random 1 32
@@ -45,16 +46,16 @@ tooltip:"Set random material id for selection"
 	print ( "_selection=" + _selection.count as string )
 	
 	for i=1 to _selection.count do
-		(EditPoly_v_old obj:_selection[i]).setMatId mat_id
+		(Epoly_v obj:_selection[i]).setMatId mat_id
  
 	--select _selection
 	completeRedraw() 
 )
 
-macroScript SelectObjsByMaterial
-category:"_Material"  
-buttonText:"Select By Mat"
-tooltip:"Select Objects By Material"
+macroscript	SelectObjsByMaterial
+category:	"_Material"  
+buttonText:	"Select By Mat"
+tooltip:	"Select Objects By Material"
 
 (
 	-- <array>SelectObjectByMaterial - returns array of objects a material is assigned to

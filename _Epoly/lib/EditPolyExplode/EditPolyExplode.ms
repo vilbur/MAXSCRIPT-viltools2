@@ -2,7 +2,7 @@
  */
 struct EditPolyExplode_v
 (
-	obj,
+	--obj,
 	final_sel = #(),
 
 	/** Explode
@@ -10,47 +10,71 @@ struct EditPolyExplode_v
 	  * @return	selection	
 	  *
 	 */
-	function explode poly_selections =
+	function explode obj poly_selections =
 	(
-		print ( "explode() poly_selections=" + poly_selections as string )
+		print ( "EditPolyExplode_v.explode() poly_selections=" + poly_selections as string )
 		final_sel = #()
 
 		for poly_selection in poly_selections do
-			this.detach poly_selection
-			
+			this._detach obj poly_selection
+
 		--print ( "final_sel=" + final_sel as string )
 		final_sel --return
 		--append final_sel detObj
 	),
+	/** Explode each object
+	 */
+	function explodeEachObject explode_method =
+	(
+		_selection = (Selection_v()).get()
+
+		for obj in _selection do
+		(
+			case explode_method of
+			(
+				"getElements":	poly_selections = this.getElements obj
+				"_getSmoothGroups":	poly_selections = this._getSmoothGroups obj
+				"_getMaterialElements":	poly_selections = this._getMaterialElements obj
+				--"explodeByHardEdges":	poly_selections = this.explodeByHardEdges obj
+			)
+			print ( "EXPLODE = " + poly_selections as string )
+			this.explode obj poly_selections
+			
+			delete obj
+		)
+	),
 	/** Explode all elements
 	 */
 	function explodeByElement =
-	(	
-		this.explode ( this.getElements() ) --return
+	(
+		--this._setObj()
+		this.explodeEachObject "getElements" --return
+		--this.explode ( this.getElements() ) --return
 	),
 	/**  Explode all smoothgroups
 	 */
 	function explodeBySG =
 	(
-		print ( "----explodeBySG" )
-		this.explode ( _getSmoothGroups() ) --return
+		this.explodeEachObject "_getSmoothGroups" --return
+	 
+		--this.explode ( _getSmoothGroups() ) --return
 	),
-	
 	/** Explode by material id
 	 */
 	function explodeByMaterialId =
 	(
-		this.explode ( this._getMaterialElements() ) --return
+		this.explodeEachObject "_getMaterialElements" --return
+		--this.explode ( this._getMaterialElements() ) --return
 	),
 	/**  
 	 */
 	function explodeByHardEdges =
 	(
-		--print "explodeByHardEdges()"
-		this.selectHardEdges()
-
-		this.splitEdges()
-
+		--this.selectHardEdges()
+		EpolyEdges = EpolyEdges_v()
+		EpolyEdges.selectHardEdges obj
+		EpolyEdges.splitEdges()
+		
 		this.explodeByElement() --return
 
 		--#(obj)
@@ -58,28 +82,32 @@ struct EditPolyExplode_v
 	),
 	/** Get elements
 	 */
-	function getElements =
+	function getElements obj =
+	--function getElements _obj =
 	(
+		--print "getElements"
+		--print ( "this = " + this as string )
+		--print this
+		--print ( "obj = " + obj as string )
 		faces	= #{}
-		obj_faces	= this._allFaces()
-		CurObj	= polyop
-
-		getElement = CurObj.getElementsUsingFace
-
+		obj_faces	= this._allFaces obj
+		
+		getElement = polyop.getElementsUsingFace
+		
 		elements = for i in obj_faces where obj_faces[i] == true collect
 		(
 			element = getElement obj i
 			obj_faces -= element
 			element
 		)
-
+		
 		elements --return		
 	),
 
 	/** Get material elements
 	  * @return	[bitArray]	Array of faces by material
 	 */
-	function _getMaterialElements =
+	function _getMaterialElements obj =
 	(
 		all_ids	= #()
 		material_faces	= #();
@@ -96,7 +124,7 @@ struct EditPolyExplode_v
 	),
 	/** Get smooth groups
 	 */
-	function _getSmoothGroups =
+	function _getSmoothGroups obj =
 	(
 		smooth_groups = #()
 		maxops.CollapseNode obj off
@@ -120,15 +148,34 @@ struct EditPolyExplode_v
 		)
 		smooth_groups --return
 	),
-
+	/** Set obj
+	 */
+	function _setObj =
+	(
+		_selection = (Selection_v()).get()
+		
+		obj	= _selection[1]
+	), 
 
 	/** _all faces
 	 */
-	function _allFaces =
+	function _allFaces obj =
 	(
 		#{1..( polyop.getNumFaces obj)} --return
 	),
-
+	/** Detach
+	 */
+	function _detach obj poly_selection =
+	(
+		--print ( "obj = " + obj as string )
+		polyop.detachFaces obj poly_selection delete:false asNode:true name: "TempDet"
+		
+		detObj = getnodebyname "TempDet" 
+		detObj.name = (uniquename (obj.name + "_detach"))
+		detOBj.wirecolor =  color (random 0 255) (random 0 255) (random 0 255)
+		
+		append final_sel detObj
+	),
 	function test =
 	(
 		messagebox "EditPoly.test()"

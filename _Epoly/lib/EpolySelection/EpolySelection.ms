@@ -34,6 +34,7 @@ struct EpolySelection_v
 	),
 	
 	/** Get current subobejct selection
+	  * @param	name	sub_obj
 	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
 	  */
 	function getSelection sub_obj =
@@ -45,6 +46,7 @@ struct EpolySelection_v
 		print ( "sub_selection = " + sub_selection as string )
 	),
 	/** Get current subobejct selection
+	  * @param	name	sub_obj
 	  * @param	bitArray|[bitArray]	_selection	bitArray of elements to select, for Edit_Poly can be array of bitArrays for each object
 	 */
 	function setSelection sub_obj _selection =
@@ -69,6 +71,7 @@ struct EpolySelection_v
 	/* ========= GET SELECTION ========= */
 	
 	/** Get editable poly selection of subobjects
+	  * @param	name	sub_obj
 	  * @return	bitArray	
 	 */
 	function _getEditablePolySelection sub_obj =
@@ -76,6 +79,7 @@ struct EpolySelection_v
 		_mod.GetSelection sub_obj 
 	),
 	/** Get edit poly selection of subobjects 
+	  * @param	name	sub_obj
 	  * @return	[bitArray]	array of bitArrays, bitArray for each selected object
 	 */
 	function _getEditPolySelection sub_obj _selection =
@@ -86,12 +90,14 @@ struct EpolySelection_v
 	/* ========= SET SELECTION ========= */
 	
 	/** Set editable poly selection of subobjects
+	  * @param	name	sub_obj
 	 */
 	function _setEditablePolySelection sub_obj _selection =
 	(
 		_mod.SetSelection sub_obj _selection
 	),
 	/** Set edit poly selection of subobjects 
+	  * @param	name	sub_obj
 	 */
 	function _setEditPolySelection sub_obj _selection =
 	(

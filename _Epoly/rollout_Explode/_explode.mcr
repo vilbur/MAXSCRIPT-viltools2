@@ -3,8 +3,11 @@ category:	"_EditPoly-Explode"
 buttonText:	"Elements"
 toolTip:	"Explode by Elements"
 (
-	(Epoly_v()).explode "explodeByElement"
-	
+	--clearListener()
+	undo "explodeByElement" on
+	(
+		(Epoly_v()).explodeByElement()
+	)
 	--macros.run "_Material" "materialByObject"
 )
 
@@ -13,15 +16,21 @@ category:	"_EditPoly-Explode"
 buttontext:	"Material"
 toolTip:	"Explode by Material"
 (
-	(Epoly_v()).explode "explodeByMaterialId"
+	undo "explodeByMaterialId" on
+	(
+		(Epoly_v()).explodeByMaterialId()
+	)
 )
-	
+
 macroscript	explodeBySG
 category:	"_EditPoly-Explode"  
 buttonText:	"Smooth Groups"
 toolTip:	"Explode by SmoothGroups"
 (
-	(Epoly_v()).explode "explodeBySG"
+	undo "explodeBySG" on
+	(
+		(Epoly_v()).explodeBySG()
+	)
 )
 
 macroscript	explodeByHardErge
@@ -29,5 +38,8 @@ category:	"_EditPoly-Explode"
 buttontext:	"HARD edges"
 toolTip:	"Explode by  HARD edges"
 (
-	(Epoly_v()).explode "explodeByHardEdges"
+	undo "explodeByHardEdges" on
+	(
+		(Epoly_v()).explodeByHardEdges()
+	)
 )

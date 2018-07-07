@@ -26,9 +26,12 @@ tooltip:	"Set different material ID for each object"
 	print ( "_selection=" + _selection.count as string )
 	
 	for i=1 to _selection.count do
-		(Epoly_v obj:_selection[i]).setMatId i
+	(
+		select _selection[i]
+		(Epoly_v()).setMatIdToObject i
+	)
  
-	--select _selection
+	select _selection
 	completeRedraw() 
 )
 
@@ -42,13 +45,14 @@ tooltip:	"Set random material id for selection"
 	print ( "_selection=" + _selection.count as string )
 	mat_id	= random 1 32
 	
-	_selection = (Selection_v()).get()
-	print ( "_selection=" + _selection.count as string )
-	
 	for i=1 to _selection.count do
-		(Epoly_v obj:_selection[i]).setMatId mat_id
+	(
+		select _selection[i]
+		(Epoly_v()).setMatId mat_id
+	)
  
-	--select _selection
+	select _selection
+
 	completeRedraw() 
 )
 

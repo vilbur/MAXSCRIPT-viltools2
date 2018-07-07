@@ -43,6 +43,7 @@ struct Epoly_v
 	
 	/*------ EditPolyMaterial ------*/
 	setMatId 	= EditPolyMaterial.setMatId,
+	setMatIdToObject 	= EditPolyMaterial.setMatIdToObject,
 	
 	/** Bevel
 	 */

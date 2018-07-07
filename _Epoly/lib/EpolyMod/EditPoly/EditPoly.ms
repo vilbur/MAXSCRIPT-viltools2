@@ -81,8 +81,9 @@ struct EditPoly_v
 	(
 		--messageBox "setMatId" beep:false
 		(EpolySelection_v()).setSel #Face facelist
+		subObjectLevel = 4
 		mod.SetOperation #SetMaterial
-		mod.materialIDToSet = id
+		mod.materialIDToSet = (id - 1)
 	),
 	/*---------------------------------------
 		SMOOTH GROUPS

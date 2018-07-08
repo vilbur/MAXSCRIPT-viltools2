@@ -60,7 +60,7 @@ struct HudItem_v
 	 */
 	function show text =
 	(
-		print ( "HudItem_v.show() " + text as string )
+		--print ( "HudItem_v.show() " + text as string )
 		cmd  = "global "+id
 		cmd += "\n unregisterRedrawViewsCallback "+id
 		cmd += "\n fn "+id+" ="
@@ -78,8 +78,8 @@ struct HudItem_v
 	 */
 	function hide =
 	(
-		print ( "hide() = " + id as string )
-		print ("unregisterRedrawViewsCallback "+id)
+		--print ( "hide() = " + id as string )
+		--print ("unregisterRedrawViewsCallback "+id)
 		execute ("unregisterRedrawViewsCallback "+id)
 		--unregisterRedrawViewsCallback id
 		--unregisterRedrawViewsCallback Info_ignoreBackfacing
@@ -90,7 +90,7 @@ struct HudItem_v
 	 */
 	function update =
 	(
-		print ( "UPDATE = " + this as string )
+		--print ( "UPDATE = " + this as string )
 		if( state==true ) then
 			this.show text
 		else

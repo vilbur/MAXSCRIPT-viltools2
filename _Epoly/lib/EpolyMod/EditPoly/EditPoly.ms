@@ -14,7 +14,7 @@ struct EditPoly_v
 		this._setObjects()
 		this._setMod()
 
-		true --return
+		this --return
 	),
 	/** Get facelist or all faces
 	 */
@@ -26,6 +26,12 @@ struct EditPoly_v
 			this._allFaces() --return
 		else
 			_selection_sub --return
+	),
+	/** Quickslice
+	 */
+	function quickslice =
+	(
+		mod.EnterCommandMode #QuickSlice 
 	),
 	/** Connect subobject
 	 */

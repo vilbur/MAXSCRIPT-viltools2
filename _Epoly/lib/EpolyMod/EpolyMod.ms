@@ -3,8 +3,8 @@
  */
 struct EpolyMod_v
 (
-	EditablePoly	= EditablePoly_v(),
-	EditPoly	= EditPoly_v(),
+	--EditablePoly	= EditablePoly_v(),
+	--EditPoly	= EditPoly_v(),
 
 	Epoly,	-- store EditablePoly_v or EditPoly_v
 	
@@ -12,18 +12,33 @@ struct EpolyMod_v
 	 */
 	function getEpoly =
 	(
-		if( this.isEditablePoly() ) then
-			EditablePoly --return
-			
-		else if( this.isEditPoly() ) then
-			EditPoly --return
+		this._setEpoly()
+		--if( this.isEditablePoly() ) then
+			--EditablePoly --return
+--			
+		--else if( this.isEditPoly() ) then
+			--EditPoly --return
+			print ( "=============== getEpoly " + Epoly as string )
+		Epoly --return
+	),
+	/** Set EditablePoly_v or EditPoly_v to Epoly property
+	 */
+	function _setEpoly =
+	(
+		
+		if( this.isEditablePoly()==false ) then
+			this._initSubClass Edit_Poly
+		--	
+		--else if( this.isEditPoly() ) then
+		--	EditPoly --return
 	),
 	/** Get Editable_Poly or Edit_Poly modifier from EditablePoly_v & EditPoly_v 
 	 */
 	function mod =
 	(
-		Epoly = this.getEpoly()
-		
+		this._setEpoly()
+		--Epoly = this.getEpoly()
+		--print ( "Epoly = " + Epoly as string )
 		if( Epoly != undefined ) then
 			Epoly.mod --return
 	),
@@ -31,13 +46,28 @@ struct EpolyMod_v
 	 */
 	function isEditablePoly =
 	(
-		this._initSubClass Editable_Poly --return
+		if( Epoly == undefined ) then
+			this._initSubClass Editable_Poly --return
+		--else
+		this._isType Editable_Poly --return
 	),
 	/** Test if current modifier is edit poly
 	 */
 	function isEditPoly =
 	(
-		this._initSubClass Edit_Poly --return
+		if( Epoly == undefined ) then
+			this._initSubClass Edit_Poly --return
+			
+		this._isType Edit_Poly --return
+	),
+	/** _is type
+	 */
+	function _isType _type =
+	(
+		if( Epoly != undefined ) then
+			classOf Epoly.mod == _type --return
+		else
+			false --return
 	),
 	/** Init EditPoly_v or EditablePoly_v
 	 * @param	Editable_Poly|Edit_Poly	epoly_type
@@ -49,11 +79,19 @@ struct EpolyMod_v
 		
 		if( epoly_type == classof ( modPanel.getCurrentObject()) ) then
 		(
-			if( epoly_type == Editable_Poly ) then
-				EditablePoly.init() --return
+			--if( epoly_type == Editable_Poly ) then
+				--Epoly = (EditablePoly_v()).init() --return
+				--Epoly = EditablePoly.init() --return
 				
-			else if( epoly_type == Edit_Poly ) then
-				EditPoly.init() --return
+			--else if( epoly_type == Edit_Poly ) then
+				--Epoly = (EditPoly_v()).init() --return
+				--Epoly = EditPoly.init() --return
+				
+			Epoly = if( epoly_type == Editable_Poly ) then
+						(EditablePoly_v()).init()
+					else if( epoly_type == Edit_Poly ) then
+						(EditPoly_v()).init()
+						
 		)
 		else
 			false --return

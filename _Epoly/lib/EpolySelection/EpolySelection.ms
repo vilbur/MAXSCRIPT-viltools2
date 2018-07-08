@@ -4,7 +4,7 @@
  */
 struct EpolySelection_v
 (
-	--EpolyMod	= EpolyMod_v(),
+	EpolyMod	= EpolyMod_v(),
 
 	_objects,
 	_mod,
@@ -35,7 +35,23 @@ struct EpolySelection_v
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
-	
+	/** Get selected or all faces
+	 */
+	function getSelectedOrAllFaces =
+	(
+		this._init()
+
+		--_selection = (EpolyMod.getEpoly()).getSelectedOrAllFaces()
+		--print ( "_selection = " + _selection as string )
+		--_selection --return
+		(EpolyMod.getEpoly()).getSelectedOrAllFaces() --return
+	),
+	/** All faces
+	 */
+	function allFaces =
+	(
+		(EpolyMod.getEpoly())._allFaces() --return
+	),
 	/** Get current subobejct selection
 	  * @param	name	sub_obj
 	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
@@ -56,6 +72,7 @@ struct EpolySelection_v
 	function setSel sub_obj _selection =
 	(		
 		this._init()
+		print ( "setSel = " + _selection as string )
 		
 		if( classOf _mod == Editable_Poly ) then this._setEditablePolySelection sub_obj _selection else this._setEditPolySelection sub_obj _selection
 	),
@@ -130,9 +147,10 @@ struct EpolySelection_v
 	 */
 	function _setMod =
 	(
-		max modify mode
+		--max modify mode
 		
-		_mod = modPanel.getCurrentObject()
+		--_mod = modPanel.getCurrentObject()
+		_mod = EpolyMod.mod()
 	),
 
 	function test =

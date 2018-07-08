@@ -15,7 +15,7 @@ struct EditablePoly_v
 			this._setObj()
 			this._setMod()
 		)
-		true --return
+		this --return
 	),
 	/** Get facelist or all faces
 	 */
@@ -27,6 +27,12 @@ struct EditablePoly_v
 			this._allFaces() --return
 		else
 			_selection --return
+	),
+	/** Quickslice
+	 */
+	function quickslice =
+	(
+		mod.toggleCommandMode  #QuickSlice 
 	),
 	/** Connect subobject
 	 */
@@ -137,7 +143,7 @@ struct EditablePoly_v
 	 */
 	function _allFaces =
 	(
-		#{1..( this.faceCount() )} --return
+		#{ 1..( this.faceCount() ) } --return
 	),
 	
 	/** _set obj

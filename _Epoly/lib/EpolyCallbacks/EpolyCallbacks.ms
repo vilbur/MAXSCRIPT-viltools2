@@ -46,9 +46,7 @@ function onSelectionChangengeCallback =
 		Epoly	= Epoly_v()
 		--_Hud 	= (Hud_v()).instance "ViewportTexTest" 
 
-		print ("\n\n====== onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
-		
-
+		--print ("\n\n====== onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
 		_Hud.box (Epoly.getEpolyInfo())
 		
 		_Hud.update()

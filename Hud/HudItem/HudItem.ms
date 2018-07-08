@@ -34,7 +34,7 @@ struct HudItem_v
 	function setState _state =
 	(
 		state =  _state == true or _state == 1
-		print ( "setState = " + state as string )
+		--print ( "setState = " + state as string )
 	),
 	/** Set props
 	 */

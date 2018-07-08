@@ -74,4 +74,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Pivot/Pivot.ms" )
 --------------------------------------------------------------------------------*/
 filein ( getFilenamePath(getSourceFileName()) + "/_Objects/Objects.ms" )
 
-
+/*---------------------------------------
+	GIZMO
+-----------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_Gizmo/Gizmo.ms" )

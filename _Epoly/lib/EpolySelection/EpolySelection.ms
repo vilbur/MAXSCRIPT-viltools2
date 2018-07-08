@@ -31,7 +31,6 @@ struct EpolySelection_v
 
 		if( subObjectLevel > 0 ) then
 			_mod.convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
-			--(EpolyMod.mod()).convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
@@ -41,9 +40,6 @@ struct EpolySelection_v
 	(
 		this._init()
 
-		--_selection = (EpolyMod.getEpoly()).getSelectedOrAllFaces()
-		--print ( "_selection = " + _selection as string )
-		--_selection --return
 		(EpolyMod.getEpoly()).getSelectedOrAllFaces() --return
 	),
 	/** All faces

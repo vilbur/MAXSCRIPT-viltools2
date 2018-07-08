@@ -74,6 +74,30 @@ struct Objects_v
 		gw.updateScreen()
 	),
 	
+	/**  
+	 *	
+	 */
+	fn copy =
+	(
+		if $ != undefined then
+		(
+			scene_dir	= (GetDir #temp) as string
+			
+			deleteFile ( scene_dir + "\copy_paste_buffer_backup.max")
+			
+			renameFile ( scene_dir + "\copy_paste_buffer.max") ( scene_dir + "\copy_paste_buffer_backup.max")
+				
+			saveNodes $ ( scene_dir + "\copy_paste_buffer.max")
+		)
+	),
+	/**  
+	 *	
+	 */
+	fn paste =
+	(
+		mergeMaxFile (((GetDir #temp) as string ) + "\copy_paste_buffer.max") #mergeDups #select
+	),
+
 	function test =
 	(
 		messagebox "Objects.test()"

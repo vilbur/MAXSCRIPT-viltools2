@@ -41,7 +41,7 @@ struct Hud_v
 	 */
 	function update =
 	(
-		print "HudItem_v.update()"
+		--print "HudItem_v.update()"
 		for i=1 to items.keys.count do
 			items.values[i].update()
 	),

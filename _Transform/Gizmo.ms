@@ -3,53 +3,20 @@
 struct Gizmo_v
 (
 	
-	/** Activate axis
+	/** Circle axis modes axises in array
+	  * @param	#( #x, #y, #z, #xy, #zx, #yz )	axises	 
 	 */
-	function activateAxis axis =
+	function circle axises  =
 	(
-		toolmode.axisConstraints = axis
-		global saved_axis = axis
-	),
-	/** Circle
-	 */
-	function circle mode axis =
-	(
-		--axis	= "x"	
-		--mode	= #single
+		
 		active_axis	= toolMode.axisConstraints
-	
-	-- 	if active_axis != #z  and active_axis != #xy  and active_axis != #yz and active_axis != #zx then (global saved_axis = active_axis) else (global saved_axis = #x) 
-	
-		case mode of				
-		(
-			#single:(
-				case axis of
-				(
-					#x: if (active_axis ==  #x) then
-							this.activateAxis #y
-						else 
-							this.activateAxis #x
-						
-					#z: if active_axis !=  #z then
-							this.activateAxis #z
-						else 
-						(
-							this.activateAxis saved_axis
-							--if saved_axis = #x then global wTC4 = red else global wTC4 = Green
-						)
-				)
-			)
-			#double:(
-				if (toolmode.axisConstraints == #xy) then 
-				toolmode.axisConstraints = #zx
-				
-				else if (toolmode.axisConstraints == #zx) then
-				toolmode.axisConstraints = #yz
-				else
-				toolmode.axisConstraints = #xy
-			)		
-						
-		)
+		
+		next_index	= (findItem axises active_axis) + 1
+		
+		next_axis = if( next_index<=axises.count ) then axises[next_index] else axises[1]
+		
+		toolMode.axisConstraints = next_axis
+
 	),
 	
 	/*------------------------------------------------------------------------------

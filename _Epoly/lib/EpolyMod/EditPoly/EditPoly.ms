@@ -131,7 +131,7 @@ struct EditPoly_v
 
 		for face_count in face_counts do
 			append all_faces ( #{1..( face_count )} )
-		print ( "all_faces = " + all_faces as string )
+		--print ( "all_faces = " + all_faces as string )
 		all_faces --return
 	),
 

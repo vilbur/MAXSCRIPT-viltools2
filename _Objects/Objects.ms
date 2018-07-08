@@ -81,13 +81,13 @@ struct Objects_v
 	(
 		if $ != undefined then
 		(
-			scene_dir	= (GetDir #temp) as string
+			temp_dir	= (GetDir #temp) as string
 			
-			deleteFile ( scene_dir + "\copy_paste_buffer_backup.max")
+			deleteFile ( temp_dir + "\copy_paste_buffer_backup.max")
 			
-			renameFile ( scene_dir + "\copy_paste_buffer.max") ( scene_dir + "\copy_paste_buffer_backup.max")
+			renameFile ( temp_dir + "\copy_paste_buffer.max") ( temp_dir + "\copy_paste_buffer_backup.max")
 				
-			saveNodes $ ( scene_dir + "\copy_paste_buffer.max")
+			saveNodes $ ( temp_dir + "\copy_paste_buffer.max")
 		)
 	),
 	/**  

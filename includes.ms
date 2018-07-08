@@ -77,4 +77,5 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Objects/Objects.ms" )
 /*---------------------------------------
 	GIZMO
 -----------------------------------------*/
-filein ( getFilenamePath(getSourceFileName()) + "/_Gizmo/Gizmo.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Transform/Gizmo.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Transform//CoordMode/CoordMode.ms" )

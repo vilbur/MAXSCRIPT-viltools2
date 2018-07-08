@@ -3,52 +3,59 @@
 struct ViewportText_v
 (
 	id,
-	--text,
-	color	= yellow,
-	position	= [40, 40, 0],
-	
+	items,
+	--color	= yellow,
+	position	= [0, 0, 0],
+
 	/** Instance
 	 */
 	function instance _id =
 	(
 		this.setId _id
-		
-		if( global_vievporttext == undefined ) then
-			execute ( "global global_vievporttext = " + List_v() as string ) --return
-		
+
 		_instance = 	global_vievporttext.getVal _id
-		
+
 		if( _instance == undefined ) then
 		(
-			_instance = 	this
-			global_vievporttext.setVal _id _instance
+			global_vievporttext.setVal _id this
+			_instance = global_vievporttext.getVal _id
 		)
+
 		_instance --return 
 	),
-	/** Show
+	/** Box
 	 */
-	function show text =
+	function box _items =
 	(
-		cmd  = "global "+id
-		cmd += "\n unregisterRedrawViewsCallback "+id
-		cmd += "\n fn "+id+" ="
-		cmd += "\n ("
-		cmd += "\n 		gw.htext "+this._getPosition()+" \""+text+"\" color:"+color as string
-		cmd += "\n 		gw.updateScreen()"
-		cmd += "\n )"
-		cmd += "\n registerRedrawViewsCallback "+id
+		--items	= _items
+		if( items == undefined ) then
+			items	= List_v()
 
-		execute cmd 
+		for i=1 to _items.count do
+		(
+			item	= _items[i]
+			_item = items.getVal item[1]
+
+			if( _item == undefined ) then
+				_item = items.setVal item[1] (ViewportTextItem_v id:item[1])
+
+			_item.text	= item[1]
+			_item.position 	= [40, i*20, 0]
+
+			_item.setState item[2]
+		)
+		print ( "items = " + items as string )
 	),
-	
-	/** Hide
+
+	/** Update
 	 */
-	function hide =
+	function update =
 	(
-		execute (" unregisterRedrawViewsCallback "+id)
+		print "ViewportTextItem_v.update()"
+		for i=1 to items.keys.count do
+			items.values[i].update()
 	),
-	
-	
+
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
@@ -58,16 +65,17 @@ struct ViewportText_v
 	(
 		id = "gw_"+_id
 	),
+
 	/** _get position
 	 */
 	function _getPosition =
 	(
 		position as string --return
 	),
-	
+
 	function test =
 	(
 		messagebox "ViewportText.test()"
 	)
-	
+
 )

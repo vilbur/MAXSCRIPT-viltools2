@@ -2,12 +2,20 @@
 /*------------------------------------------------------------------------------
 	AUTOLOADER
 --------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/../Library/_UI/Lib/List/List.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/MacroAutoLoader/MacroAutoLoader.ms" )
-
 /*------------------------------------------------------------------------------
 	VIEWPORTEXT
 --------------------------------------------------------------------------------*/
-filein ( getFilenamePath(getSourceFileName()) + "/ViewPortText/ViewportText.ms" )
+
+if( global_vievporttext == undefined ) then
+(
+	global global_vievporttext
+	global_vievporttext = List_v()
+	--messageBox "INCLUDE"
+	filein ( getFilenamePath(getSourceFileName()) + "/ViewPortText/ViewportTextItem/ViewportTextItem.ms" )
+	filein ( getFilenamePath(getSourceFileName()) + "/ViewPortText/ViewportText.ms" )
+)
 
 /*------------------------------------------------------------------------------
 	SELECTION 

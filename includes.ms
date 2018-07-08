@@ -14,8 +14,8 @@ if( global_vievporttext == undefined ) then
 	global_vievporttext = List_v()
 	--messageBox "INCLUDE"
 )
-	filein ( getFilenamePath(getSourceFileName()) + "/ViewPortText/ViewportTextItem/ViewportTextItem.ms" )
-	filein ( getFilenamePath(getSourceFileName()) + "/ViewPortText/ViewportText.ms" )
+	filein ( getFilenamePath(getSourceFileName()) + "/Hud/HudItem/HudItem.ms" )
+	filein ( getFilenamePath(getSourceFileName()) + "/Hud/Hud.ms" )
 
 /*------------------------------------------------------------------------------
 	SELECTION 

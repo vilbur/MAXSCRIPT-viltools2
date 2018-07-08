@@ -1,6 +1,6 @@
 /** Manage text in viewport
  */
-struct ViewportTextItem_v
+struct HudItem_v
 (
 	id,
 	text,
@@ -60,7 +60,7 @@ struct ViewportTextItem_v
 	 */
 	function show text =
 	(
-		print ( "ViewportTextItem_v.show() " + text as string )
+		print ( "HudItem_v.show() " + text as string )
 		cmd  = "global "+id
 		cmd += "\n unregisterRedrawViewsCallback "+id
 		cmd += "\n fn "+id+" ="
@@ -115,7 +115,7 @@ struct ViewportTextItem_v
 	
 	function test =
 	(
-		messagebox "ViewportText.test()"
+		messagebox "Hud.test()"
 	)
 	
 )

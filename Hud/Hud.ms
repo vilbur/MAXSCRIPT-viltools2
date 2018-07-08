@@ -1,6 +1,6 @@
 /** Manage text in viewport
  */
-struct ViewportText_v
+struct Hud_v
 (
 	id,
 	items,
@@ -41,9 +41,17 @@ struct ViewportText_v
 	 */
 	function update =
 	(
-		print "ViewportTextItem_v.update()"
+		print "HudItem_v.update()"
 		for i=1 to items.keys.count do
 			items.values[i].update()
+	),
+	/** Hide
+	 */
+	function hide =
+	(
+		if( items != undefined ) then
+			for i=1 to items.keys.count do
+				items.values[i].hide()
 	),
 
 	/*------------------------------------------------------------------------------
@@ -81,7 +89,7 @@ struct ViewportText_v
 		item = items.getVal _id
 
 		if( item == undefined ) then
-			item = items.setVal _id (ViewportTextItem_v id:_id)
+			item = items.setVal _id (HudItem_v id:_id)
 
 		item --return	
 	),
@@ -110,7 +118,7 @@ struct ViewportText_v
 
 	function test =
 	(
-		messagebox "ViewportText.test()"
+		messagebox "Hud.test()"
 	)
 
 )

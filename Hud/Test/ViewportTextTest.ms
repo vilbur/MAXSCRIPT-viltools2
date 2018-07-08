@@ -3,15 +3,15 @@ clearListener()
 
 /** Declare just once, otherwise hide() doesn't work 
  */
-function declareViewportText =
+function declareHud =
 (
-	if( _ViewportText==undefined ) then
+	if( _Hud==undefined ) then
 	(
 		filein ( getFilenamePath(getSourceFileName()) + "/../../includes.ms" )
 		
-		global _ViewportText
+		global _Hud
 		
-		_ViewportText = ViewportText_v id: "ViewportTexTest"
+		_Hud = Hud_v id: "Hudest"
 	)
 )
 
@@ -20,14 +20,14 @@ function declareViewportText =
  */
 function showTextTest =
 (
-	_ViewportText.show "Lorem ipsum"
+	_Hud.show "Lorem ipsum"
 )
 
 /** Hide text test
  */
 function hideTextTest =
 (
-	_ViewportText.hide() 
+	_Hud.hide() 
 )
 
 
@@ -35,7 +35,7 @@ function hideTextTest =
 	RUN TESTS
 -----------------------------------------*/
 
-declareViewportText()
+declareHud()
 --showTextTest()
 hideTextTest()
  

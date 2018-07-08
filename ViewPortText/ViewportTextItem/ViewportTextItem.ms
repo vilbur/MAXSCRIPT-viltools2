@@ -36,6 +36,26 @@ struct ViewportTextItem_v
 		state =  _state == true or _state == 1
 		print ( "setState = " + state as string )
 	),
+	/** Set props
+	 */
+	function setProps props =
+	(
+		
+	),
+	/** Set prop of viewport text
+	  * @param	#(key, value)	key_value
+	  *
+	  */
+	function setProp key_value =
+	(
+		--key	= key_value[1]
+		
+		if( hasProperty this key_value[1] ) then
+			setProperty  this key_value[1] key_value[2]
+			
+		--print ( "setProp = " + key_value as string )
+	),
+	
 	/** Show
 	 */
 	function show text =
@@ -70,6 +90,7 @@ struct ViewportTextItem_v
 	 */
 	function update =
 	(
+		print ( "UPDATE = " + this as string )
 		if( state==true ) then
 			this.show text
 		else

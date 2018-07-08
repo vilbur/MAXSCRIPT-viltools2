@@ -5,7 +5,8 @@ struct ViewportText_v
 	id,
 	items,
 	--color	= yellow,
-	position	= [0, 0, 0],
+	--position	= [0, 0, 0],
+	position	= #(#center, #top, 0),
 
 	/** Instance
 	 */
@@ -32,19 +33,8 @@ struct ViewportText_v
 			items	= List_v()
 
 		for i=1 to _items.count do
-		(
-			item	= _items[i]
-			_item = items.getVal item[1]
-
-			if( _item == undefined ) then
-				_item = items.setVal item[1] (ViewportTextItem_v id:item[1])
-
-			_item.text	= item[1]
-			_item.position 	= [40, i*20, 0]
-
-			_item.setState item[2]
-		)
-		print ( "items = " + items as string )
+			this._setItem _items[i] i
+		--print ( "items = " + items as string )
 	),
 
 	/** Update
@@ -65,7 +55,52 @@ struct ViewportText_v
 	(
 		id = "gw_"+_id
 	),
+	/** _set _item
+	 */
+	function _setItem _item i =
+	(
+		item = this._getItem _item[1]
 
+		item	= this._setStateValue item _item[2]
+
+		item.position 	= [gw.getWinSizeX()/2 , gw.getWinSizeY() - (i*20) - 40 , 0]
+		--item.position 	= [ gw.getWinSizeX()/2, (i*20) + 40 , 0]
+		--item.position 	= [ 0, (i*20) + 40 , 0]
+
+
+		--item.setProp ( filterString _item[3]  )
+		item.color = _item[3]
+		
+		items.setVal _item[1] item
+
+	),
+	/** _get item
+	 */
+	function _getItem _id =
+	(
+		item = items.getVal _id
+
+		if( item == undefined ) then
+			item = items.setVal _id (ViewportTextItem_v id:_id)
+
+		item --return	
+	),
+	/** _set state value
+	 */
+	function _setStateValue item state_value =
+	(
+		if( classOf state_value == BooleanClass ) then
+			item.state = state_value
+		else
+		(
+			item.state = true
+			item.text = state_value
+		)
+			--item.state = true
+			--item.text = state_value as string
+		
+		item --return
+	),
 	/** _get position
 	 */
 	function _getPosition =

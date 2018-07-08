@@ -46,49 +46,12 @@ function onSelectionChangengeCallback =
 
 		print ("\n\n====== onSelectionChangengeCallback " + modPanel.getCurrentObject() as string )
 		
-		epoly_infos = #(
-			#("Info_ignoreBackfacing",	((Epoly_v()).ignoreBackfacing state:#get),	"color:green" ),
-			#("Info_constrain",	((Epoly_v()).constrain state:#get),	"color:orange" )			   
-		)
-		
 		_ViewportText = (ViewportText_v()).instance "epoly_info"
-		
-		--_ViewportText.test()
-		_ViewportText.box epoly_infos
+
+		_ViewportText.box (Epoly.getEpolyInfo())
 		
 		_ViewportText.update()
-		
-		--print ( "epoly_infos = " + epoly_infos as string )
-		--for epoly_info in epoly_infos do
-		--	(
-		--		_ViewportText 	= (ViewportText_v()).instance epoly_info[1]
-		--		
-		--		
-		--		if( epoly_info[2] == true or epoly_info[2] == 1 ) then
-		--			_ViewportText.show epoly_info[1]	
-		--		else
-		--			_ViewportText.hide()
-		--		
-		--
-		--	)
-			
-		
-		
-		
-		--print ( "ignoreBackfacing " + ((Epoly_v()).ignoreBackfacing state:#get) as string  )
-		--print ( "constrain " + ((Epoly_v()).constrain state:#get) as string  )
-		--print ( "preserveUvs " + ((Epoly_v()).preserveUvs state:#get) as string  )
-		
-		--if(Epoly.ignoreBackfacing state:#get == true ) then
-		--	_ViewportText.show "Backfacing"
-		--
-		--else			
-		--	_ViewportText.hide()
-		
-		--print ( "ignoreBackfacing " +	Epoly.ignoreBackfacing state:#get as string  )
-		--print ( "constrain " +	Epoly.constrain state:#get as string  )
-		--print ( "preserveUvs " +	Epoly.preserveUvs state:#get as string  )			
-		
+	
 	)
 	
 	

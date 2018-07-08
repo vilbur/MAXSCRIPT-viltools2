@@ -45,6 +45,32 @@ struct Epoly_v
 	setMatId 	= EditPolyMaterial.setMatId,
 	setMatIdToObject 	= EditPolyMaterial.setMatIdToObject,
 	
+	/** Get epoly info
+	 */
+	function getEpolyInfo =
+	(
+		backafing	= this.ignoreBackfacing	state:#get
+		constrain	= this.constrain	state:#get get:#name
+		preserveuv	= this.preserveUvs	state:#get
+		by_angle	= this.selectByAngle	state:#get
+		
+		epoly_infos = #(
+			#("Info_ignoreBackfacing", (if(backafing==true)then "BACKFACING" else backafing),                    ( color 114 255 0) ),
+			#("Info_constrain",        (if(constrain!=false)then ( "      "+( toUpper (constrain as string ))+"      ") else false), ( color 255 120 0) ),
+			#("Info_preserveuv",       (if(preserveuv==true)then "        UV        " else preserveuv),                          ( color 255 0 0) ),
+			#("Info_by_angle",         (if(by_angle[1]==true)then "   ANGLE   " +by_angle[2] as string else false), ( color 255 235 0) )
+		)
+		
+		for epoly_info in epoly_infos where classOf  epoly_info[2] == String do
+			epoly_info[2] = "■■■   "+epoly_info[2]+"   ■■■"
+			--epoly_info[2] = "______"+epoly_info[2]+"______"
+		
+		
+			
+		print ( "epoly_infos = " + epoly_infos as string )
+		epoly_infos --return
+	), 
+	
 	/** Bevel
 	 */
 	function bevel =

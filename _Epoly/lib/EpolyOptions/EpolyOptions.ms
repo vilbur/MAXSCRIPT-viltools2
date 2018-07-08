@@ -13,10 +13,23 @@ struct EpolyOptions_v
 	),
 	/** Set constrain type
 	  * @param	integer	state	0-None|1-Edge|2-Face|3-Normal
+	  * @param	mixed	get	If not undefined, then return state as name E.G.: #Face
+	  * @return	integer|name
 	 */
-	function constrain state:undefined =
+	function constrain state:undefined get:undefined =
 	(
-		this._toggleState "constrainType" state:state --return
+		current_state = this._toggleState "constrainType" state:state
+		
+		if( get != undefined ) then
+			case current_state of
+			(
+				0:	false	--return
+				1:	#Edge	--return	
+				2:	#Face	--return	
+				3:	#Normal	--return	
+			)
+		else
+			current_state --return	
 	),
 	/** Preserve UVs
 	  * @param	boolean|undefined|#get	state	1) Toggle state if undefined 2) Get current state if #get 3) Set state if boolean
@@ -31,11 +44,12 @@ struct EpolyOptions_v
 	function selectByAngle state:undefined angle:45 =
 	(
 		--mod.selectAngle = angle
-		--mod	= this._mod()
 		
-		this._toggleState "SelectByAngle" state:state --return
+		current_state = this._toggleState "SelectByAngle" state:state
 		
-		--#( state, angle) --return
+		
+		
+		#( current_state, angle ) --return
 	),
 	/*---------------------------------------
 		PRIVATE

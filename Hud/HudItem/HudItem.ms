@@ -29,6 +29,13 @@ struct HudItem_v
 	--	else
 	--	_instance --return 
 	--),
+	/** Timer
+	 */
+	function timer =
+	(
+		
+	),
+	
 	/** Set state
 	 */
 	function setState _state =
@@ -36,6 +43,7 @@ struct HudItem_v
 		state =  _state == true or _state == 1
 		--print ( "setState = " + state as string )
 	),
+	
 	/** Set props
 	 */
 	function setProps props =

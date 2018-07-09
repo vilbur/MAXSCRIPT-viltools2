@@ -52,6 +52,7 @@ struct Epoly_v
 	
 	/*------ EpolyEdit ------*/
 	quickslice 	= EpolyEdit.quickslice,
+	extrude 	= EpolyEdit.extrude,
 
 	
 	
@@ -75,7 +76,7 @@ struct Epoly_v
 		for epoly_info in epoly_infos where classOf  epoly_info[2] == String do
 			epoly_info[2] = "■■■   "+epoly_info[2]+"   ■■■"
 			
-		print ( "epoly_infos = " + epoly_infos as string )
+		--print ( "epoly_infos = " + epoly_infos as string )
 		epoly_infos --return
 	), 
 	
@@ -85,12 +86,7 @@ struct Epoly_v
 	(
 		messagebox "Epoly_v.bevel()" 	
 	),
-	/** Extrude
-	 */
-	function extrude =
-	(
-		messagebox "Epoly_v.extrude()" 	
-	),
+
 	/** Connect subobject
 	 */
 	function connect =
@@ -122,6 +118,132 @@ struct Epoly_v
 	--(
 	--	#{1..( polyop.getNumFaces selection[1] )} --return
 	--),
+	function hideObj mode subObj layer =
+	(
+	/*	
+	mode= "Selected"  		
+	mode= "UnSelected"
+	mode= "UnHide"   
+	
+	layer=0
+		
+	subObj=0
+	subObj=1
+	
+	------ OBJECT LEVEL	
+	Hide_v "Selected" 0 0
+	Hide_v "UnSelected" 0 0
+	Hide_v "UnHide" 0 0
+		
+	------ SUBOBJECT LEVEL	
+	Hide_v "Selected" 1 0
+	Hide_v "UnSelected" 1 0
+	Hide_v "UnHide" 1 0
+	*/	
+		undo "Hide Unhide" on 
+		(
+			selSubObj = #{}
+			selInv = #{}
+			--	local LayersOn = #()
+			sel = #()
+			AllObjects = #()
+	
+	-- 		invertSel = #()
+	
+			sel = for o in selection collect o
+			AllObjects = for o in objects where o.layer.on collect o
+						
+	-- 		invertSel = for o in objects where (finditem sel o == 0) collect  o
+			curObj = modPanel.GetCurrentObject ()
+	
+			if subobjectLevel != 0 do
+			(
+				if  subobjectLevel == 1 then
+				(
+					var1 = #Vertex
+					var2 = #HideVertex
+					var3 = #UnhideAllVertex
+					var4 = #HideUnselectedVertex
+				)
+				else			
+				(
+					var1 = #Face
+					var2 = #HideFace 
+					var3 = #UnhideAllFace
+					var4 = #HideUnselectedFace
+				)	
+							
+				
+				case of
+				(
+					(classof curObj == Editable_Poly): (
+													selSubObj = if subobjectlevel == 1 then (polyOp.getVertSelection curObj) else  (polyOp.getFaceSelection curObj) 
+													selInv = -(selSubObj)										
+													)
+					(classof curObj == Edit_Poly    ): (
+													selSubObj = (curObj.getSelection var1) 
+													selInv = -(selSubObj) 
+													)
+				)	
+			)
+			--------------------------	OBJECT HIDE UNHIDE	 ---------------------------
+			if  subObj == 0 or ((selSubObj as array).count == 0 and  mode!= "UnHide" ) then
+			(
+				--mode = "UnSelected"
+				--		o=$
+				--		o=sel[1]
+				--		o=invertSel[1]
+					case layer == 0 of
+					(
+						(mode== "Selected"  ):(hide sel; clearSelection())			
+						(mode== "UnSelected"): for o in AllObjects where finditem sel o == 0 and not o.isHidden do hide o
+						(mode== "UnHide"    ): for o in AllObjects where o.isHidden do unhide o	
+					)
+			)	
+			--------------------------	SUBOBJECT HIDE UNHIDE ---------------------------
+			else if  subObj == 1   or  mode == "UnHide" then
+			(		
+		--				curObj = modPanel.GetCurrentObject () 
+				if classof curObj == Editable_Poly then
+				(
+					case layer == 0 of
+					(
+						(mode== "Selected"  ):(curObj.Hide var1; curObj.setSelection var1 #{})
+						(mode== "UnSelected"):(curObj.setSelection var1 selInv; curObj.Hide var1; curObj.setSelection var1 selSubObj )
+						(mode== "UnHide"    ): curObj.unhideAll var1
+					)
+				)
+				else if classof curObj == Edit_Poly then
+				(
+					case layer == 0 of
+					(
+						(mode== "Selected"  ):(curObj.ButtonOp var2; curObj.setSelection var1 #{})
+						(mode== "UnSelected"):(curObj.ButtonOp var4; curObj.setSelection var1 selSubObj )
+						(mode== "UnHide"    ): curObj.ButtonOp var3
+					)
+				)
+			)
+		
+		)
+	
+	),
+		/*
+		----All layers off
+			
+		for i=0 to LayerManager.count where i< LayerManager.count do
+		(
+			ilayer = layerManager.getLayer i
+			ilayer.on = false
+			i+=0
+		)		
+		----	All layers on
+		for o in sel do
+		(
+			objLayer = o.layer.name	
+			Layer = LayerManager.getLayerFromName objLayer
+			Layer.on = true		
+		) 
+	*/	
 
 
 	

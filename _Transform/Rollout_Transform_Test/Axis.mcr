@@ -1,7 +1,7 @@
 macroscript	_Transform_axis_XY
 category:	"_Transform"
 buttontext:	"Circle Single"
-toolTip:	"Circle x\y axis"
+toolTip:	"Circle axis x\y"
 --icon:	"#(path, index)"
 (
 	(Gizmo_v()).circle #( #x, #y )
@@ -10,7 +10,7 @@ toolTip:	"Circle x\y axis"
 macroscript	_Transform_axis_XYZ
 category:	"_Transform"
 buttontext:	"Circle Single"
-toolTip:	"Circle x\y\z axis"
+toolTip:	"Circle axis x\y\z"
 --icon:	"#(path, index)"
 (
 	(Gizmo_v()).circle #( #x, #y, #z )
@@ -18,7 +18,7 @@ toolTip:	"Circle x\y\z axis"
 macroscript	_Transform_axis_XyZx
 category:	"_Transform"
 buttontext:	"Circle Double"
-toolTip:	"Circle xy\zx axis"
+toolTip:	"Circle axis xy\zx"
 --icon:	"#(path, index)"
 (
 	(Gizmo_v()).circle #( #xy, #zx )
@@ -27,7 +27,7 @@ toolTip:	"Circle xy\zx axis"
 macroscript	_Transform_axis_XyZxYz
 category:	"_Transform"
 buttontext:	"Circle Double"
-toolTip:	"Circle  xy\zx\yz axis"
+toolTip:	"Circle axis xy\zx\yz"
 --icon:	"#(path, index)"
 (
 	(Gizmo_v()).circle #( #xy, #zx, #yz )

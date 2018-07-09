@@ -9,11 +9,9 @@ struct EpolyEdges_v
 	 */
 	function selectHardEdges obj =
 	(
-	----	--select obj
-	----	--setCommandPanelTaskMode #modify
-	----	max modify mode
-	----
-	----	subObjectLevel = 2   
+	    max modify mode
+	
+		subObjectLevel = 2   
 	
 		macros.run "PolyTools" "SharpEdges"
 

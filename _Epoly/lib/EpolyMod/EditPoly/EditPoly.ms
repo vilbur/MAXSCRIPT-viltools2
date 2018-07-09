@@ -68,7 +68,12 @@ struct EditPoly_v
 				mod.ButtonOp for_remove
 		)
 	),
-	
+	/** Extrude
+	 */
+	function extrude to_extrude options:true =
+	(
+		if options == true then mod.PopupDialog to_extrude else	mod.EnterCommandMode  to_extrude  
+	),
 	/** Face count
 	 */
 	function faceCount =

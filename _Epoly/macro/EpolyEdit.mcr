@@ -1,6 +1,6 @@
 
 macroscript	epoly_quickslice
-category:	"_Epoly_Edit"  
+category:	"_Epoly-Edit"  
 buttonText:	"Quickslice"
 tooltip:	"Quickslice"
 (
@@ -19,7 +19,7 @@ tooltip:	"Quickslice"
 )
 
 macroscript	epoly_extrude
-category:	"_Epoly_Edit"  
+category:	"_Epoly-Edit"  
 buttonText:	"Extrude"
 tooltip:	"Extrude"
 (

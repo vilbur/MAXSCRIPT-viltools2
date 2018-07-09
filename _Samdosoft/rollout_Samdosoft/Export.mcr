@@ -24,7 +24,10 @@ category:"_Samdosoft"
 buttonText:"Planar"
 tooltip:"Planarize Faces"
 (
-	for x=1 to 20 do (for i=1 to (polyop.getNumFaces $) do ( polyop.makeFacesPlanar $ #(i)) )
+	_objects	= for o in selection where superClassOf o == GeometryClass collect o
+	
+	for _obj in _objects do
+		for x=1 to 20 do (for i=1 to ( polyop.getNumFaces _obj) do ( polyop.makeFacesPlanar _obj #(i)) )
 	
 	redrawViews()
 )

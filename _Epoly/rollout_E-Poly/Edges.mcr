@@ -1,5 +1,5 @@
-macroscript	selectHardEdges
-category:	"_Epoly"  
+macroscript	epoly_selectHardEdges
+category:	"_Epoly-Edges"
 buttonText:	"Select hard Edges"
 tooltip:	"Select HARD edges on all objects"
 (
@@ -15,8 +15,8 @@ tooltip:	"Select HARD edges on all objects"
 
 )
 
-macroscript	splitByHardEdges
-category:	"_Epoly"  
+macroscript	epoly_splitByHardEdges
+category:	"_Epoly-Edges"  
 buttonText:	"Split hard Edges"
 tooltip:	"Split HARD edges on all objects"
 (
@@ -26,17 +26,6 @@ tooltip:	"Split HARD edges on all objects"
 		((Epoly_v()).selectHardEdges _selection[i]).splitEdges()
 	
 	select _selection
-	subObjectLevel = 2   
-
-)
-
-macroscript	chamfer_hard_edges
-category:	"_Epoly"  
-buttonText:	"Chmafer hard"
-tooltip:	"Chmafer hard edges"
-(
-	Modifiers = Modifiers_v()
-	--modPanel.addModToSelection (Edit_Poly name:"select_hardedges" ignoreBackfacing:on selectAngle:20 SelectByAngle:on ) ui:on
--- 	macros.run "_Epoly" "selectHardEdges"
-	Modifiers.addChamfer()
+	subObjectLevel = 2
+	
 )

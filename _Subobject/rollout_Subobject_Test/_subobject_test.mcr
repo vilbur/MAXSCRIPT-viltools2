@@ -1,5 +1,5 @@
-macroscript enter_subobject_test
-category:	"_Subobject_Test" 
+macroscript	enter_subobject_test
+category:	"_Subobject-Test" 
 buttonText:	"Enter Subobjects"
 tooltip:	"Loop all elements of current modifier\n-Result in MAXScript Listener"
 (
@@ -27,8 +27,8 @@ tooltip:	"Loop all elements of current modifier\n-Result in MAXScript Listener"
 		
 )
 
-macroscript enter_subobject_forced_test
-category:	"_Subobject_Test" 
+macroscript	enter_subobject_forced_test
+category:	"_Subobject-Test" 
 buttonText:	"Enter forced"
 tooltip:	"Enter to subobject or find modifier with subobjects or add edit poly"
 (

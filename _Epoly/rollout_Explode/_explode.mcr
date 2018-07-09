@@ -1,4 +1,4 @@
-macroscript	explodeByElement
+macroscript	epoly_explode_by_element
 category:	"_Epoly-Explode"  
 buttonText:	"Elements"
 toolTip:	"Explode by Elements"
@@ -17,7 +17,7 @@ toolTip:	"Explode by Elements"
 	--macros.run "_Material" "materialByObject"
 )
 
-macroscript	ExplodeByMaterial
+macroscript	epoly_explode_by_material
 category:	"_Epoly-Explode"
 buttontext:	"Material"
 toolTip:	"Explode by Material"
@@ -31,7 +31,7 @@ toolTip:	"Explode by Material"
 	)
 )
 
-macroscript	explodeBySG
+macroscript	epoly_explode_by_sg
 category:	"_Epoly-Explode"  
 buttonText:	"Smooth Groups"
 toolTip:	"Explode by SmoothGroups"
@@ -46,7 +46,7 @@ toolTip:	"Explode by SmoothGroups"
 	)
 )
 
-macroscript	explodeByHardErge
+macroscript	epoly_explode_by_hard_edge
 category:	"_Epoly-Explode"
 buttontext:	"HARD edges"
 toolTip:	"Explode by  HARD edges"

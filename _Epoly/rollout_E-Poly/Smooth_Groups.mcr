@@ -1,4 +1,4 @@
-macroscript	autosmooth_30
+macroscript	epoly_autosmooth_30
 category:	"_Epoly-SmoothGroups"
 buttontext:	"Autosmooth 30"
 toolTip:	"Autosmooth 30"
@@ -7,7 +7,7 @@ toolTip:	"Autosmooth 30"
 	(Epoly_v()).autosmooth 30
 )
 
-macroscript	autosmooth_65
+macroscript	epoly_autosmooth_65
 category:	"_Epoly-SmoothGroups"
 buttontext:	"Autosmooth 65"
 toolTip:	"Autosmooth 65"
@@ -16,7 +16,7 @@ toolTip:	"Autosmooth 65"
 	(Epoly_v()).autosmooth 65
 )
 
-macroscript	clearSmoothGroups
+macroscript	epoly_clear_smooth_groups
 category:	"_Epoly-SmoothGroups"
 buttontext:	"Clear"
 toolTip:	"Clear smooth groups"
@@ -25,7 +25,7 @@ toolTip:	"Clear smooth groups"
 	(Epoly_v()).clearSmoothGroups()
 )
 
-macroscript	smoothGroupByObject
+macroscript	epoly_smooth_group_by_object
 category:	"_Epoly-SmoothGroups"  
 buttonText:	"By object"
 tooltip:	"Set one smooth group for ach selected object"
@@ -51,7 +51,7 @@ tooltip:	"Set one smooth group for ach selected object"
 
 )
 
-macroscript	repairSmoothGroupsByMaterial
+macroscript	epoly_repair_smooth_groups_by_material
 category:	"_Epoly-SmoothGroups"  
 buttonText:	"Smooth Groups By Material"
 tooltip:	"Set Smooth Groups By Material"

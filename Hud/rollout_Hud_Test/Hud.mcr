@@ -1,4 +1,4 @@
-macroscript	_HUD_add_test
+macroscript	_hud_add_test
 category:	"Hud"
 buttontext:	"Text"
 toolTip:	"Add"
@@ -8,7 +8,7 @@ toolTip:	"Add"
 	HudItem.show "Test"
 )
 
-macroscript	_HUD_remove_test
+macroscript	_hud_remove_test
 category:	"Hud"
 buttontext:	"Text"
 toolTip:	"Remove"

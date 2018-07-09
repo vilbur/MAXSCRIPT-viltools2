@@ -1,6 +1,6 @@
 
 macroscript	epoly_setamdid_1_test
-category:	"_Epoly_Test"  
+category:	"_Epoly-Test"  
 buttonText:	"Set Mat ID"
 tooltip:	"Set material ID 1"
 (
@@ -8,7 +8,7 @@ tooltip:	"Set material ID 1"
 )
 
 macroscript	epoly_setamdid_2_test
-category:	"_Epoly_Test"  
+category:	"_Epoly-Test"  
 buttonText:	"Set Mat ID"
 tooltip:	"Set material ID 2"
 (

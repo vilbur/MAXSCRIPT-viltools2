@@ -19,13 +19,13 @@ Floater	= (Floater_v ini:ini).new "VilTools2"
 -----------------------------------------*/
 
 /* FINAL CONTENT */
---Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
+Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
 
 /* TEST CONTETNT */
 --Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*_test)$").load()
 
 /* ALL */
-Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
+--Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
 
 
 /* Set content to ui */
@@ -37,7 +37,7 @@ Content.setControlsToUI Floater
 
 --loadContent()
 --Floater.create()
-Floater.create height:1024
+Floater.create height:1280
 Floater.dock "right"
 
 

@@ -1,5 +1,5 @@
-macroscript	epolyselection_getselselection_test
-category:	"_Epoly_Test"  
+macroscript	epoly_selection_getselselection_test
+category:	"_Epoly-Test"  
 buttonText:	"Get\Set Selection"
 tooltip:	"Get current subobejct Selection"
 (
@@ -11,8 +11,8 @@ tooltip:	"Get current subobejct Selection"
 	print ( "Subobjects selected = " + sub_selection_test as string ) 
 )
 
-macroscript	epolyselection_setselselection_test
-category:	"_Epoly_Test"  
+macroscript	epoly_selection_setselselection_test
+category:	"_Epoly-Test"  
 buttonText:	"Get\Set Selection"
 tooltip:	"Set current subobejct Selection"
 (
@@ -23,7 +23,7 @@ tooltip:	"Set current subobejct Selection"
 )
 
 macroscript	epoly_convert_selection_test
-category:	"_Epoly_Test"  
+category:	"_Epoly-Test"  
 buttonText:	"Convert to face"
 tooltip:	"Convert to face"
 (

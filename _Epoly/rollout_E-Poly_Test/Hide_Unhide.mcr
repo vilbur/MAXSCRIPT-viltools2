@@ -1,6 +1,6 @@
 
 macroscript	epoly_hide_subobject_test
-category:	"_Epoly"  
+category:	"_Epoly-Test"  
 buttonText:	"Hide\Unhide"
 tooltip:	"Hide unselected subobjects"
 (
@@ -10,7 +10,7 @@ tooltip:	"Hide unselected subobjects"
 )
 
 macroscript	epoly_unhide_subobject_test
-category:	"_Epoly"  
+category:	"_Epoly-Test"  
 buttonText:	"Hide\Unhide"
 tooltip:	"Unhide subobjects"
 (
@@ -21,7 +21,7 @@ tooltip:	"Unhide subobjects"
 
 
 macroscript	epoly_hide_subobject_toggle_test
-category:	"_Epoly"  
+category:	"_Epoly-Test"  
 buttonText:	"Hide\Unhide Toggle"
 tooltip:	"Hide unselected\Unhhide subobjects toggle"
 (

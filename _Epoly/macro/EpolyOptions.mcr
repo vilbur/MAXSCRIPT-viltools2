@@ -13,20 +13,20 @@ tooltip:	"Constrain Toggle 'Edge' & 'None'"
 )
 
 
-macroscript	epoly_ignoreBackfacing_toggle
+macroscript	epoly_ignore_backfacing_toggle
 category:	"_Epoly-Options"  
-buttonText:	"IgnoreBackfacing"
-tooltip:	"IgnoreBackfacing Toggle"
+buttonText:	"Ignore Backfacing"
+tooltip:	"Ignore Backfacing Toggle"
 (
 	(Epoly_v()).ignoreBackfacing()
 	
 	onSelectionChangengeCallback()
 )
 
-macroscript	epoly_selectByAngle
+macroscript	epoly_select_by_angle
 category:	"_Epoly-Options"  
-buttonText:	"selectByAngle"
-tooltip:	"selectByAngle Toggle"
+buttonText:	"Select By Angle"
+tooltip:	"Select By Angle Toggle"
 (
 	(Epoly_v()).selectByAngle angle:15
 

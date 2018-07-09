@@ -49,3 +49,13 @@ tooltip:"Reset Relax"
 
 
 
+macroscript modifier_chamfer
+category:"_Modifiers"  
+buttonText:"Chamfer"
+tooltip:"Chamfer"
+(
+	--clearListener()
+	(Modifier_v type:#Chamfer).add()
+
+)
+

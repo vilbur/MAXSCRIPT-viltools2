@@ -30,18 +30,23 @@ struct Subobject_v
 	(
 		if( this.enter sub_obj == undefined ) then
 		(
-			obj	= selection[1]
-			subobject_modifiers	= this._getModifiersWithSubobjects obj
-			
-			if( subobject_modifiers.count > 0 ) then -- find modifier with subobjects
-				modPanel.setCurrentObject obj.modifiers[subobject_modifiers[1]]
+			current_modifier	= modPanel.getCurrentObject()
 
-			else if( this._isEditablePolyObject obj ) then -- find Editable_Poly base obejct
-				modPanel.setCurrentObject obj.baseObject
-			
-			else -- add Edit_Poly
+			if( classOf current_modifier != Edit_Poly ) then
 				(Modifier_v type:#Edit_Poly ).add()
 			
+			--obj	= selection[1]
+			--subobject_modifiers	= this._getModifiersWithSubobjects obj
+			--
+			--if( subobject_modifiers.count > 0 ) then -- find modifier with subobjects
+			--	modPanel.setCurrentObject obj.modifiers[subobject_modifiers[1]]
+			--
+			----else if( this._isEditablePolyObject obj ) then -- find Editable_Poly base obejct
+			--	--modPanel.setCurrentObject obj.baseObject
+			--
+			--else -- add Edit_Poly
+			--	(Modifier_v type:#Edit_Poly ).add()
+			--
 			this.enter sub_obj
 		)
 	),

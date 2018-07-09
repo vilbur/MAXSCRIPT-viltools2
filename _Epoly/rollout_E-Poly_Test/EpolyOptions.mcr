@@ -1,11 +1,4 @@
 
-macroscript	epoly_ignoreBackfacing_toggle_test
-category:	"_Epoly_Test"  
-buttonText:	"IgnoreBackfacing"
-tooltip:	"IgnoreBackfacing Toggle Test"
-(
-	(Epoly_v()).ignoreBackfacing()
-)
 
 macroscript	epoly_ignoreBackfacing_on_test
 category:	"_Epoly_Test"  

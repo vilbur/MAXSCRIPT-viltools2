@@ -17,6 +17,7 @@ struct EpolyEdit_v
 	function extrude options:true =
 	(
 		--(EpolyMod.mod()) = modPanel.getCurrentObject ()
+		mod = EpolyMod.mod()
 	
 		case subObjectLevel of
 		(	
@@ -27,9 +28,28 @@ struct EpolyEdit_v
 			5:(to_extrude = #ExtrudeFace	)				
 		)
 		
+		height = if( to_extrude == #ExtrudeEdge ) then -20 else 20
+		
 		if( to_extrude != undefined ) then
-			(EpolyMod.getEpoly()).extrude to_extrude options:options
+			(EpolyMod.getEpoly()).extrude to_extrude options:options height:height
+		
+		--if options == true then
+		--(
+		--	mod.PopupDialog to_extrude
+		--	mod.extrudeEdgeWidth	= 20
+		--	mod.extrudeEdgeHeight	= height
+		--)
+		--else
+		--	mod.EnterCommandMode to_extrude
+			
 	),
+	/** Target weld
+	 */
+	function targetWeld =
+	(
+		(EpolyMod.getEpoly()).targetWeld()
+	),
+
 	--/** Extrude
 	-- */
 	--function extrude =

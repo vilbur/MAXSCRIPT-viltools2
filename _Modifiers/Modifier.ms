@@ -22,6 +22,8 @@ struct Modifier_v
 		this._getName()
 		
 		modPanel.addModToSelection _modifier ui:on
+		
+		_modifier --return
 	),
 	
 	/** Get instances

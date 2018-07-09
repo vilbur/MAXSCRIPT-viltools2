@@ -1,45 +1,61 @@
 macroscript	explodeByElement
-category:	"_EditPoly-Explode"  
+category:	"_Epoly-Explode"  
 buttonText:	"Elements"
 toolTip:	"Explode by Elements"
 (
 	--clearListener()
 	undo "explodeByElement" on
 	(
-		(Epoly_v()).explodeByElement()
+		/* hotfix */
+		macros.run "Modifier Stack" "Convert_to_Poly"
+		
+		final_sel = (Epoly_v()).explodeByElement()
+	
+		select final_sel
+
 	)
 	--macros.run "_Material" "materialByObject"
 )
 
 macroscript	ExplodeByMaterial
-category:	"_EditPoly-Explode"
+category:	"_Epoly-Explode"
 buttontext:	"Material"
 toolTip:	"Explode by Material"
 (
 	undo "explodeByMaterialId" on
 	(
-		(Epoly_v()).explodeByMaterialId()
+		/* hotfix */
+		macros.run "Modifier Stack" "Convert_to_Poly"
+		final_sel = (Epoly_v()).explodeByMaterialId()
+		select final_sel
 	)
 )
 
 macroscript	explodeBySG
-category:	"_EditPoly-Explode"  
+category:	"_Epoly-Explode"  
 buttonText:	"Smooth Groups"
 toolTip:	"Explode by SmoothGroups"
 (
 	undo "explodeBySG" on
 	(
-		(Epoly_v()).explodeBySG()
+		/* hotfix */
+		macros.run "Modifier Stack" "Convert_to_Poly"
+		
+		final_sel = (Epoly_v()).explodeBySG()
+		select final_sel
 	)
 )
 
 macroscript	explodeByHardErge
-category:	"_EditPoly-Explode"
+category:	"_Epoly-Explode"
 buttontext:	"HARD edges"
 toolTip:	"Explode by  HARD edges"
 (
 	undo "explodeByHardEdges" on
 	(
-		(Epoly_v()).explodeByHardEdges()
+		/* hotfix */
+		macros.run "Modifier Stack" "Convert_to_Poly"
+		final_sel = (Epoly_v()).explodeByHardEdges()
+		select final_sel
 	)
 )

@@ -7,7 +7,7 @@ struct EditPoly_Modifier_v
 	function get =
 	(
 		--Edit_Poly()
-		Edit_Poly ignoreBackfacing:on selectAngle:20 SelectByAngle:on --return
+		Edit_Poly ignoreBackfacing:on selectAngle:20 SelectByAngle:off --return
 
 	),
 	

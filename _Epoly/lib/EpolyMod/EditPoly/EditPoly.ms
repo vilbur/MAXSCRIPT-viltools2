@@ -70,9 +70,39 @@ struct EditPoly_v
 	),
 	/** Extrude
 	 */
-	function extrude to_extrude options:true =
+	function extrude to_extrude options:true height:20 =
 	(
-		if options == true then mod.PopupDialog to_extrude else	mod.EnterCommandMode  to_extrude  
+		if options == true then
+		(
+			mod.PopupDialog to_extrude
+			mod.extrudeEdgeWidth	= 20
+			mod.extrudeEdgeHeight	= height
+		)
+		else
+			mod.EnterCommandMode to_extrude
+	),
+	/** Target weld
+	 */
+	function targetWeld =
+	(
+		this.init()
+		
+		treshold = 1.0
+		
+		sel_count = _selection.count
+		--if sel_count == 0 then 
+			--(actionMan.executeAction 0 "40021"  -- Selection: Select All
+		 
+		--subObjectLevel = 1
+	
+		--oldTres = mod.weldVertexThreshold
+		--messageBox "message" beep:false
+		--mod.weldVertexThreshold  = treshold
+		--mod.ButtonOp #WeldVertex
+		mod.ButtonOp #TargetWeldVertex
+		--mod.weldVertexThreshold = oldTres
+		
+		--if sel_count == 0 then mod.SetSelection #Vertex #{}
 	),
 	/** Face count
 	 */
@@ -91,8 +121,9 @@ struct EditPoly_v
 	function setMatId facelist id =
 	(
 		--messageBox "setMatId" beep:false
-		(EpolySelection_v()).setSel #Face facelist
 		subObjectLevel = 4
+		(EpolySelection_v()).setSel #Face facelist
+
 		mod.SetOperation #SetMaterial
 		mod.materialIDToSet = (id - 1)
 	),
@@ -105,6 +136,13 @@ struct EditPoly_v
 	 */
 	function setSmoothGroup smooth_group facelist:undefined =
 	(
+		
+		--if( facelist == undefined ) then
+		--	facelist = this._allFaces()
+		--	
+		--(EpolySelection_v()).setSel #Face facelist
+
+		
 		mod.SetOperation #SetSmooth
 		mod.smoothingGroupsToSet = smooth_group
 	),

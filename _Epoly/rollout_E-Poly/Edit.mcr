@@ -1,5 +1,5 @@
 macroscript	epoly_remove
-category:	"_Epoly"  
+category:	"_Epoly-Edit"  
 buttonText:	"Remove"
 tooltip:	"Remove subobject"
 (
@@ -9,8 +9,52 @@ tooltip:	"Remove subobject"
 	)
 )
 
-macroscript	epoly_connect_test
-category:	"_Epoly_Test"  
+
+macroscript epoly_attachSelection
+category:"_Epoly"  
+buttonText:"Attach Selected"
+tooltip:"Attach Selected"
+(
+	Epoly = Epoly_v()
+	
+	--macros.run "_Material" "materialByObject"
+	
+	Epoly.attachSelection true
+		
+)
+
+macroscript epoly_bakeObjects
+category:"_Epoly"  
+buttonText:"Bake objects"
+tooltip:"Bake objects\nSet one smoothgroup\nSet one material id"
+(
+	--clearListener()
+	
+	macros.run "_Epoly" "epoly_attachSelection"
+	macros.run "_Epoly-SmoothGroups" "smoothGroupByObject"
+	macros.run "_Material" "materialByObject"
+	--macros.run "_Samdosoft" "samdosoft_planar"
+
+)
+
+
+
+macroscript	epoly_target_weld
+category:	"_Epoly-Edit"  
+buttonText:	"targetWeld"
+tooltip:	"Target Weld"
+(
+	Epoly = Epoly_v()
+
+	if( subObjectLevel != 1  ) then
+		subObjectLevel = 1
+		
+	Epoly.targetWeld()
+	
+)
+
+macroscript	epoly_connect
+category:	"_Epoly-Edit"  
 buttonText:	"Connect"
 tooltip:	"Connect"
 (
@@ -18,27 +62,4 @@ tooltip:	"Connect"
 	(
 		(Epoly_v()).connect()
 	)
-)
-
-macroscript attachSelection
-category:"_EditPoly"  
-buttonText:"Attach Selected"
-(
-	EditPoly = EditPoly_v_old()
-	
-	--macros.run "_Material" "materialByObject"
-	
-	EditPoly.attachSelection true
-)
-
-macroscript bakeObjects
-category:"_EditPoly"  
-buttonText:"Bake objects"
-tooltip:"Attach objects\nSet one smoothgroup\nSet one material id"
-(
-	clearListener()
-	
-	macros.run "_EditPoly" "attachSelection"
-	macros.run "EditPoly-SmoothGroups" "smoothGroupByObject"
-	macros.run "_Material" "materialByObject"
 )

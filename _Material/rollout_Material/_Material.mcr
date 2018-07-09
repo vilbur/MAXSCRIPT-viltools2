@@ -18,7 +18,7 @@ tooltip:	"Create edit multi material with different ID"
 
 macroscript	materialByObject
 category:	"_Material"  
-buttonText:	"By Object"
+buttonText:	"Mat By Object"
 tooltip:	"Set different material ID for each object"
 (
 	--EditPoly = Epoly_v()

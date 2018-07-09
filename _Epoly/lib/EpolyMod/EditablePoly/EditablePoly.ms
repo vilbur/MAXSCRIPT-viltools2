@@ -90,9 +90,32 @@ struct EditablePoly_v
 
 	/** Extrude
 	 */
-	function extrude to_extrude options:true =
+	function extrude to_extrude options:true  height:20 =
 	(
-		if options == true then mod.PopupDialog to_extrude else	mod.EnterCommandMode  to_extrude  
+		if options == true then
+		(
+			mod.PopupDialog #Extrude
+			mod.edgeExtrudeWidth	= 20
+			mod.edgeExtrudeHeight	= height
+		)
+		else mod.toggleCommandMode to_extrude
+		
+		
+	),
+	/** Target weld
+	 */
+	function targetWeld =
+	(
+		this.init()
+		
+		--obj	= sel[1]
+		--vertSel	= polyop.getVertSelection obj as Array
+		--LastvertPos	= polyop.getVert obj vertSel[vertSel.count]
+		--deleteitem vertSel vertSel.count
+		--mod.collapse #Vertex 
+		--mod.collapse #Vertex 
+		--
+		--( polyop.setVert obj ( polyop.getVertSelection obj) vertPos) 
 	),
 	/** Face count
 	 */
@@ -122,7 +145,14 @@ struct EditablePoly_v
 	 */
 	function setSmoothGroup smooth_group facelist:undefined =
 	(
-		polyop.setFaceSmoothGroup obj (this._getFacelist facelist) smooth_group
+		if( facelist == undefined ) then
+			facelist = this._allFaces()
+			
+		--(EpolySelection_v()).setSel #Face facelist
+		
+		
+		
+		polyop.setFaceSmoothGroup obj facelist smooth_group
 	),
 	/** Auto smooth
 	  * @param	integer	_angle
@@ -139,7 +169,7 @@ struct EditablePoly_v
 		--obj = obj.baseObject
 		--facelist = polyop.getNumFaces obj
 	
-		for i = 1 to (this._getFacelist facelist) do
+		for i = 1 to (this._allFaces()) do
 			polyop.setFaceSmoothGroup obj i 0
 	),
 	/*---------------------------------------

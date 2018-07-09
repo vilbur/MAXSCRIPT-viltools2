@@ -50,6 +50,8 @@ struct EditPolyExplode_v
 		--this._setObj()
 		this.explodeEachObject "getElements" --return
 		--this.explode ( this.getElements() ) --return
+		final_sel --return
+
 	),
 	/**  Explode all smoothgroups
 	 */
@@ -57,6 +59,7 @@ struct EditPolyExplode_v
 	(
 		this.explodeEachObject "_getSmoothGroups" --return
 	 
+		final_sel --return
 		--this.explode ( _getSmoothGroups() ) --return
 	),
 	/** Explode by material id
@@ -65,6 +68,7 @@ struct EditPolyExplode_v
 	(
 		this.explodeEachObject "_getMaterialElements" --return
 		--this.explode ( this._getMaterialElements() ) --return
+		final_sel --return
 	),
 	/**  
 	 */
@@ -79,6 +83,7 @@ struct EditPolyExplode_v
 
 		--#(obj)
 		--undefined --return
+		final_sel --return
 	),
 	/** Get elements
 	 */

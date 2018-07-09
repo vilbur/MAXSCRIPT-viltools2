@@ -53,6 +53,7 @@ struct Epoly_v
 	/*------ EpolyEdit ------*/
 	quickslice 	= EpolyEdit.quickslice,
 	extrude 	= EpolyEdit.extrude,
+	targetWeld 	= EpolyEdit.targetWeld,
 
 	
 	
@@ -79,33 +80,56 @@ struct Epoly_v
 		--print ( "epoly_infos = " + epoly_infos as string )
 		epoly_infos --return
 	), 
-	
-	/** Bevel
-	 */
-	function bevel =
-	(
-		messagebox "Epoly_v.bevel()" 	
-	),
 
+	/** Attach
+	 */
+	function attachSelection weld =
+	(
+		if selection.count > 1 do
+		(
+			undo "Attach_Selected_v" on
+			(
+				for o=1 to (selection.count - 1 ) where superclassof selection[o] == geometryclass do 
+				(
+					AddModifier selection[o] (Edit_Poly())
+					maxOps.CollapseNode selection[o] off
+				)
+
+				maxOps.CollapseNodeTo  selection[selection.count] 1 off
+
+				while selection.count > 1 do
+				(
+					selcount = selection.count
+					for i = selcount to 2 by -2 do
+						polyop.attach selection[i] selection[i-1]
+				)
+				update selection[1]
+
+				if weld == true do
+					(polyop.weldVertsByThreshold selection[1] #{1..( polyop.getNumVerts selection[1])}) --weld vetices
+
+			)
+		)
+	),
 	/** Connect subobject
 	 */
 	function connect =
 	(
-		(this._setEpoly()).connect()
+		(this.EpolyMod.getEpoly()).connect()
 	),
 	
 	/** Remove subobject
 	 */
 	function remove =
 	(
-		(this._setEpoly()).remove()
+		(this.EpolyMod.getEpoly()).remove()
 	),
 
 	/** Face count
 	 */
 	function faceCount =
 	(		
-		(this._setEpoly()).faceCount()
+		(this.EpolyMod.getEpoly()).faceCount()
 	),
 	
 	/*---------------------------------------

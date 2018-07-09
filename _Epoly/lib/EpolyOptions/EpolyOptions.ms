@@ -44,11 +44,15 @@ struct EpolyOptions_v
 	function selectByAngle state:undefined angle:45 =
 	(
 		--mod.selectAngle = angle
-		
-		current_state = this._toggleState "SelectByAngle" state:state
-		
-		
-		
+		_mod	= modPanel.getCurrentObject()
+		current_state	= this._toggleState "SelectByAngle" state:state
+
+		if( state == #get ) then
+			angle = _mod.selectAngle
+			
+		else
+			_mod.selectAngle = angle
+
 		#( current_state, angle ) --return
 	),
 	/*---------------------------------------

@@ -17,20 +17,24 @@ struct Subobject_v
 		else if( subobjects_of_modifier != undefined and sub_obj <= subobjects_of_modifier.count ) then
 		(
 			if( subObjectLevel == sub_obj ) then 
-				subObjectLevel =  0
+				sub_obj_new =  0
 			else
-				subObjectLevel =  sub_obj
+				sub_obj_new =  sub_obj
+			
+			this.setActiveSubobject sub_obj_new
+			
+			subObjectLevel =  sub_obj_new
+
 		)
 	),
 	/** Enter toogle
 	 */
 	function enterToogle =
 	(
-		if( enter_subobject_last_subobject == undefined ) then
-			global enter_subobject_last_subobject = 1
+		subo = this.setActiveSubobject undefined
 		
 		if( subObjectLevel == 0 ) then
-			subObjectLevel = enter_subobject_last_subobject
+			subObjectLevel = subo
 		else
 			subObjectLevel = 0
 		
@@ -42,8 +46,11 @@ struct Subobject_v
 		--print ( "subobjects = " + subobjects as string )
 		next_index	= this.findNextIndex subobjects subObjectLevel
 		--actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
-		--print ( "next_index final = " + next_index as string )
-		subObjectLevel =  subobjects[next_index]
+		sub_obj_new	= subobjects[next_index]
+		
+		this.setActiveSubobject sub_obj_new
+
+		this.enter sub_obj_new
 	),
 	/** This method will enter to subobject in anyway
 	  *
@@ -80,6 +87,19 @@ struct Subobject_v
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
+	/** Set active subobject
+	 */
+	function setActiveSubobject sub_obj =
+	(
+			
+		if( enter_subobject_last_subobject == undefined ) then
+			global enter_subobject_last_subobject = 1
+			
+		if( sub_obj == undefined) then
+			sub_obj = enter_subobject_last_subobject
+		print ( "enter_subobject_last_subobject = " + sub_obj as string )
+		enter_subobject_last_subobject = sub_obj
+	),
 	/** Find next index
 	 */
 	function findNextIndex array current_index =

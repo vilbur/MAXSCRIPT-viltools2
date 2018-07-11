@@ -21,6 +21,12 @@ category:	"_Subobject-Test"
 buttonText:	"Enter Subobjects Test"
 tooltip:	"Loop all elements of current modifier\n-Result in MAXScript Listener"
 (
+	/**
+	  
+	  REWRITE THIS TEST FOR FUNCTION
+	    Subobject_v().circle()
+	 *	
+	 */
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
 	clearListener()
 

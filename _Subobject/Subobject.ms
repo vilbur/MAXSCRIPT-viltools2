@@ -11,13 +11,39 @@ struct Subobject_v
 	(
 		subobjects_of_modifier	= Subobjects.get (this._getCurrentModifier())
 		
-		if( subobjects_of_modifier != undefined and sub_obj <= subobjects_of_modifier.count ) then
+		if( sub_obj == 0 ) then
+			this.enterToogle()
+		
+		else if( subobjects_of_modifier != undefined and sub_obj <= subobjects_of_modifier.count ) then
 		(
 			if( subObjectLevel == sub_obj ) then 
 				subObjectLevel =  0
 			else
 				subObjectLevel =  sub_obj
 		)
+	),
+	/** Enter toogle
+	 */
+	function enterToogle =
+	(
+		if( enter_subobject_last_subobject == undefined ) then
+			global enter_subobject_last_subobject = 1
+		
+		if( subObjectLevel == 0 ) then
+			subObjectLevel = enter_subobject_last_subobject
+		else
+			subObjectLevel = 0
+		
+	),
+	/** Circle
+	 */
+	function circle subobjects =
+	(
+		--print ( "subobjects = " + subobjects as string )
+		next_index	= this.findNextIndex subobjects subObjectLevel
+		--actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
+		--print ( "next_index final = " + next_index as string )
+		subObjectLevel =  subobjects[next_index]
 	),
 	/** This method will enter to subobject in anyway
 	  *
@@ -51,13 +77,25 @@ struct Subobject_v
 		)
 	),
 
+	/*------------------------------------------------------------------------------
+		PRIVATE
+	--------------------------------------------------------------------------------*/
+	/** Find next index
+	 */
+	function findNextIndex array current_index =
+	(
+		next_index	= current_index + 1
+		--print ( "current_index = " + current_index as string )
+		--print ( "next_index = " + next_index as string )
+		if( next_index<=array.count or next_index <= 0 ) then next_index else 1 --return
+	),
 	/** Get edit poly modifiers
 	 */
 	function _getModifiersWithSubobjects obj =
 	(
 		modifiers	= obj.modifiers
 		subobject_modifiers	= #()
-		print ( "modifiers=" + modifiers as string )
+		--print ( "modifiers=" + modifiers as string )
 
 		for m=1 to modifiers.count where this._isModifiersWithSubobjects (modifiers[m]) do
 			append subobject_modifiers m

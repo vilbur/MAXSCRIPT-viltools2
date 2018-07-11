@@ -68,16 +68,16 @@ toolTip:	"Scale tool or change axis xy|zx|yz"
 macroscript	tools_select_tool_or_axis
 category:	"_Tools"
 buttontext:	"Select tool\axis"
-toolTip:	"Select tool or change axis x|y|z"
+toolTip:	"Select tool or change selection to Rectangle"
 --icon:	"#(path, index)"
 (
-	(ToolMode_v()).setToolOrChangeSelectionType #Select #( #Rectangle, #Lasso )
+	(ToolMode_v()).setToolOrChangeSelectionType #Select #( #Rectangle )
 )
 
 macroscript	tools_select_tool_or_axis_double
 category:	"_Tools"
 buttontext:	"Select tool\axis"
-toolTip:	"Select tool or change axis xy|zx|yz"
+toolTip:	"Select tool or change selection to Rectangle|Circle|Fence|Lasso|Paint"
 --icon:	"#(path, index)"
 (
 	(ToolMode_v()).setToolOrChangeSelectionType #Select #( #Rectangle, #Circle, #Fence, #Lasso, #Paint )

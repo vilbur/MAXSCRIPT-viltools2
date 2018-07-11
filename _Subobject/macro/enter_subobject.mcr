@@ -1,3 +1,11 @@
+macroscript enter_subobject_toggle
+category:	"_Subobject" 
+buttonText:	"Enter\Exit"
+tooltip:	"Enter\Exit subobject"
+(
+	(Subobject_v()).enter 0
+)
+
 macroscript enter_subobject_1
 category:	"_Subobject" 
 buttonText:	"Enter 1"
@@ -45,4 +53,14 @@ buttonText:	"Enter 5"
 tooltip:	"Enter to subobject 5"
 (
 	(Subobject_v()).enter 5
+)
+
+macroscript	enter_subobject_circle
+category:	"_Subobject" 
+buttonText:	"Enter circle"
+tooltip:	"Circle subobjects  1, 2, 4"
+(
+	Subobject	= Subobject_v()
+	
+	Subobject.circle #( 1, 2, 4)
 )

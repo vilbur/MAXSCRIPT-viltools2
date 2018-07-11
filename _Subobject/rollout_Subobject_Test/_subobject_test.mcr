@@ -1,6 +1,24 @@
+macroscript	enter_subobject_toggle_test
+category:	"_Subobject-Test" 
+buttonText:	"Enter toggle"
+tooltip:	"Enter to subobject or find modifier with subobjects or add edit poly"
+(
+	Subobject	= Subobject_v()
+	
+	Subobject.enter 0
+)
+macroscript	enter_subobject_circle_test
+category:	"_Subobject-Test" 
+buttonText:	"Enter circle"
+tooltip:	"Circle subobjects  1, 2, 4"
+(
+	Subobject	= Subobject_v()
+	
+	Subobject.circle #( 1, 2, 4)
+)
 macroscript	enter_subobject_test
 category:	"_Subobject-Test" 
-buttonText:	"Enter Subobjects"
+buttonText:	"Enter Subobjects Test"
 tooltip:	"Loop all elements of current modifier\n-Result in MAXScript Listener"
 (
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
@@ -26,6 +44,7 @@ tooltip:	"Loop all elements of current modifier\n-Result in MAXScript Listener"
 		messagebox "Macro: enter_subobject_test:\n\nOBJECT IS NOT 'Editable_Poly' OR 'Edit_Poly'"
 		
 )
+
 
 macroscript	enter_subobject_forced_test
 category:	"_Subobject-Test" 

@@ -7,7 +7,7 @@
 --
 --	--Material.createMaterial()
 --)
-macroscript	material_createIdMaterial
+macroscript	material_create_id_material
 category:	"_Material"  
 buttonText:	"ID Mat"
 tooltip:	"Create edit multi material with different ID"  
@@ -16,7 +16,7 @@ tooltip:	"Create edit multi material with different ID"
 	selection.material = Material.getIdMaterial()
 )
 
-macroscript	material_materialByObject
+macroscript	material_material_by_object
 category:	"_Material"  
 buttonText:	"Mat By Object"
 tooltip:	"Set different material ID for each object"
@@ -36,7 +36,7 @@ tooltip:	"Set different material ID for each object"
 )
 
 
-macroscript	material_randomMaterial
+macroscript	material_random_material
 category:	"_Material"  
 buttonText:	"Random"
 tooltip:	"Set random material id for selection"
@@ -57,7 +57,7 @@ tooltip:	"Set random material id for selection"
 	completeRedraw() 
 )
 
-macroscript	material_SelectObjsByMaterial
+macroscript	material_select_objs_by_material
 category:	"_Material"  
 buttonText:	"Select By Mat"
 tooltip:	"Select Objects By Material"

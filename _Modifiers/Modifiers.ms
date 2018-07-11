@@ -8,6 +8,9 @@ struct Modifiers_v
 	Chamfer	= (Chamfer_Modifier_v()).get(),
 	Shell	= (Shell_Modifier_v()).get(),
 	Relax	= (Relax_Modifier_v()).get(),
+	Noise	= (Noise_Modifier_v()).get(),
+	VolumeSelect	= (VolumeSelect_Modifier_v()).get(),
+	Normal	= (Normal_Modifier_v()).get(),
 
 	/** Delete
 	 */

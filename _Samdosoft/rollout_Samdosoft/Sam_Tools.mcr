@@ -40,7 +40,7 @@ tooltip:	"Chamfer rock"
 		for _obj in _objects do
 		(
 			select _obj
-			macros.run "_Epoly" "selectHardEdges"
+			macros.run "_Epoly-Edges" "epoly_select_hard_edges"
 			
 			_Chamfer = (Modifier_v type:#Chamfer name:"Chamfer-rock").add()
 				

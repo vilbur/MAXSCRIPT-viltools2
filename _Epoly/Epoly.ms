@@ -131,7 +131,16 @@ struct Epoly_v
 	(		
 		(this.EpolyMod.getEpoly()).faceCount()
 	),
-	
+	/** Create polygon
+	 */
+	function create =
+	(
+		if( EpolyMod.getEpoly()!=undefined ) then
+		(
+			if( subObjectLevel == 1 or subObjectLevel == 2 ) then
+				macros.run "PolyTools" "CreatePolygon"
+		)
+	),
 	/*---------------------------------------
 		PRIVATE
 	-----------------------------------------*/
@@ -144,26 +153,27 @@ struct Epoly_v
 	--),
 	function hideObj mode subObj layer =
 	(
+	
 	/*	
 	mode= "Selected"  		
-	mode= "UnSelected"
-	mode= "UnHide"   
-	
-	layer=0
-		
-	subObj=0
-	subObj=1
-	
-	------ OBJECT LEVEL	
-	Hide_v "Selected" 0 0
-	Hide_v "UnSelected" 0 0
-	Hide_v "UnHide" 0 0
-		
-	------ SUBOBJECT LEVEL	
-	Hide_v "Selected" 1 0
-	Hide_v "UnSelected" 1 0
-	Hide_v "UnHide" 1 0
-	*/	
+			mode= "UnSelected"
+			mode= "UnHide"   
+			
+			layer=0
+				
+			subObj=0
+			subObj=1
+			
+			------ OBJECT LEVEL	
+			Hide_v "Selected" 0 0
+			Hide_v "UnSelected" 0 0
+			Hide_v "UnHide" 0 0
+				
+			------ SUBOBJECT LEVEL	
+			Hide_v "Selected" 1 0
+			Hide_v "UnSelected" 1 0
+			Hide_v "UnHide" 1 0
+			*/	
 		undo "Hide Unhide" on 
 		(
 			selSubObj = #{}

@@ -18,7 +18,7 @@ struct EpolyMod_v
 --			
 		--else if( this.isEditPoly() ) then
 			--EditPoly --return
-			print ( "=============== getEpoly " + Epoly as string )
+			--print ( "=============== getEpoly " + Epoly as string )
 		Epoly --return
 	),
 	/** Set EditablePoly_v or EditPoly_v to Epoly property
@@ -28,9 +28,7 @@ struct EpolyMod_v
 		
 		if( this.isEditablePoly()==false ) then
 			this._initSubClass Edit_Poly
-		--	
-		--else if( this.isEditPoly() ) then
-		--	EditPoly --return
+			
 	),
 	/** Get Editable_Poly or Edit_Poly modifier from EditablePoly_v & EditPoly_v 
 	 */
@@ -79,19 +77,10 @@ struct EpolyMod_v
 		
 		if( epoly_type == classof ( modPanel.getCurrentObject()) ) then
 		(
-			--if( epoly_type == Editable_Poly ) then
-				--Epoly = (EditablePoly_v()).init() --return
-				--Epoly = EditablePoly.init() --return
-				
-			--else if( epoly_type == Edit_Poly ) then
-				--Epoly = (EditPoly_v()).init() --return
-				--Epoly = EditPoly.init() --return
-				
 			Epoly = if( epoly_type == Editable_Poly ) then
 						(EditablePoly_v()).init()
 					else if( epoly_type == Edit_Poly ) then
 						(EditPoly_v()).init()
-						
 		)
 		else
 			false --return

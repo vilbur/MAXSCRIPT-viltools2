@@ -1,4 +1,4 @@
-macroscript	epoly_selectHardEdges
+macroscript	epoly_select_hard_edges
 category:	"_Epoly-Edges"
 buttonText:	"Select hard Edges"
 tooltip:	"Select HARD edges on all objects"
@@ -15,7 +15,7 @@ tooltip:	"Select HARD edges on all objects"
 
 )
 
-macroscript	epoly_splitByHardEdges
+macroscript	epoly_split_by_hard_edges
 category:	"_Epoly-Edges"  
 buttonText:	"Split hard Edges"
 tooltip:	"Split HARD edges on all objects"

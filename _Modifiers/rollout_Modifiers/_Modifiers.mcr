@@ -59,3 +59,32 @@ tooltip:	"Add Chamfer"
 
 )
 
+macroscript	modifier_noise
+category:	"_Modifiers"  
+buttonText:	"Noise"
+tooltip:	"Add Noise"
+(
+	--clearListener()
+	(Modifier_v type:#Noise).add()
+
+)
+
+macroscript	modifier_smooth
+category:	"_Modifiers"  
+buttonText:	"Smooth"
+tooltip:	"Add Smooth"
+(
+	--clearListener()
+	(Modifier_v type:#Smooth).add()
+
+)
+
+macroscript	modifier_volume_select
+category:	"_Modifiers"  
+buttonText:	"Volume Select"
+tooltip:	"Add Volume Select"
+(
+	--clearListener()
+	(Modifier_v type:#VolumeSelect).add()
+
+)

@@ -32,8 +32,16 @@ tooltip:	"Extrude"
 	--
 	--subObjectLevel = 4
 	--Epoly.setSel #Face _selection
-	
-	
 	Epoly.extrude()
+)
+
+macroscript	epoly_create
+category:	"_Epoly-Edit"  
+buttonText:	"Create Polygon"
+tooltip:	"Create Polygon"
+(
+	Epoly = Epoly_v()
+
+	Epoly.create()
 )
 

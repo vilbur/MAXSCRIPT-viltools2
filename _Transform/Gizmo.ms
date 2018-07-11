@@ -27,7 +27,10 @@ struct Gizmo_v
 	(
 		messagebox "Gizmo.test()"
 	)
+	
+	
 )
+
 
 
 --fn Axis_Circle_v mode axis =

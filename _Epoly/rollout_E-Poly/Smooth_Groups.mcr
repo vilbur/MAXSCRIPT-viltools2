@@ -53,18 +53,35 @@ tooltip:	"Set one smooth group for ach selected object"
 
 macroscript	epoly_repair_smooth_groups_by_material
 category:	"_Epoly-SmoothGroups"  
-buttonText:	"Smooth Groups By Material"
-tooltip:	"Set Smooth Groups By Material"
+buttonText:	"Repair Smooth Groups By Material"
+tooltip:	"Repair Smooth Groups By Material"
 ( 
 	
 	--messageBox "message" beep:false
-	macros.run "_Epoly" "epoly_attachSelection"
-	macros.run "_Epoly-Explode" "ExplodeByMaterial"
+	--macros.run "_Epoly" "epoly_attach_selection"
+	with redraw off
 
-	macros.run "_Epoly-SmoothGroups" "smoothGroupByObject"
-	macros.run "_Epoly" "epoly_attachSelection"
-
-	macros.run "_Epoly" "selectHardEdges"
-
+	(
+		undo "repair smooth groups by mat" on
+		(
+			
+			_objects	= for o in selection where superClassOf o == GeometryClass collect o
+		
+			for obj in _objects do
+			(
+				select obj
+				
+				macros.run "_Epoly-Explode" "epoly_explode_by_material"
+			
+				macros.run "_Epoly-SmoothGroups" "epoly_smooth_group_by_object"
+				macros.run "_Epoly" "epoly_attach_selection"
+			
+				macros.run "_Epoly-Edges" "epoly_select_hard_edges"
+				
+				
+			)
+		
+		) 
+	)
 		
 )

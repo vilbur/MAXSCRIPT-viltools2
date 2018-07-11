@@ -30,6 +30,9 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/ShellModi
 filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/ChamferModifier.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/EditPolyModifier.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/XFormModifier.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/NoiseModifier.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/VolumeSelect.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/NormalModifier.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifier.ms" )
 
@@ -74,8 +77,13 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Pivot/Pivot.ms" )
 --------------------------------------------------------------------------------*/
 filein ( getFilenamePath(getSourceFileName()) + "/_Objects/Objects.ms" )
 
-/*---------------------------------------
+/*------------------------------------------------------------------------------
 	GIZMO
------------------------------------------*/
+--------------------------------------------------------------------------------*/
 filein ( getFilenamePath(getSourceFileName()) + "/_Transform/Gizmo.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Transform//CoordMode/CoordMode.ms" )
+
+/*------------------------------------------------------------------------------
+	TOOLMODE
+--------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_Tools/ToolMode.ms" )

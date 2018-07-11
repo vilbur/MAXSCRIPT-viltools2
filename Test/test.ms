@@ -48,4 +48,34 @@
 
 --( modPanel.getCurrentObject() ).ignoreBackfacing = true
 
-execute ( "( modPanel.getCurrentObject() ).ignoreBackfacing = true" )
+--execute ( "( modPanel.getCurrentObject() ).ignoreBackfacing = true" )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

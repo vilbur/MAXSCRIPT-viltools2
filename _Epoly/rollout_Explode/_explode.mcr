@@ -26,6 +26,7 @@ toolTip:	"Explode by Material"
 	(
 		/* hotfix */
 		macros.run "Modifier Stack" "Convert_to_Poly"
+		
 		final_sel = (Epoly_v()).explodeByMaterialId()
 		select final_sel
 	)

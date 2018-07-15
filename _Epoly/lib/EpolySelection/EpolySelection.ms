@@ -86,22 +86,24 @@ struct EpolySelection_v
 		
 		if aType == bType do ( return bBitArray )
 		
-		--print ("Get "+ aType as string + " From " + bType as string)
-		--print (bType as string + " bitarray: " + bBitArray as string)
-		 
 		returnBitArray = (this.epoly()).getAusingB aType bType bBitArray
 
-		print ("returnArray:"+ returnBitArray as string)
-		--Final return
-		return returnBitArray
+		returnBitArray --return
 	),
-	
+	/** Ring loop edges
+	 */
+	function ringLoopEdges = ((struct _
+	(
+		forward	= #{}, reverse	= #{}, filter	= #{}
+	);)()),
 	/**  
 	 *	
 	 */
 	function GetNextRingLoop oEdge_selection modOrObj:(Filters.GetModOrObj()) =
 	(
-		--make sure we have the correct variable type for edge
+		print ( "oEdge_selection = " + oEdge_selection as string )
+		_loop_edges = this.ringLoopEdges()
+		_ring_edges = this.ringLoopEdges()
 		
 		case classof oEdge_selection of
 		(
@@ -111,14 +113,7 @@ struct EpolySelection_v
 			Array:	oEdge	= #{oEdge_selection[1]}
 			default:	(print "unhandled oEdge variable"; return #{})
 		)
-		
-		forwardLoopEdges	= #{}
-		reverseLoopEdges	= #{}
-		forwardRingEdges	= #{} 
-		reverseRingEdges	= #{}
-		ringFilterEdges	= #{}
-		loopFilterEdges	= #{}
-		
+
 		edgeVerts = this.getAusingB modOrObj oEdge aType:#Vertex bType:#Edge --edgeVerts should always be 2
 	
 		if edgeVerts.numberSet == 2 then
@@ -127,10 +122,10 @@ struct EpolySelection_v
 			forwardLoopVert = (edgeVerts as array)[2]
 			print ("edgeVerts:	" + edgeVerts as string)
 			
-			reverseLoopEdges = this.getAusingB modOrObj reverseLoopVert aType:#Edge bType:#Vertex
-			forwardLoopEdges = this.getAusingB modOrObj forwardLoopVert aType:#Edge bType:#Vertex
+			_loop_edges.reverse = this.getAusingB modOrObj reverseLoopVert aType:#Edge bType:#Vertex
+			_loop_edges.forward = this.getAusingB modOrObj forwardLoopVert aType:#Edge bType:#Vertex
 			
-			ringFilterEdges = (forwardLoopEdges + reverseLoopEdges) --union and store these for later
+			_ring_edges.filter = (_loop_edges.forward + _loop_edges.reverse) --union and store these for later
 		) else
 			return #{} --should be an impossible abortcondition unless passed something other than an Edge
 		
@@ -138,43 +133,36 @@ struct EpolySelection_v
 	
 		if (numFaces = edgeFaces.numBerset) > 0 then
 		(
-			reverseRingEdges = this.getAusingB modOrObj (edgeFaces as array)[1] aType:#Edge bType:#Face
+			_ring_edges.reverse = this.getAusingB modOrObj (edgeFaces as array)[1] aType:#Edge bType:#Face
 			
 			if numFaces == 2 then
-				forwardRingEdges = this.getAusingB modOrObj (edgeFaces as array)[2] aType:#Edge bType:#Face
+				_ring_edges.forward = this.getAusingB modOrObj (edgeFaces as array)[2] aType:#Edge bType:#Face
 			
 			else
 				print "is border Edge"
 			
-			loopFilterEdges = (forwardRingEdges + reverseRingEdges)  --union and store these for later
+			_loop_edges.filter = (_ring_edges.forward + _ring_edges.reverse)  --union and store these for later
 		) else
 			return #{}--should also be an impossible abortcondition unless passed something other than an oEdge
 		
 		--do subtraction ops to get rid of most of the junk
-		forwardLoopEdges -= loopFilterEdges
-		reverseLoopEdges -= loopFilterEdges
-		forwardRingEdges -= ringFilterEdges
-		reverseRingEdges -= ringFilterEdges
-		
-		print ("candidate forward loop edges: " + forwardLoopEdges as string)
-		print ("candidate reverse loop edges: " + reverseLoopEdges as string)
-		print ("candidate forward ring edges: " + forwardRingEdges as string)
-		print ("candidate reverse ring edges: " + reverseRingEdges as string)
+		_loop_edges.forward -= _loop_edges.filter
+		_loop_edges.reverse -= _loop_edges.filter
+		_ring_edges.forward -= _ring_edges.filter
+		_ring_edges.reverse -= _ring_edges.filter
 		
 		print "selecting the new edges just for testing"
-		--modOrObj.SetSelection #Edge (forwardLoopEdges + reverseLoopEdges + forwardRingEdges + reverseRingEdges)
+		--modOrObj.SetSelection #Edge (_loop_edges.forward + _loop_edges.reverse + _ring_edges.forward + _ring_edges.reverse)
 		--***From here on the code is incomplete***
 		--print ( "oEdge = " + oEdge as string )
 		print "-------------------"
 		print ( "oEdge = " + oEdge as string )
-		print ( "forwardLoopEdges = " + forwardLoopEdges as string )
-		print ( "Edge + forwardLoopEdges = " + (oEdge + forwardLoopEdges) as string )
-		
-		--modOrObj.SetSelection #Edge ( forwardLoopEdges )
+		print ( "_loop_edges.forward = " + _loop_edges.forward as string )
+		print ( "Edge + _loop_edges.forward = " + (oEdge + _loop_edges.forward) as string )
+		print ( "_ringLoopEdges = " + _ringLoopEdges as string )
+		--modOrObj.SetSelection #Edge ( _loop_edges.forward )
 		--modOrObj.SetSelection #Edge ( oEdge )
-		modOrObj.SetSelection #Edge ( oEdge_selection + forwardLoopEdges )
-		
-		
+		modOrObj.SetSelection #Edge ( oEdge_selection + _loop_edges.forward )
 	),
 
 	/**  

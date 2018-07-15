@@ -8,7 +8,7 @@ struct EpolySelection_v
 	EpolySelection, -- store EditablePolySelection_v or EditPolySelection_v
 	_objects,
 	_mod,
-	
+
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 
 	/** Init
@@ -18,7 +18,7 @@ struct EpolySelection_v
 		this._setObjects()
 		this._setMod()
 	),
-	
+
 	/** Convert current subobject to given subobject
 	  * 1) If not subobject active then enter to subobject
 	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
@@ -31,7 +31,7 @@ struct EpolySelection_v
 
 		if( subObjectLevel > 0 ) then
 			_mod.convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
-		
+
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 	/** Get selected or all faces
@@ -83,9 +83,9 @@ struct EpolySelection_v
 		if aType == #currentLevel do (aType = modOrObj.GetMeshSelLevel() )
 		if bType == #currentLevel do (bType = modOrObj.GetMeshSelLevel() )
 		--if both a and b are of the same type return b
-		
+
 		if aType == bType do ( return bBitArray )
-		
+
 		returnBitArray = (this.epoly()).getAusingB aType bType bBitArray
 
 		returnBitArray --return
@@ -94,75 +94,120 @@ struct EpolySelection_v
 	 */
 	function ringLoopEdges = ((struct _
 	(
-		forward	= #{}, reverse	= #{}, filter	= #{}
+		forward	= #{}, reverse	= #{}, filter	= #{},
+
+		/** Remove filter edges
+		 */
+		function filterEdges =
+		(
+			forward -= filter
+			reverse -= filter
+		)
+
 	);)()),
+
+	/** Select loop ring
+	 */
+	function selectLoopRing loop_or_ring direciton select_or_deselect =
+	(
+		clearListener()
+
+		if (getCommandPanelTaskMode() != #modify) then
+			setCommandPanelTaskMode #modify
+
+		modOrObj = Filters.GetModOrObj()
+
+		subObjectLevel	= 2
+
+		edge_selection = modOrObj.GetSelection #Edge
+
+		if edge_selection.numberset > 0 then
+		(
+
+			--edge_selection_first_or_last	= #{ ( edge_selection as Array )[(edge_selection as Array).count] }
+			
+			edge_selection_first_or_last	= if (direciton==#forward) then #{ ( edge_selection as Array )[(edge_selection as Array).count] } else #{ ( edge_selection as Array )[1] }
+
+			_edges = this.getNextRingLoop edge_selection_first_or_last modOrObj:modOrObj
+
+			next_edges = getProperty (getProperty _edges loop_or_ring) direciton
+			
+			print ( "next_edges = " + next_edges as string )
+			
+			modOrObj.SetSelection #Edge ( edge_selection + next_edges )
+		)
+		else
+		(
+			print "nothing selected"
+		)
+		redrawViews()
+	),
+
 	/**  
 	 *	
 	 */
-	function GetNextRingLoop oEdge_selection modOrObj:(Filters.GetModOrObj()) =
+	function getNextRingLoop edge_selection modOrObj:(Filters.GetModOrObj()) =
 	(
-		print ( "oEdge_selection = " + oEdge_selection as string )
-		_loop_edges = this.ringLoopEdges()
-		_ring_edges = this.ringLoopEdges()
+		print ( "edge_selection = " + edge_selection as string )
 		
-		case classof oEdge_selection of
+		_edges = ((struct _(
+			loop, ring
+		);)())
+		
+		_edges.loop = this.ringLoopEdges()
+		_edges.ring = this.ringLoopEdges()
+		
+		case classof edge_selection of
 		(
 			--BitArray:	if oEdge.numberset > 1 then oEdge = #{(oEdge as array)[1]}
-			BitArray:	oEdge = #{ ( oEdge_selection as Array )[(oEdge_selection as Array ).count]  }
-			Integer:	oEdge	= #{oEdge_selection}
-			Array:	oEdge	= #{oEdge_selection[1]}
+			--BitArray:	oEdge = #{ ( edge_selection as Array )[(edge_selection as Array ).count]  }
+			BitArray:	oEdge = #{ ( edge_selection as Array )[1] }
+			Integer:	oEdge	= #{edge_selection}
+			Array:	oEdge	= #{edge_selection[1]}
 			default:	(print "unhandled oEdge variable"; return #{})
 		)
 
-		edgeVerts = this.getAusingB modOrObj oEdge aType:#Vertex bType:#Edge --edgeVerts should always be 2
-	
-		if edgeVerts.numberSet == 2 then
+		edge_verts = this.getAusingB modOrObj oEdge aType:#Vertex bType:#Edge --edge_verts should always be 2
+
+		if edge_verts.numberSet == 2 then
 		(	
-			reverseLoopVert = (edgeVerts as array)[1]
-			forwardLoopVert = (edgeVerts as array)[2]
-			print ("edgeVerts:	" + edgeVerts as string)
-			
-			_loop_edges.reverse = this.getAusingB modOrObj reverseLoopVert aType:#Edge bType:#Vertex
-			_loop_edges.forward = this.getAusingB modOrObj forwardLoopVert aType:#Edge bType:#Vertex
-			
-			_ring_edges.filter = (_loop_edges.forward + _loop_edges.reverse) --union and store these for later
+			reverse_loop_vert = (edge_verts as array)[1]
+			forward_loop_vert = (edge_verts as array)[2]
+			print ("edge_verts:	" + edge_verts as string)
+
+			_edges.loop.reverse = this.getAusingB modOrObj reverse_loop_vert aType:#Edge bType:#Vertex
+			_edges.loop.forward = this.getAusingB modOrObj forward_loop_vert aType:#Edge bType:#Vertex
+
+			_edges.ring.filter = (_edges.loop.forward + _edges.loop.reverse) --union and store these for later
 		) else
 			return #{} --should be an impossible abortcondition unless passed something other than an Edge
-		
-		edgeFaces = this.getAusingB modOrObj oEdge aType:#Face bType:#Edge --edgeFaces can be either 2 or 1(for border oEdge)
-	
-		if (numFaces = edgeFaces.numBerset) > 0 then
+
+		edge_faces = this.getAusingB modOrObj oEdge aType:#Face bType:#Edge --edge_faces can be either 2 or 1(for border oEdge)
+
+		if (num_faces = edge_faces.numBerset) > 0 then
 		(
-			_ring_edges.reverse = this.getAusingB modOrObj (edgeFaces as array)[1] aType:#Edge bType:#Face
-			
-			if numFaces == 2 then
-				_ring_edges.forward = this.getAusingB modOrObj (edgeFaces as array)[2] aType:#Edge bType:#Face
-			
+			_edges.ring.reverse = this.getAusingB modOrObj (edge_faces as array)[1] aType:#Edge bType:#Face
+
+			if num_faces == 2 then
+				_edges.ring.forward = this.getAusingB modOrObj (edge_faces as array)[2] aType:#Edge bType:#Face
+
 			else
 				print "is border Edge"
-			
-			_loop_edges.filter = (_ring_edges.forward + _ring_edges.reverse)  --union and store these for later
+
+			_edges.loop.filter = (_edges.ring.forward + _edges.ring.reverse)  --union and store these for later
 		) else
 			return #{}--should also be an impossible abortcondition unless passed something other than an oEdge
-		
-		--do subtraction ops to get rid of most of the junk
-		_loop_edges.forward -= _loop_edges.filter
-		_loop_edges.reverse -= _loop_edges.filter
-		_ring_edges.forward -= _ring_edges.filter
-		_ring_edges.reverse -= _ring_edges.filter
-		
+
+		_edges.loop.filterEdges()
+		_edges.ring.filterEdges()
+
 		print "selecting the new edges just for testing"
-		--modOrObj.SetSelection #Edge (_loop_edges.forward + _loop_edges.reverse + _ring_edges.forward + _ring_edges.reverse)
+		--modOrObj.SetSelection #Edge (_edges.loop.forward + _edges.loop.reverse + _edges.ring.forward + _edges.ring.reverse)
 		--***From here on the code is incomplete***
 		--print ( "oEdge = " + oEdge as string )
-		print "-------------------"
-		print ( "oEdge = " + oEdge as string )
-		print ( "_loop_edges.forward = " + _loop_edges.forward as string )
-		print ( "Edge + _loop_edges.forward = " + (oEdge + _loop_edges.forward) as string )
-		print ( "_ringLoopEdges = " + _ringLoopEdges as string )
-		--modOrObj.SetSelection #Edge ( _loop_edges.forward )
-		--modOrObj.SetSelection #Edge ( oEdge )
-		modOrObj.SetSelection #Edge ( oEdge_selection + _loop_edges.forward )
+		print "--------------------------------------------------------"
+		
+		_edges --return
 	),
 
 	/**  
@@ -171,7 +216,7 @@ struct EpolySelection_v
 	function select_loop switch_loop mode =
 	(
 		this._init()
-	  
+
 	  print "select loop"
 		if( EpolyMod.isEditablePoly() ) then
 		(
@@ -181,7 +226,7 @@ struct EpolySelection_v
 		)
 		else if( EpolyMod.isEditPoly() ) then
 		(
-		
+
 			if subobjectLevel == 2 then (
 				--if mode == true then
 				--(
@@ -196,7 +241,7 @@ struct EpolySelection_v
 				--	--macros.run "PolyTools" "ShrinkLoop"
 				--	
 				--)
-			
+
 	--selectedEdges = theObject.GetSelection #edge as array
 	--selEdgeCount = selectedEdges.count
 			)
@@ -208,7 +253,7 @@ struct EpolySelection_v
 	function select_ring switch_loop mode =
 	(
 		this._init()
-	  
+
 		if( EpolyMod.isEditablePoly() ) then
 		(
 			obj = $
@@ -217,7 +262,7 @@ struct EpolySelection_v
 		)
 		else if( EpolyMod.isEditPoly() ) then
 		(
-		
+
 			if subobjectLevel == 2 then (
 				_mod.RingSelect switch_loop false mode
 
@@ -226,7 +271,7 @@ struct EpolySelection_v
 				--
 				--else
 				--	macros.run "PolyTools" "ShrinkRing"
-			
+
 	--selectedEdges = theObject.GetSelection #edge as array
 	--selEdgeCount = selectedEdges.count
 			)
@@ -240,7 +285,7 @@ struct EpolySelection_v
 	function epoly =
 	(
 		this._init()
-		
+
 		EpolyMod.getEpoly() --return 
 	),
 	/** Get subobject index
@@ -250,11 +295,11 @@ struct EpolySelection_v
 	(
 		findItem _subobjects sub_obj --return
 	),
-	
+
 	/*---------------------------------------
 		INIT METHODS
 	-----------------------------------------*/
-	
+
 	/** Set object
 	 */
 	function _setObjects =

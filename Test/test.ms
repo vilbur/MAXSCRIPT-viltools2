@@ -4,6 +4,7 @@
 
 
 struct MyStruct (
+	
     fn MyNestedStruct = ((struct _(
         firstValue,
         secondValue = 42;
@@ -11,7 +12,7 @@ struct MyStruct (
 )
 
 
-
+getProperty object "property"
 
 _instance = MyStruct.MyNestedStruct()
 

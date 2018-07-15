@@ -263,8 +263,12 @@ struct EditPoly_v
 	 */
 	function _setMod =
 	(
-		print ( "----------------------------------\n\tEditPoly_v._setMod()\n----------------------------------" )
-		mod = modPanel.getCurrentObject()
+		if( mod == undefined ) then
+		(
+			print ( "----------------------------------\n\tEditPoly_v._setMod()\n----------------------------------" )
+			mod = modPanel.getCurrentObject()
+		)
+		
 	),
 	function test =
 	(

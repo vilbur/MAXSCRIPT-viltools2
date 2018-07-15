@@ -7,7 +7,7 @@ struct Noise_Modifier_v
 	function get =
 	(
 		--Edit_Poly()
-		Noisemodifier scale:5 fractal:off strength:[15,15,15]--return
+		Noisemodifier scale:10 fractal:off strength:[15,15,15]--return
 
 	),
 	

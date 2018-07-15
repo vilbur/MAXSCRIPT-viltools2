@@ -7,7 +7,7 @@ struct Relax_Modifier_v
 	function get =
 	(
 		--Edit_Poly()
-		Relax Relax_Value:1 --return
+		Relax Relax_Value:0.3 --return
 
 	),
 	

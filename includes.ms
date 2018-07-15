@@ -61,6 +61,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyEdges/EpolyEdg
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyEdit/EpolyEdit.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySmoothGroups/EpolySmoothGroups.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyMaterial/EditPolyMaterial.ms" )
+
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/EpolySelection.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EditPolyExplode/EditPolyExplode.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/Epoly.ms" )

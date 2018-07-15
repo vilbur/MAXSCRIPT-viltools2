@@ -26,7 +26,7 @@ tooltip:	"Target Weld"
 macroscript	epoly_connect
 category:	"_Epoly-Edit"  
 buttonText:	"Connect"
-tooltip:	"Connect"
+tooltip:	"Connect subobject"
 (
 	undo "Connect subobject" on
 	(

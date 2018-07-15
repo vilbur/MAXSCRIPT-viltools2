@@ -17,6 +17,20 @@ tooltip:	"Attach Selected"
 	)	)
 )
 
+macroscript	epoly_attach_unique_mat
+category:	"_Epoly"  
+buttonText:	"Attach unique"
+tooltip:	"Attach unique materials & Smooth groups"
+(
+	--clearListener()
+	undo "Bake objects" on
+	(
+		macros.run "_Epoly-SmoothGroups" "epoly_smooth_group_by_object"
+		macros.run "_Material" "material_material_by_object"
+		macros.run "_Epoly" "epoly_attach_selection"
+	)
+)
+
 macroscript	epoly_bakeObjects
 category:	"_Epoly"  
 buttonText:	"Bake objects"

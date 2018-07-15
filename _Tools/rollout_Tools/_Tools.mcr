@@ -53,7 +53,7 @@ toolTip:	"Scale tool or change axis x|y|z"
 	(ToolMode_v()).setToolOrChangeAxis #Nuscale #( #x, #y, #z )
 )
 
-macroscript	tools_scale_tool_or_axis
+macroscript	tools_scale_tool_or_axis_double
 category:	"_Tools"
 buttontext:	"Scale tool\axis"
 toolTip:	"Scale tool or change axis xy|zx|yz"

@@ -33,6 +33,7 @@ struct EpolyEdges_v
 
 	function test =
 	(
-		messagebox "EditPoly.test()"
+		(EpolyMod.getEpoly()).test() 
+		messageBox "EpolyEdges.test()"
 	)
 )

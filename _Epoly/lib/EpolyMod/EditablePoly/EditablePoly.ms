@@ -154,6 +154,7 @@ struct EditablePoly_v
 		
 		polyop.setFaceSmoothGroup obj facelist smooth_group
 	),
+	
 	/** Auto smooth
 	  * @param	integer	_angle
 	 */
@@ -172,6 +173,43 @@ struct EditablePoly_v
 		for i = 1 to (this._allFaces()) do
 			polyop.setFaceSmoothGroup obj i 0
 	),
+	/** Make planar
+	 */
+	function makePlanar axis =
+	(
+		if( axis != undefined ) then
+			mod.EditablePoly.MakePlanarIn axis
+		else
+			mod.makePlanar #Face
+		
+	),
+	/*---------------------------------------
+		SELECTION
+	-----------------------------------------*/
+	/** Get current subobejct selection
+	  * @param	name	sub_obj
+	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
+	  */
+	function getSel sub_obj =
+	(		
+		this.init()
+
+		mod.GetSelection sub_obj --return
+	),
+	/** Set editable poly selection of subobjects
+	  * @param	name	sub_obj
+	 */
+	function setSel sub_obj facelist =
+	(
+		mod.SetSelection sub_obj facelist
+	),
+
+	/** Get verts using edge
+	 */
+	function getVertsUsingEdge verts =
+	(
+		polyop.getVertsUsingEdge obj verts --return
+	), 
 	/*---------------------------------------
 		PRIVATE 
 	-----------------------------------------*/
@@ -192,6 +230,7 @@ struct EditablePoly_v
 	 */
 	function _setMod =
 	(
+		print ( "----------------------------------\n\tEditablePoly_v._setMod()\n----------------------------------" )
 		mod = modPanel.getCurrentObject()
 	),
 	function test =

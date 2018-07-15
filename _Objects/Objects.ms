@@ -13,6 +13,23 @@ struct Objects_v
 		global showObjectNamesCallback = true
 	),
 	-- unRegisterRedrawViewsCallback 
+	/** Collapse node
+	   TEMP FUNCTION
+	 */
+	function collapseNode =
+	(
+		maxMode = getCommandPanelTaskMode()
+		subObj = SubObjectLevel
+
+		if selection.count > 1 and maxMode == #modify do max create mode
+		
+		for o in selection where superclassof o == geometryclass and (classof o != PolyMeshObject or classof o != Editable_Poly ) do addmodifier o (Edit_Poly ())
+		for o in selection where superclassof o == geometryclass do	maxOps.CollapseNodeTo o 1 off
+
+		if maxMode == #modify do max modify mode
+		SubObjectLevel = subObj	
+	),
+	
 	
 	/**  
 	 */

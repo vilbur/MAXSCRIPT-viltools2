@@ -1,6 +1,14 @@
-	function GetAUsingB modOrObj bInVar aType:#currentLevel bType:#currentLevel =
+/** Select loop ring
+ */
+struct SelectLoopRing_v
+(
+	
+	/**  
+	 *	
+	 */
+	function getAUsingB modOrObj bInVar aType:#currentLevel bType:#currentLevel =
 	(
-		print ("GetAUsingB" + " bInVar: " + bInVar as string + " aType: " + aType as string + " bType: " + bType as string)
+		print ("this.getAUsingB" + " bInVar: " + bInVar as string + " aType: " + aType as string + " bType: " + bType as string)
 		local bBitArray = #{}
 		local returnBitArray = #{}
 		--class conversion
@@ -80,8 +88,10 @@
 		print ("returnArray:"+ returnBitArray as string)
 		--Final return
 		return returnBitArray
-	)
-		
+	),
+	/**  
+	 *	
+	 */
 	function GetNextRingLoop oEdge_selection modOrObj:(Filters.GetModOrObj()) =
 	(
 		--make sure we have the correct variable type for edge
@@ -102,7 +112,7 @@
 		ringFilterEdges	= #{}
 		loopFilterEdges	= #{}
 		
-		edgeVerts = GetAUsingB modOrObj oEdge aType:#Vertex bType:#Edge --edgeVerts should always be 2
+		edgeVerts = this.getAUsingB modOrObj oEdge aType:#Vertex bType:#Edge --edgeVerts should always be 2
 	
 		if edgeVerts.numberSet == 2 then
 		(	
@@ -110,21 +120,21 @@
 			forwardLoopVert = (edgeVerts as array)[2]
 			print ("edgeVerts:	" + edgeVerts as string)
 			
-			reverseLoopEdges = GetAUsingB modOrObj reverseLoopVert aType:#Edge bType:#Vertex
-			forwardLoopEdges = GetAUsingB modOrObj forwardLoopVert aType:#Edge bType:#Vertex
+			reverseLoopEdges = this.getAUsingB modOrObj reverseLoopVert aType:#Edge bType:#Vertex
+			forwardLoopEdges = this.getAUsingB modOrObj forwardLoopVert aType:#Edge bType:#Vertex
 			
 			ringFilterEdges = (forwardLoopEdges + reverseLoopEdges) --union and store these for later
 		) else
 			return #{} --should be an impossible abortcondition unless passed something other than an Edge
 		
-		edgeFaces = GetAUsingB modOrObj oEdge aType:#Face bType:#Edge --edgeFaces can be either 2 or 1(for border oEdge)
+		edgeFaces = this.getAUsingB modOrObj oEdge aType:#Face bType:#Edge --edgeFaces can be either 2 or 1(for border oEdge)
 	
 		if (numFaces = edgeFaces.numBerset) > 0 then
 		(
-			reverseRingEdges = GetAUsingB modOrObj (edgeFaces as array)[1] aType:#Edge bType:#Face
+			reverseRingEdges = this.getAUsingB modOrObj (edgeFaces as array)[1] aType:#Edge bType:#Face
 			
 			if numFaces == 2 then
-				forwardRingEdges = GetAUsingB modOrObj (edgeFaces as array)[2] aType:#Edge bType:#Face
+				forwardRingEdges = this.getAUsingB modOrObj (edgeFaces as array)[2] aType:#Edge bType:#Face
 			
 			else
 				print "is border Edge"
@@ -156,15 +166,14 @@
 		--modOrObj.SetSelection #Edge ( forwardLoopEdges )
 		--modOrObj.SetSelection #Edge ( oEdge )
 		modOrObj.SetSelection #Edge ( oEdge_selection + forwardLoopEdges )
-		
-		
-	)
-	
-	
+	),
+	/**  
+	 *	
+	 */
 	function testGNRL =
 	(
-		if (getCommandPanelTaskMode() != #modify) then
-			setCommandPanelTaskMode #modify
+		if ( GetCommandPanelTaskMode() != #modify) then
+			SetCommandPanelTaskMode #modify
 		
 		
 		modOrObj = Filters.GetModOrObj()
@@ -184,8 +193,15 @@
 		(
 			print "nothing selected"
 		)
-	)
+	),
+
 	
-	clearListener()
-	testGNRL()
-	redrawViews()
+	/*------------------------------------------------------------------------------
+		PRIVATE
+	--------------------------------------------------------------------------------*/
+	
+	function test =
+	(
+		messagebox "SelectLoopRing.test()"
+	)
+)

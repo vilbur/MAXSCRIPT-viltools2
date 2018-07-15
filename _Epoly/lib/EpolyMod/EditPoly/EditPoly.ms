@@ -127,6 +127,18 @@ struct EditPoly_v
 		mod.SetOperation #SetMaterial
 		mod.materialIDToSet = (id - 1)
 	),
+	/** Make planar
+	 */
+	function makePlanar axis =
+	(
+		case axis of
+		(
+			#x: mod.ButtonOp #MakePlanarInX
+			#y: mod.ButtonOp #MakePlanarInY
+			#z: mod.ButtonOp #MakePlanarInZ
+			default:	#MakePlanar
+		)
+	),
 	/*---------------------------------------
 		SMOOTH GROUPS
 	-----------------------------------------*/
@@ -163,6 +175,46 @@ struct EditPoly_v
 		mod.smoothingGroupsToClear	= -1
 	),
 	/*---------------------------------------
+		SELECTION
+	-----------------------------------------*/
+	/** Get current subobejct selection
+	  * @param	name	sub_obj
+	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
+	  */
+	function getSel sub_obj =
+	(		
+		this.init()
+		for o in _selection collect (mod.GetSelection sub_obj node:o) --return
+
+		------mod.GetSelection sub_obj --return
+	),
+	/** Set edit poly selection of subobjects 
+	  * @param	name	sub_obj
+	 */
+	function setSel sub_obj facelist_array =
+	(
+		--print "======= _setEditPolySelection()"
+
+		for o=1 to _selection.count do
+		(
+			sub_selection	= if( classOf facelist_array == Array )then facelist_array[o] else facelist_array
+			mod.SetSelection	sub_obj #{}	node: _selection[o]
+			mod.Select	sub_obj sub_selection	node: _selection[o]
+		)
+	),
+	/** Get verts using edge
+	 */
+	function getVertsUsingEdge edges_bitar =
+	(
+		polyop.getVertsUsingEdge obj edges_bitar --return
+	),
+	/** Get edges using vert
+	 */
+	function getEdgesUsingVert =
+	(
+		
+	),	
+	/*---------------------------------------
 		PRIVATE 
 	-----------------------------------------*/
 	/** _all faces
@@ -188,6 +240,7 @@ struct EditPoly_v
 	 */
 	function _setMod =
 	(
+		print ( "----------------------------------\n\tEditPoly_v._setMod()\n----------------------------------" )
 		mod = modPanel.getCurrentObject()
 	),
 	function test =

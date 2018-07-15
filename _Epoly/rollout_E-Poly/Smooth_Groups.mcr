@@ -53,8 +53,8 @@ tooltip:	"Set one smooth group for ach selected object"
 
 macroscript	epoly_repair_smooth_groups_by_material
 category:	"_Epoly-SmoothGroups"  
-buttonText:	"Repair Smooth Groups By Material"
-tooltip:	"Repair Smooth Groups By Material"
+buttonText:	"Smooth Groups By Material"
+tooltip:	"Det Smooth Groups By Material"
 ( 
 	
 	--messageBox "message" beep:false

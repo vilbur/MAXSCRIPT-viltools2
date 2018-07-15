@@ -93,7 +93,10 @@ struct Subobject_v
 	(
 			
 		if( enter_subobject_last_subobject == undefined ) then
-			global enter_subobject_last_subobject = 1
+		(
+			global enter_subobject_last_subobject
+			enter_subobject_last_subobject = 1
+		)
 			
 		if( sub_obj == undefined) then
 			sub_obj = enter_subobject_last_subobject

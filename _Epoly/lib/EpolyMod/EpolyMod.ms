@@ -25,7 +25,7 @@ struct EpolyMod_v
 	 */
 	function _setEpoly =
 	(
-		
+		--messageBox "setEpoly"
 		if( this.isEditablePoly()==false ) then
 			this._initSubClass Edit_Poly
 			

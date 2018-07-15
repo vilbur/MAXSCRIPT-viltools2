@@ -54,6 +54,7 @@ struct Epoly_v
 	quickslice 	= EpolyEdit.quickslice,
 	extrude 	= EpolyEdit.extrude,
 	targetWeld 	= EpolyEdit.targetWeld,
+	makePlanar 	= EpolyEdit.makePlanar,
 
 	
 	

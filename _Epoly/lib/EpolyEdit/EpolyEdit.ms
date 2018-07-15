@@ -49,7 +49,12 @@ struct EpolyEdit_v
 	(
 		(EpolyMod.getEpoly()).targetWeld()
 	),
-
+	/** Make planar
+	 */
+	function makePlanar axis =
+	(
+		(EpolyMod.getEpoly()).makePlanar axis
+	),
 	--/** Extrude
 	-- */
 	--function extrude =

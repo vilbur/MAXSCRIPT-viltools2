@@ -48,9 +48,17 @@ buttontext:	"get A using B"
 toolTip:	"get A using B"
 --icon:	"#(path, index)"
 (
-	--(Epoly_v()).EpolySelection.test()
-	(Epoly_v()).EpolySelection.getAusingB()
+	clearListener()
 
+	modOrObj = Filters.GetModOrObj()
+	
+	subObjectLevel	= 2
+	
+	sub_selection = modOrObj.GetSelection #Face
+	
+	b_get =  (Epoly_v()).EpolySelection.getAusingB modOrObj sub_selection aType:#Face bType:#Vertex 
+	
+	print ( "b_get = " + b_get as string )
 	--(EpolySelection_v()).select_loop 1 false   
 )
 

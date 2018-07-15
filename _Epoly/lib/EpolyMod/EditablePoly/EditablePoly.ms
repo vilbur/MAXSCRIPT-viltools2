@@ -203,82 +203,23 @@ struct EditablePoly_v
 	(
 		mod.SetSelection sub_obj facelist
 	),
-	/** Capitalize string
-	 */
-	function capitalize _string =
-	(
-		_string = _string as string
-		
-		if( matchPattern _string pattern:"vertex" ) then
-			_string = "vert"
-			
-		--case of
-		--(
-		--	(matchPattern _string pattern:"vertex"):	_string = "Vert"
-		--)
-			
-		toUpper _string[1] + substring _string 2 -1 --return capitalized
-	),
 	/** Get ausing b
 	 */
 	function getAusingB aType bType subobjects =
 	(
 		this.init()
 		
-		aType = ( this.capitalize aType ) + "s"
-		bType = this.capitalize bType
-		
-		polyop_method =  "get"+ aType as string +"Using" + bType as string
-
-		case polyop_method of
+		case of
 		(
-			"getVertsUsingEdge":	polyop.getVertsUsingEdge obj subobjects
-			"getVertsUsingFace":	polyop.getVertsUsingFace obj subobjects
-			"getEdgesUsingVert":	polyop.getEdgesUsingVert obj subobjects
-			"getEdgesUsingFace":	polyop.getEdgesUsingFace obj subobjects
-			"getFacesUsingVert":	polyop.getFacesUsingVert obj subobjects
-			"getFacesUsingEdge":	polyop.getFacesUsingEdge obj subobjects
-			--default:	
+			( aType == #Vertex	and bType == #Edge	): polyop.getVertsUsingEdge obj subobjects
+			( aType == #Vertex	and bType == #Face	): polyop.getVertsUsingFace obj subobjects
+			( aType == #Edge	and bType == #Vertex	): polyop.getEdgesUsingVert obj subobjects
+			( aType == #Edge	and bType == #Face	): polyop.getEdgesUsingFace obj subobjects
+			( aType == #Face	and bType == #Vertex	): polyop.getFacesUsingVert obj subobjects
+			( aType == #Face	and bType == #Edge	): polyop.getFacesUsingEdge obj subobjects
 		)
-		
-		
-		
-		----redrawViews()
-		--execute ( polyop_method + " " + obj.baseobject as string + " " + subobjects as string )
-		--execute ( polyop_method + " " + obj as string + " " + subobjects as string )
-		
-		--print ( "obj = " + obj as string )
-		--deselect obj
-		--sleep 2
-		--select obj
-		--execute ( "select " + obj as string )
-		--#{1} 
 	),
-	
-	/** Get verts using edge
-	 */
-	function getVertsUsingEdge verts =
-	(
-		this.init()
 
-		polyop.getVertsUsingEdge obj verts --return
-	),
-	/** Get verts using edge
-	 */
-	function getEdgesUsingVert edges =
-	(
-		this.init()
-
-		polyop.getEdgesUsingVert obj edges --return
-	),
-	/** Get verts using edge
-	 */
-	function getFacesUsingVert facelist =
-	(
-		this.init()
-
-		polyop.getFacesUsingEdge obj facelist --return
-	),
 	/*---------------------------------------
 		PRIVATE 
 	-----------------------------------------*/

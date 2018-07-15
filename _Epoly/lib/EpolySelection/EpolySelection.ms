@@ -62,24 +62,15 @@ struct EpolySelection_v
 	(		
 		(this.epoly()).setSel sub_obj _selection --return
 	),
-	--/** Get mesh level
-	-- */
-	--function getMeshLevel modOrObj =
-	--(
-	--	current_level = (modOrObj.GetMeshSelLevel()) as string
-	--	
-	--	toUpper current_level[1] + substring current_level 2 -1 --return capitalized
-	--),
 
 	/**  
 	 *	
 	 */
 	function getAusingB modOrObj bInVar aType:#currentLevel bType:#currentLevel =
-	--function getAusingB  =
 	(
 		print ("GetAUsingB" + " bInVar: " + bInVar as string + " aType: " + aType as string + " bType: " + bType as string)
-		local bBitArray = #{}
-		local returnBitArray = #{}
+		bBitArray = #{}
+		--returnBitArray = #{}
 		--class conversion
 		case classOf bInVar of
 		(
@@ -93,89 +84,13 @@ struct EpolySelection_v
 		if bType == #currentLevel do (bType = modOrObj.GetMeshSelLevel() )
 		--if both a and b are of the same type return b
 		
-		--aType = this.capitalize aType
-		--bType = this.capitalize bType
-		
 		if aType == bType do ( return bBitArray )
 		
-		print ("Get "+ aType as string + " From " + bType as string)
+		--print ("Get "+ aType as string + " From " + bType as string)
 		--print (bType as string + " bitarray: " + bBitArray as string)
 		 
 		returnBitArray = (this.epoly()).getAusingB aType bType bBitArray
 
-		--case aType of
-		--(
-		--	#vertex: case bType of
-		--	(
-		--		#Edge:
-		--			returnBitArray = (this.epoly()).getVertsUsingEdge bBitArray
-		--		--case classof modOrObj of
-		--	--			(
-		--	--				Editable_Poly:(returnBitArray = polyOp.getVertsUsingEdge modOrObj bBitArray)
-		--	--				Edit_Poly:(modOrObj.getVertsUsingEdge &returnBitArray bBitArray)
-		--	--			)
-		--		#Face:
-		--			returnBitArray = (this.epoly()).getVertsUsingFace bBitArray
-		--		--case classof modOrObj of
-		--	--			(
-		--	--				Editable_Poly:(returnBitArray = polyOp.getVertsUsingFace modOrObj bBitArray)
-		--	--				Edit_Poly:(modOrObj.getVertsUsingFace &returnBitArray bBitArray)
-		--	--			)
-		--	--	default:(print "invalid bType")
-		--	)
-		--	#Edge: case bType of
-		--	(
-		--		#Vertex:
-		--			returnBitArray = (this.epoly()).getEdgesUsingVert bBitArray
-		--			--case classof modOrObj of
-		--		--		(
-		--		--			Editable_Poly:(returnBitArray = polyOp.getEdgesUsingVert modOrObj bBitArray)
-		--		--			Edit_Poly:(modOrObj.getEdgesUsingVert &returnBitArray bBitArray)
-		--		--		)
-		--		#Face:
-		--			returnBitArray = (this.epoly()).getEdgesUsingFace bBitArray
-		--			--case classof modOrObj of
-		--		--		(
-		--		--			Editable_Poly:(returnBitArray = polyOp.getEdgesUsingFace modOrObj bBitArray)
-		--		--			Edit_Poly:
-		--		--			(--thanks to: IllusionCatalyst
-		--		--				local iFaceDeg = 0
-		--		--				for iFace in (bBitArray as array) do
-		--		--				(
-		--		--					iFaceDeg = modOrObj.getFaceDegree iFace
-		--		--					--print ("faceIndex: " + iface as string + " degree: " + iFaceDeg as string)
-		--		--					for i = 1 to iFaceDeg do 
-		--		--					(
-		--		--						--print("degree: " + i as string)
-		--		--						returnBitArray[modOrObj.getFaceEdge iFace i] = true
-		--		--					)
-		--		--				)
-		--		--			)
-		--		--		)
-		--		default:(print "invalid bType")
-		--	)
-		--	#Face: case bType of
-		--	(
-		--		#Vertex:
-		--			returnBitArray = (this.epoly()).getFacesUsingVert bBitArray
-		--	
-		--		--case classof modOrObj of
-		--	--			(
-		--	--				Editable_Poly:(returnBitArray = polyOp.getFacesUsingVert modOrObj bBitArray)
-		--	--				Edit_Poly:(modOrObj.getFacesUsingVert &returnBitArray bBitArray)
-		--	--			)
-		--		#Edge:
-		--			returnBitArray = (this.epoly()).getFacesUsingEdge bBitArray
-		--	
-		--		--case classof modOrObj of
-		--	--			(
-		--	--				Editable_Poly:(returnBitArray = polyOp.getFacesUsingEdge modOrObj bBitArray)
-		--	--				Edit_Poly:(modOrObj.getFacesUsingEdge &returnBitArray bBitArray)
-		--	--			)
-		--	--	default:(print "invalid bType")
-		--	)
-		--	default:(print "invalid aType")
-		--)
 		print ("returnArray:"+ returnBitArray as string)
 		--Final return
 		return returnBitArray

@@ -202,18 +202,41 @@ struct EditPoly_v
 			mod.Select	sub_obj sub_selection	node: _selection[o]
 		)
 	),
-	/** Get verts using edge
+	/** Get ausing b
 	 */
-	function getVertsUsingEdge edges_bitar =
+	function getAusingB aType bType subobjects =
 	(
-		polyop.getVertsUsingEdge obj edges_bitar --return
-	),
-	/** Get edges using vert
-	 */
-	function getEdgesUsingVert =
-	(
+		this.init()
 		
-	),	
+		returnBitArray = #{}
+		
+		case of
+		(
+			( aType == #Vertex	and bType == #Edge	): mod.getVertsUsingEdge &returnBitArray subobjects
+			( aType == #Vertex	and bType == #Face	): mod.getVertsUsingEdge &returnBitArray subobjects
+			( aType == #Edge	and bType == #Vertex	): mod.getEdgesUsingVert &returnBitArray subobjects
+			( aType == #Edge	and bType == #Face	): this.getEdgesUsingFace returnBitArray subobjects
+			( aType == #Face	and bType == #Vertex	): mod.getFacesUsingVert &returnBitArray subobjects
+			( aType == #Face	and bType == #Edge	): mod.getFacesUsingEdge &returnBitArray subobjects
+		)
+		returnBitArray --return
+
+	),
+	/** Get edges using face
+	 */
+	function getEdgesUsingFace returnBitArray subobjects =
+	(
+		iFaceDeg = 0
+		
+		for iFace in (subobjects as array) do
+		(
+			iFaceDeg = mod.getFaceDegree iFace
+			--print ("faceIndex: " + iface as string + " degree: " + iFaceDeg as string)
+			for i = 1 to iFaceDeg do 
+				returnBitArray[mod.getFaceEdge iFace i] = true
+		)
+		returnBitArray
+	),
 	/*---------------------------------------
 		PRIVATE 
 	-----------------------------------------*/

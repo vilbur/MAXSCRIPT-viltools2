@@ -1,3 +1,24 @@
+/** Loop ring blocker
+ */
+struct loopRingBlocker 
+(
+	forward,
+	reverse,
+	
+	/** Set
+	 */
+	function setEdge property value =
+	(
+		setProperty this property value
+	),
+	/** Set
+	 */
+	function getEdge property =
+	(
+		getProperty this property
+	)
+)	
+
 /** Manage subobejct selections for Editable_Poly & Edit_Poly
   *
   *
@@ -90,10 +111,6 @@ struct EpolySelection_v
 
 		returnBitArray --return
 	),
-
-
-
-
 	/**  
 	 *	
 	 */
@@ -135,30 +152,63 @@ struct EpolySelection_v
 		polyop.getEdgeSelection node
 
 	),
+
+	--/** Loop ring blocker
+	-- */
+	--function loopRingBlocker = ((struct _
+	--(
+	--	forward,
+	--	reverse,
+	--	
+	--	/** Set
+	--	 */
+	--	function setEdge property value =
+	--	(
+	--		setProperty this property value
+	--
+	--	)
+	--	
+	--);)()),
 	
 	/** Get new edge
 	 */
-	function getNewEdge edges_new =
+	function getNewEdge edges_new direciton =
 	(
 		print ( "edges_new = " + edges_new as string )
+		print ( "direciton = " + direciton as string )
 		
-		if( last_edge_unused == undefined ) then
-			global last_edge_unused = edges_new[1]
+		direciton_opposite	= if( direciton == #forward )then #reverse else #forward 
 		
-		print ( "last_edge_unused = " + last_edge_unused as string )
-		index_unused	= findItem edges_new last_edge_unused
-		
-		if( index_unused == 0 ) then
-			index_unused = 1
-		print ( "index_unused = " + index_unused as string )
+		if( loop_ring_blocker == undefined ) then
+			global loop_ring_blocker = loopRingBlocker forward:edges_new[1] reverse:edges_new[2]
 
-		last_edge_unused	= edges_new[index_unused]
 		
-		print ( "last_edge_unused = " + last_edge_unused as string )
-
-		deleteItem edges_new index_unused
+		blocked_edge	= loop_ring_blocker.getEdge direciton 
+		blocked_index	= findItem edges_new blocked_edge
 		
-		edges_new[1] --return
+		print ( "blocked_edge = " + blocked_edge as string )
+		
+		if( blocked_edge != undefined ) then
+		(
+			unblocked_index	= if( blocked_index == 1 ) then 2 else 1
+			
+			unblocked_edge	= edges_new[unblocked_index]
+		)else
+		(
+			unblocked_edge	= loop_ring_blocker.getEdge direciton_opposite 
+			
+			deleteItem edges_new (findItem edges_new unblocked_edge)
+			
+			blocked_edge	= edges_new[1]
+		)
+		
+		loop_ring_blocker.setEdge direciton	blocked_edge
+		loop_ring_blocker.setEdge direciton_opposite	undefined
+		
+		print ( "loop_ring_blocker = " + loop_ring_blocker as string )
+		print ( "unblocked_edge = " + unblocked_edge as string )
+		
+		unblocked_edge --return unblocked edge
 	),
 	
 	/**  
@@ -166,28 +216,37 @@ struct EpolySelection_v
 	 */
 	function selectLoopRing loop_or_ring direciton select_mode =
 	(
+		
 		print "-----------------------------------"
 		modOrObj	= Filters.GetModOrObj()
 		subObjectLevel	= 2
 		edge_selection	= modOrObj.GetSelection #Edge
 		print ( "edge_selection = " + edge_selection as string )
+		--print ( "last_loop_ring_selection = " + last_loop_ring_selection as string )
 		
-		direciton	= if( direciton == #forward  )then 1 else -1  
+		direciton_boolean	= if( direciton == #forward  )then 1 else -1  
 		select_or_move	= ( select_mode == #move )
 		select_mode	= ( select_mode == #select )
 		--select_mode	= true
 
-		--print ( "select_or_move = " + select_or_move as string )
-		--print ( "select_or_move = " + select_or_move as string +" " + select_mode as string)
+		if( last_loop_ring_selection == undefined ) then
+			global last_loop_ring_selection
+		
+		--print ( "Test = " + (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) as string )
+		if (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) then
+		(
+			loop_ring_blocker = undefined 
+			--print "!!! RESET"
+		)
 		
 		
 		if( classof modOrObj == Editable_Poly ) then
 		(
 			if( loop_or_ring == #loop ) then 
-				modOrObj.setLoopShift direciton select_or_move select_mode
+				modOrObj.setLoopShift direciton_boolean select_or_move select_mode
 				
 			else
-				modOrObj.setRingShift direciton select_or_move select_mode
+				modOrObj.setRingShift direciton_boolean select_or_move select_mode
 			
 		)else
 		(
@@ -197,20 +256,22 @@ struct EpolySelection_v
 				
 				edge_selection_new	= modOrObj.GetSelection #Edge
 				
-				new_edge = this.getNewEdge ((edge_selection_new - edge_selection) as Array)
+				new_edge = this.getNewEdge ((edge_selection_new - edge_selection) as Array ) direciton
 				
 				
 				edge_selection_one_way = append edge_selection new_edge
 				
-				print ( "edge_selection_one_way = " + edge_selection_one_way as string )
+				--print ( "edge_selection_one_way = " + edge_selection_one_way as string )
 				
 				modOrObj.SetSelection #Edge edge_selection_one_way
 				
+				
+				last_loop_ring_selection = edge_selection_one_way
 			)
 			else
 			(
 				modOrObj.RingSelect 2 select_or_move select_mode
-				--modOrObj.RingSelect direciton select_or_move select_mode
+				--modOrObj.RingSelect direciton_boolean select_or_move select_mode
 			)
 		)
 	),

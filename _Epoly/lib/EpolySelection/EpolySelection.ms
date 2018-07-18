@@ -7,15 +7,25 @@ struct loopRingBlocker
 	
 	/** Set
 	 */
-	function setEdge property value =
+	function setEdge property value opposite:false =
 	(
-		setProperty this property value
+		setProperty this (this.getProperty property opposite) value
 	),
 	/** Set
 	 */
-	function getEdge property =
+	function getEdge property opposite:false =
 	(
-		getProperty this property
+		
+		getProperty this (this.getProperty property opposite)
+	),
+	/** Get opposite property
+	 */
+	function getProperty property opposite =
+	(
+		if( opposite == true ) then
+			property = if( property==#forward  )then #reverse else #forward
+		else
+			property
 	)
 )	
 
@@ -111,47 +121,19 @@ struct EpolySelection_v
 
 		returnBitArray --return
 	),
-	/**  
-	 *	
-	 */
-	function gedLoops node edges =
-	(
-		--print ( "gedLoops = " + edges as string )
-		
-		edges_processed	= #()
-		all_loops	= #()
-		
-		for _edge in edges where findItem edges_processed _edge == 0 do
-		(
-			edges_filtered	= #{}	-- get only edges from edges array
 
-			loop	= this.getLoopForEdge _edge node
-			
-			for edge_in_loop in loop where findItem edges edge_in_loop != 0 do
-				append edges_filtered edge_in_loop
-			
-			join	edges_processed loop
-			append	all_loops edges_filtered
-		)
-		
-		print ( "all_loops = " + all_loops as string )
-		--print ( "all_loops.count = " + all_loops.count as string )
-		
-		all_loops --return
-	),
-	/** Get all edges in loop for edge
-	  * @param	integer	_edge	Index of edge
-	  * @return	BitArray 	
-	 */
-	function getLoopForEdge _edge node =
-	(
-		polyop.setEdgeSelection node #{_edge}
-		
-		node.SelectEdgeLoop()
-		
-		polyop.getEdgeSelection node
-
-	),
+	--/** Get all edges in loop for edge
+	--  * @param	integer	_edge	Index of edge
+	--  * @return	BitArray 	
+	-- */
+	--function getLoopForEdge _edge node =
+	--(
+	--	polyop.setEdgeSelection node #{_edge}
+	--	
+	--	node.SelectEdgeLoop()
+	--	
+	--	polyop.getEdgeSelection node
+	--),
 
 	--/** Loop ring blocker
 	-- */
@@ -172,39 +154,30 @@ struct EpolySelection_v
 	
 	/** Get new edge
 	 */
-	function getNewEdge edges_new direciton =
+	function getNewEdge edges_new direction =
 	(
-		print ( "edges_new = " + edges_new as string )
-		print ( "direciton = " + direciton as string )
-		
-		direciton_opposite	= if( direciton == #forward )then #reverse else #forward 
-		
 		if( loop_ring_blocker == undefined ) then
 			global loop_ring_blocker = loopRingBlocker forward:edges_new[1] reverse:edges_new[2]
 
-		
-		blocked_edge	= loop_ring_blocker.getEdge direciton 
-		blocked_index	= findItem edges_new blocked_edge
-		
-		print ( "blocked_edge = " + blocked_edge as string )
+		blocked_edge	= loop_ring_blocker.getEdge direction 
 		
 		if( blocked_edge != undefined ) then
 		(
-			unblocked_index	= if( blocked_index == 1 ) then 2 else 1
+			unblocked_index	= if( (findItem edges_new blocked_edge) == 1 ) then 2 else 1
 			
 			unblocked_edge	= edges_new[unblocked_index]
-		)else
+		)
+		else
 		(
-			unblocked_edge	= loop_ring_blocker.getEdge direciton_opposite 
+			unblocked_edge	= loop_ring_blocker.getEdge direction opposite:true
 			
 			deleteItem edges_new (findItem edges_new unblocked_edge)
 			
 			blocked_edge	= edges_new[1]
 		)
 		
-		loop_ring_blocker.setEdge direciton	blocked_edge
-		loop_ring_blocker.setEdge direciton_opposite	undefined
-		
+		loop_ring_blocker.setEdge direction	blocked_edge
+		loop_ring_blocker.setEdge direction	undefined opposite:true
 		print ( "loop_ring_blocker = " + loop_ring_blocker as string )
 		print ( "unblocked_edge = " + unblocked_edge as string )
 		
@@ -214,34 +187,35 @@ struct EpolySelection_v
 	/**  
 	 *	
 	 */
-	function selectLoopRing loop_or_ring direciton select_mode =
+	function selectLoopRing loop_or_ring direction select_mode =
 	(
-		
+		--print ( "direction = " + direction as string )
+
 		print "-----------------------------------"
 		modOrObj	= Filters.GetModOrObj()
 		subObjectLevel	= 2
 		edge_selection	= modOrObj.GetSelection #Edge
-		print ( "edge_selection = " + edge_selection as string )
+		--print ( "edge_selection = " + edge_selection as string )
 		--print ( "last_loop_ring_selection = " + last_loop_ring_selection as string )
-		
-		direciton_boolean	= if( direciton == #forward  )then 1 else -1  
-		select_or_move	= ( select_mode == #move )
-		select_mode	= ( select_mode == #select )
+			--print ( "direction = " + direction as string )
+	
 		--select_mode	= true
 
-		if( last_loop_ring_selection == undefined ) then
-			global last_loop_ring_selection
-		
-		--print ( "Test = " + (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) as string )
-		if (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) then
-		(
-			loop_ring_blocker = undefined 
-			--print "!!! RESET"
-		)
-		
+		--if( last_loop_ring_selection == undefined ) then
+		--	global last_loop_ring_selection
+		--
+		----print ( "Test = " + (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) as string )
+		--if (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) then
+		--	loop_ring_blocker = undefined 
 		
 		if( classof modOrObj == Editable_Poly ) then
 		(
+			
+			direciton_boolean	= if( direction == #forward  )then 1 else -1  
+			select_or_move	= ( select_mode == #move )
+			select_mode	= ( select_mode == #select )
+			
+			
 			if( loop_or_ring == #loop ) then 
 				modOrObj.setLoopShift direciton_boolean select_or_move select_mode
 				
@@ -250,35 +224,37 @@ struct EpolySelection_v
 			
 		)else
 		(
-		 	if( loop_or_ring == #loop ) then
-			(
-				modOrObj.LoopSelect 2 select_or_move select_mode
-				
-				edge_selection_new	= modOrObj.GetSelection #Edge
-				
-				new_edge = this.getNewEdge ((edge_selection_new - edge_selection) as Array ) direciton
-				
-				
-				edge_selection_one_way = append edge_selection new_edge
-				
-				--print ( "edge_selection_one_way = " + edge_selection_one_way as string )
-				
-				modOrObj.SetSelection #Edge edge_selection_one_way
-				
-				
-				last_loop_ring_selection = edge_selection_one_way
-			)
-			else
-			(
-				modOrObj.RingSelect 2 select_or_move select_mode
-				--modOrObj.RingSelect direciton_boolean select_or_move select_mode
-			)
+			(EditPolyRingLoop_v mod:modOrObj).selectLoopRing loop_or_ring direction select_mode
+
+		-- 	if( loop_or_ring == #loop ) then
+		--	(
+		--		modOrObj.LoopSelect 2 select_or_move select_mode
+		--		
+		--		edge_selection_new	= modOrObj.GetSelection #Edge
+		--		
+		--		new_edge = this.getNewEdge ((edge_selection_new - edge_selection) as Array ) direction
+		--		
+		--		
+		--		edge_selection_one_way = append edge_selection new_edge
+		--		
+		--		--print ( "edge_selection_one_way = " + edge_selection_one_way as string )
+		--		
+		--		modOrObj.SetSelection #Edge edge_selection_one_way
+		--		
+		--		
+		--		last_loop_ring_selection = edge_selection_one_way
+		--	)
+		--	else
+		--	(
+		--		modOrObj.RingSelect 2 select_or_move select_mode
+		--		--modOrObj.RingSelect direciton_boolean select_or_move select_mode
+		--	)
 		)
 	),
 
 	--/** Select loop ring
 	-- */
-	--function selectLoopRing_old loop_or_ring direciton select_or_deselect =
+	--function selectLoopRing_old loop_or_ring direction select_or_deselect =
 	--(
 	--	clearListener()
 	--	print ( "loop_or_ring = " + loop_or_ring as string )
@@ -299,28 +275,28 @@ struct EpolySelection_v
 	--	
 	--	if edge_selection.numberset > 0 then
 	--	(
-	--		--modOrObj.SetSelection #Edge (this.selectLoopRingSingleEdge modOrObj edge_selection loop_or_ring direciton select_or_deselect )
+	--		--modOrObj.SetSelection #Edge (this.selectLoopRingSingleEdge modOrObj edge_selection loop_or_ring direction select_or_deselect )
 	--
 	--		all_loops = this.gedLoops selection[1] edge_selection
 	--		--print ( "all_loops = " + all_loops as string )
 	--		--
 	--		for loop_edges in all_loops do
 	--		(
-	--			next_edges = this.selectLoopRingSingleEdge modOrObj loop_edges direciton loop_or_ring
+	--			next_edges = this.selectLoopRingSingleEdge modOrObj loop_edges direction loop_or_ring
 	--			print ( "next_edges = " + next_edges as string )
 	--			--print ( "next_edges.forward[1] = " + next_edges.forward[1] as string )
 	--			
 	--			case select_or_deselect of
 	--			(
-	--				#select:	final_selection += (getProperty next_edges direciton)
+	--				#select:	final_selection += (getProperty next_edges direction)
 	--				--#select:	final_selection += next_edges.reverse + next_edges.forward
-	--				--#deselect:	append final_selection (getProperty next_edges direciton)
-	--				#move:	final_selection = (getProperty next_edges direciton)
+	--				--#deselect:	append final_selection (getProperty next_edges direction)
+	--				#move:	final_selection = (getProperty next_edges direction)
 	--
 	--			)
 	--			
 	--			
-	--			--modOrObj.SetSelection #Edge (getProperty next_edges direciton )
+	--			--modOrObj.SetSelection #Edge (getProperty next_edges direction )
 	--			
 	--		)
 	--	
@@ -334,17 +310,17 @@ struct EpolySelection_v
 	--),
 	--/** Select loop ring single edge
 	-- */
-	--function selectLoopRingSingleEdge modOrObj loop_edges direciton loop_or_ring =
+	--function selectLoopRingSingleEdge modOrObj loop_edges direction loop_or_ring =
 	--(		
 	--	print ( "loop_edges = " + loop_edges as string )
-	--	edge_selection_first_or_last	= if (direciton==#forward) then #{ ( loop_edges as Array )[(loop_edges as Array).count] } else #{ ( loop_edges as Array )[1] }
+	--	edge_selection_first_or_last	= if (direction==#forward) then #{ ( loop_edges as Array )[(loop_edges as Array).count] } else #{ ( loop_edges as Array )[1] }
 	--	--edge_selection_first_or_last	= #{ ( loop_edges as Array )[(loop_edges as Array).count] }
 	--	
 	--	next_edges = this.getNextRingLoop edge_selection_first_or_last modOrObj:modOrObj
 	--	
 	--	print ( "next_edges = " + next_edges as string )
 	--	
-	--	--next_edge = getProperty (getProperty next_edges loop_or_ring) direciton
+	--	--next_edge = getProperty (getProperty next_edges loop_or_ring) direction
 	--	--next_edge = getProperty next_edges loop_or_ring
 	--	--print ( "next_edge = " + next_edge as string )
 	--	--print ( "next_edge = " + next_edge.forward as string +" " +next_edge.reverse as string  )

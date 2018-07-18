@@ -94,3 +94,21 @@ toolTip:	"GetNextRingLoop"
 		
 	redrawViews()
 )
+
+macroscript	epolyselection_get_ring_loop_edges
+category:	"_Epoly-Test"
+buttontext:	"Get ring loop edges"
+toolTip:	"Get ring loop edges"
+--icon:	"#(path, index)"
+(
+	all_loops = (Epoly_v()).EpolySelection.getRingLoopEdges selection[1] (( modPanel.getCurrentObject() ).GetSelection #Edge)
+	print ( "all_loops = " + all_loops as string )
+
+)
+
+
+
+
+
+
+

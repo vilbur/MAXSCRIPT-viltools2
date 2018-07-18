@@ -4,7 +4,8 @@ struct EditPolySelection_v
 (
 	_mod,
 	
-	function getAUsingB modOrObj bInVar aType:#currentLevel bType:#currentLevel = (
+	function getAUsingB modOrObj bInVar aType:#currentLevel bType:#currentLevel =
+	(
 		
 		
 	),

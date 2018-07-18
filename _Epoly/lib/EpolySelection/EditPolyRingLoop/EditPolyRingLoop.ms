@@ -4,7 +4,9 @@ struct EditPolyRingLoop_v
 (
 	mod,
 	obj,
+	edge_selection,
 	Loops	= #(),
+	
 	
 	/*------ Parameters ------*/
 	loop_or_ring,
@@ -17,12 +19,12 @@ struct EditPolyRingLoop_v
 		
 		mod	= modPanel.getCurrentObject()
 		
-		this._setLoops	( mod.GetSelection #Edge )
+		this._setEdgeSelection	()
+		this._setLoops	edge_selection
 		this._selectOrMoveEdges()
 		this._selectEdgesInLoops()
 	),
 
-	
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
@@ -34,43 +36,66 @@ struct EditPolyRingLoop_v
 		direction	= _direction
 		select_mode	= _select_mode
 	),
-	/** Sort given edges to bitArrays per loop 
-	 *	@param	BitArray	edges	Edges for sorting
-	 *	@return	[BitArray]	Sorted edges to BitArrays by looop
+	/** _get loops
 	 */
-	function _setLoops edges =
+	function _setLoops _getLoops =
 	(
-		obj	= selection[1]
-		edges_processed	= #{}
-		
-		for _edge in edges where findItem edges_processed _edge == 0 do
+		Loops = this._getLoops edge_selection
+	),
+	/** Get loops for selected edges
+	 *	@param	BitArray	edge_selection	Edges for loops
+	 *	@return	[BitArray]	Sorted edge_selection to BitArrays by looop
+	 */
+	function _getLoops edge_selection =
+	(
+	    obj  = selection[1]
+		_Loops	= #()
+		loops_processed	= #{}
+
+		for _edge in edge_selection where findItem loops_processed _edge == 0 do
 		(
 			EditPolyLoop 	= EditPolyLoop_v obj:obj mod:mod
 			EditPolyLoop.getLoopForEdge _edge
-			EditPolyLoop.filterSelectionEdges edges
+			EditPolyLoop.filterSelectionEdges edge_selection
 			
-			append	Loops EditPolyLoop
+			append	_Loops EditPolyLoop
 
-			join	edges_processed ( EditPolyLoop.loop as BitArray )
+			join	loops_processed ( EditPolyLoop.loop as BitArray )
 		)
-		for i=1 to Loops.count do print ( i as string +": 	" + Loops[i] as string )
+		for i=1 to _Loops.count do print ( i as string +": 	" + _Loops[i] as string )
+		
+		_Loops --return
 	),
 	/** Select or move
 	 */
 	function _selectOrMoveEdges =
 	(
-		if( select_mode != #move ) then
-			this._selectLoopRingInLoops()
+		--print ( "select_mode = " + select_mode as string )
+		case loop_or_ring of
+		(
+			(#loop):
+				if( select_mode != #move ) then
+					this._addOrRemoveEdgeInLoop()
+				
+				else
+					this._moveEdgesInLoops()
+			
+			(#ring):
+				this.selectNextRing()
+		)
 		
-		else
-			this._moveEdgesInLoops()
+	
+		
 	),
+	/*------------------------------------------------------------------------------
+		LOOP
+	--------------------------------------------------------------------------------*/
 	/** Select loop ring in loops
 	 */
-	function _selectLoopRingInLoops =
+	function _addOrRemoveEdgeInLoop =
 	(
 		for Loop in Loops do
-			Loop.selectLoop direction select_mode
+			Loop.addOrRemoveEdgeInLoop direction select_mode
 	),
 	/** _move edges in loops
 	 */
@@ -80,9 +105,36 @@ struct EditPolyRingLoop_v
 		
 		for Loop in Loops do
 		(
-			Loop.selectLoop direction	#select
-			Loop.selectLoop direction_opposite 	#deselect
+			Loop.addOrRemoveEdgeInLoop direction	#select
+			Loop.addOrRemoveEdgeInLoop direction_opposite 	#deselect
 		)
+	),
+	/*------------------------------------------------------------------------------
+		RING
+	--------------------------------------------------------------------------------*/
+	/** Select next ring
+	 */
+	function selectNextRing =
+	(
+		this._selectEdgesInLoops()
+		
+		mod.RingSelect 2 false true
+		
+		_Loops_new = this._getLoops ( ( mod.GetSelection #Edge ) - edge_selection )
+		
+		print ( "_Loops_new = " + _Loops_new as string )
+		for i=1 to _Loops_new.count do print ( i as string +" new: 	" + _Loops_new[i] as string )
+
+		Loops = join Loops _Loops_new
+	),
+	/*------------------------------------------------------------------------------
+		EDGES
+	--------------------------------------------------------------------------------*/
+	/** Set edge selection
+	 */
+	function _setEdgeSelection =
+	(
+		edge_selection = mod.GetSelection #Edge
 	),
 	/** Select edges in loops
 	 */

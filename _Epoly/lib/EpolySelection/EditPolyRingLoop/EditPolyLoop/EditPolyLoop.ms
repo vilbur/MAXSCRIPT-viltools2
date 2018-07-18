@@ -29,7 +29,7 @@ struct EditPolyLoop_v
 	),
 	/** Select loop ring
 	 */
-	function selectLoop direction select_mode =
+	function addOrRemoveEdgeInLoop direction select_mode =
 	(
 		first_or_last_edge = this._getFirstOrLastEdge direction
 

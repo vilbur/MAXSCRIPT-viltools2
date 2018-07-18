@@ -118,14 +118,16 @@ struct EditPolyRingLoop_v
 	(
 		this._selectEdgesInLoops()
 		
-		mod.RingSelect 2 false true
+		mod.RingSelect 2 false true 
 		
-		_Loops_new = this._getLoops ( ( mod.GetSelection #Edge ) - edge_selection )
+		_selection_difference	= ( mod.GetSelection #Edge ) - edge_selection -- only new ring loops
+		_Loops_new	= this._getLoops _selection_difference
+		--print ( "_Loops_new = " + _Loops_new as string )
+		--for i=1 to _Loops_new.count do print ( i as string +" new: 	" + _Loops_new[i]._selection as string )
 		
-		print ( "_Loops_new = " + _Loops_new as string )
-		for i=1 to _Loops_new.count do print ( i as string +" new: 	" + _Loops_new[i] as string )
-
-		Loops = join Loops _Loops_new
+		_new_ring	= if( direction == #forward )then _Loops_new[1] else _Loops_new[2] 
+				
+		Loops = join Loops #(_new_ring)
 	),
 	/*------------------------------------------------------------------------------
 		EDGES

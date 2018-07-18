@@ -46,3 +46,18 @@ Floater.dock "right"
 	CALLBACKS
 -----------------------------------------*/
 (EpolyCallbacks_v()).add()
+
+
+
+
+/*---------------------------------------
+	RUN AHK
+-----------------------------------------*/
+ShellLaunch ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/selectLoopOrRingOnMouseWheel.ahk" ) ""
+
+
+
+
+
+
+

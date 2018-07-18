@@ -39,8 +39,12 @@ struct EditPolyLoop_v
 	function selectLoopRing direction select_mode =
 	(
 		first_or_last_edge = this._getFirstOrLastEdge direction
-		
-		this._getNextOrPrevEdgeInLoop first_or_last_edge direction
+		--print ( "select_mode = " + select_mode == #select as string )
+		case select_mode of
+		(
+			(#select):	this._addNextOrPrevEdgeToSelection 	first_or_last_edge direction
+			(#deselect):	this._removeEdgeFromSelection	first_or_last_edge
+		)
 		
 	),
 	/*------------------------------------------------------------------------------
@@ -98,21 +102,32 @@ struct EditPolyLoop_v
 			_selection[1] --return
 	),
 
-	/** Get next or previous edge in loop selection for edge
+	/** Set next or previous edge in loop selection for edge
 	  * @param	integer	_edge
 	 */
-	function _getNextOrPrevEdgeInLoop _edge direction =
+	function _addNextOrPrevEdgeToSelection _edge direction =
 	(
-		index_in_loop = findItem loop _edge
+		index_in_loop	= findItem loop _edge
+		next_prev_index	= if( direction == #forward )then index_in_loop+1 else index_in_loop-1  
 		
-		if( direction == #forward ) then
-			append _selection loop[index_in_loop+1] --return
+		if(  loop[next_prev_index] != undefined ) then
+		(
+			if( direction == #forward ) then
+				append _selection loop[next_prev_index] --return
+			
+			else
+				_selection = join #(loop[next_prev_index]) _selection
+		)
 		
-		else
-			_selection = join #(loop[index_in_loop-1]) _selection
 		
 	),
-
+	/** Remove first or last edge from selection
+	  * @param	integer	_edge
+	 */
+	function _removeEdgeFromSelection _edge =
+	(
+		deleteItem _selection (findItem _selection _edge)
+	),
 	
 	
 	function test =

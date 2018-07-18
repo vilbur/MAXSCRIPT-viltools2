@@ -1,34 +1,3 @@
-/** Loop ring blocker
- */
-struct loopRingBlocker 
-(
-	forward,
-	reverse,
-	
-	/** Set
-	 */
-	function setEdge property value opposite:false =
-	(
-		setProperty this (this.getProperty property opposite) value
-	),
-	/** Set
-	 */
-	function getEdge property opposite:false =
-	(
-		
-		getProperty this (this.getProperty property opposite)
-	),
-	/** Get opposite property
-	 */
-	function getProperty property opposite =
-	(
-		if( opposite == true ) then
-			property = if( property==#forward  )then #reverse else #forward
-		else
-			property
-	)
-)	
-
 /** Manage subobejct selections for Editable_Poly & Edit_Poly
   *
   *
@@ -195,32 +164,23 @@ struct EpolySelection_v
 		modOrObj	= Filters.GetModOrObj()
 		subObjectLevel	= 2
 		edge_selection	= modOrObj.GetSelection #Edge
-		--print ( "edge_selection = " + edge_selection as string )
-		--print ( "last_loop_ring_selection = " + last_loop_ring_selection as string )
-			--print ( "direction = " + direction as string )
-	
-		--select_mode	= true
 
-		--if( last_loop_ring_selection == undefined ) then
-		--	global last_loop_ring_selection
-		--
-		----print ( "Test = " + (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) as string )
-		--if (((last_loop_ring_selection - edge_selection) as Array ).count != 0 ) then
-		--	loop_ring_blocker = undefined 
 		
 		if( classof modOrObj == Editable_Poly ) then
 		(
 			
-			direciton_boolean	= if( direction == #forward  )then 1 else -1  
-			select_or_move	= ( select_mode == #move )
-			select_mode	= ( select_mode == #select )
+			_direction	= if( direction == #forward  ) then 1 else -1  
+			_select_or_move	= ( select_mode == #move )
+			_select_mode	= ( select_mode == #select )
 			
+			if ( select_mode == #deselect ) then -- flip direction on #deselect, make direction of deselecting consist with EditPolyRingLoop_v.selectLoopRing()
+				_direction = _direction * -1
 			
 			if( loop_or_ring == #loop ) then 
-				modOrObj.setLoopShift direciton_boolean select_or_move select_mode
+				modOrObj.setLoopShift _direction _select_or_move _select_mode
 				
 			else
-				modOrObj.setRingShift direciton_boolean select_or_move select_mode
+				modOrObj.setRingShift _direction _select_or_move _select_mode
 			
 		)else
 		(
@@ -247,7 +207,7 @@ struct EpolySelection_v
 		--	else
 		--	(
 		--		modOrObj.RingSelect 2 select_or_move select_mode
-		--		--modOrObj.RingSelect direciton_boolean select_or_move select_mode
+		--		--modOrObj.RingSelect _direction select_or_move select_mode
 		--	)
 		)
 	),

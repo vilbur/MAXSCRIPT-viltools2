@@ -6,24 +6,24 @@ struct EditPolyRingLoop_v
 	obj,
 	Loops	= #(),
 	
-	function selectLoopRing loop_or_ring direciton select_mode =
+	function selectLoopRing loop_or_ring direction select_mode =
 	(
 		print ( "direction = " + direction as string )
 
 		mod	= modPanel.getCurrentObject()
 		
 		this.setLoops ( mod.GetSelection #Edge )
-		this.selectLoopRingInLoops direciton select_mode
+		this.selectLoopRingInLoops direction select_mode
 		this.selectEdgesInLoops()
 		
 		--messageBox "message"
 	),
 	/** Select loop ring in loops
 	 */
-	function selectLoopRingInLoops direciton select_mode =
+	function selectLoopRingInLoops direction select_mode =
 	(
 		for Loop in Loops do
-			Loop.selectLoopRing direciton select_mode
+			Loop.selectLoopRing direction select_mode
 		
 		print "---------"
 		--for i=1 to Loops.count do print ( i as string +": 	" + Loops[i]._selection as string )
@@ -65,7 +65,7 @@ struct EditPolyRingLoop_v
 			--print ( (Loop._selection as BitArray ) as string )
 			join edge_selection (Loop._selection as BitArray)
 		
-		--print ( "edge_selection = " + edge_selection as string )
+		print ( "edge_selection = " + edge_selection as string )
 		mod.SetSelection	#Edge #{}
 		mod.Select	#Edge edge_selection
 	),

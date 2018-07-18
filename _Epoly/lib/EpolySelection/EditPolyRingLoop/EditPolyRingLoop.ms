@@ -19,8 +19,8 @@ struct EditPolyRingLoop_v
 		
 		mod	= modPanel.getCurrentObject()
 		
-		this._setEdgeSelection	()
-		this._setLoops	edge_selection
+		this._setEdgeSelection()
+		this._setLoops()
 		this._selectOrMoveEdges()
 		this._selectEdgesInLoops()
 	),
@@ -38,7 +38,7 @@ struct EditPolyRingLoop_v
 	),
 	/** _get loops
 	 */
-	function _setLoops _getLoops =
+	function _setLoops =
 	(
 		Loops = this._getLoops edge_selection
 	),
@@ -81,7 +81,15 @@ struct EditPolyRingLoop_v
 					this._moveEdgesInLoops()
 			
 			(#ring):
-				this.selectNextRing()
+				if( select_mode == #select ) then
+					this.selectNextRing()
+				
+				else if( select_mode == #deselect ) then
+					this.deselectRing()
+					
+				--else
+					--this._moveEdgesInLoops()
+
 		)
 		
 	
@@ -122,12 +130,20 @@ struct EditPolyRingLoop_v
 		
 		_selection_difference	= ( mod.GetSelection #Edge ) - edge_selection -- only new ring loops
 		_Loops_new	= this._getLoops _selection_difference
-		--print ( "_Loops_new = " + _Loops_new as string )
-		--for i=1 to _Loops_new.count do print ( i as string +" new: 	" + _Loops_new[i]._selection as string )
 		
 		_new_ring	= if( direction == #forward )then _Loops_new[1] else _Loops_new[2] 
 				
 		Loops = join Loops #(_new_ring)
+	),
+	/** Deselect ring
+	 */
+	function deselectRing =
+	(
+		remove_index	= if( direction == #forward )then 1 else Loops.count 
+		--print ( "Loops.count = " + Loops.count as string )
+		Loops = deleteItem Loops remove_index
+		--print ( "Loops.count = " + Loops.count as string )
+		
 	),
 	/*------------------------------------------------------------------------------
 		EDGES

@@ -82,18 +82,14 @@ struct EditPolyRingLoop_v
 			
 			(#ring):
 				if( select_mode == #select ) then
-					this.selectNextRing()
+					this._selectNextRing()
 				
 				else if( select_mode == #deselect ) then
-					this.deselectRing()
+					this._deselectRing()
 					
-				--else
-					--this._moveEdgesInLoops()
-
+				else
+					this._moveRing()
 		)
-		
-	
-		
 	),
 	/*------------------------------------------------------------------------------
 		LOOP
@@ -122,7 +118,7 @@ struct EditPolyRingLoop_v
 	--------------------------------------------------------------------------------*/
 	/** Select next ring
 	 */
-	function selectNextRing =
+	function _selectNextRing =
 	(
 		this._selectEdgesInLoops()
 		
@@ -131,19 +127,28 @@ struct EditPolyRingLoop_v
 		_selection_difference	= ( mod.GetSelection #Edge ) - edge_selection -- only new ring loops
 		_Loops_new	= this._getLoops _selection_difference
 		
-		_new_ring	= if( direction == #forward )then _Loops_new[1] else _Loops_new[2] 
-				
-		Loops = join Loops #(_new_ring)
+		_Loop_new	= if( direction == #forward ) then _Loops_new[1] else _Loops_new[2] 
+	
+		this._addOrRemoveLoop	_Loop_new
+
 	),
 	/** Deselect ring
 	 */
-	function deselectRing =
+	function _deselectRing =
 	(
 		remove_index	= if( direction == #forward )then 1 else Loops.count 
-		--print ( "Loops.count = " + Loops.count as string )
+
 		Loops = deleteItem Loops remove_index
-		--print ( "Loops.count = " + Loops.count as string )
+	),
+	/** _move ring
+	 */
+	function _moveRing =
+	(
+		this._selectNextRing()
 		
+		direction = if( direction == #forward )then #reverse else #forward 
+
+		this._deselectRing()
 	),
 	/*------------------------------------------------------------------------------
 		EDGES
@@ -167,7 +172,19 @@ struct EditPolyRingLoop_v
 		mod.SetSelection	#Edge #{}
 		mod.Select	#Edge edge_selection
 	),
-
+	/*------------------------------------------------------------------------------
+		EditPolyLoop_v
+	--------------------------------------------------------------------------------*/
+	/** Append or prepend new Loop in Loops
+	 */
+	function _addOrRemoveLoop Loop =
+	(
+		if( direction == #forward ) then
+			Loops = join #(Loop) Loops
+		else
+			Loops = join Loops #(Loop)
+	),
+	
 	function test =
 	(
 		messagebox "EditPolyRingLoop.test()"

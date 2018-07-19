@@ -1,3 +1,4 @@
+#SingleInstance Force
 
 
 /**
@@ -7,7 +8,7 @@ setMiniTransformWindowPosition()
 	setTitleMatchMode 2
 	
 	$offset_right	:= 256
-	$offset_top	:= 12
+	$offset_top	:= 2
 	
 	$trans_title	:= "Move Transform Type-In"
 	$max_title	:= "Autodesk 3ds Max 2016"
@@ -42,7 +43,33 @@ DisableCloseButton($hwnd="")
 
 }
 
+/**
+ */
+hookWindowChange()
+{
+	Gui +LastFound 
+	$Hwnd := WinExist()
+	DllCall( "RegisterShellHookWindow", UInt, $Hwnd )
+	$MsgNum := DllCall( "RegisterWindowMessage", Str,"SHELLHOOK" )
+	OnMessage( $MsgNum, "ShellMessage" )
+}
 
+/**  
+ */
+ShellMessage( $wParam, $lParam )
+{
+	WinGetTitle, $title, ahk_id %$lParam%
+	
+	IfInString, $title, Autodesk 3Ds Max
+	{
+		setMiniTransformWindowPosition()
+	}
+		
+}
+
+/*---------------------------------------
+	RUN SCRIPT
+-----------------------------------------
+*/
+hookWindowChange()
 setMiniTransformWindowPosition()
-
-

@@ -7,7 +7,7 @@ setMiniTransformWindowPosition()
 {
 	setTitleMatchMode 2
 	
-	$offset_right	:= 204
+	$offset_right	:= 210
 	$offset_bottom	:= 54
 	
 	$trans_title	:= "Move Transform Type-In"

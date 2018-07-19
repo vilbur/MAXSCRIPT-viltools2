@@ -87,10 +87,10 @@
 	hwndMove = windows.getChildHWND 0 "Move Transform Type-In"
 	hwnd = dotnetobject "IntPtr" hwndMove[1]
 	--	rearange controls
-	posX = 0
+	posX = 5
 	--	first rearange the labels
 	labelsArr = for c in (windows.getChildrenHWND hwndMove[1]) where c[4] == "Static" collect c[1]
-	::miauuWindClass_efioj98.SetWindowPos labelsArr[1] 0 posX 2 18 18 0
+	::miauuWindClass_efioj98.SetWindowPos labelsArr[1] 0 posX 5 18 18 0
 	::miauuWindClass_efioj98.SetWindowPos labelsArr[2] 0 (posX+95) 5 18 18 0
 	::miauuWindClass_efioj98.SetWindowPos labelsArr[3] 0 (posX+195) 5 18 18 0
 	--	local offset labels
@@ -136,7 +136,7 @@
 	--	set new TTI window size
 	--	before  3dsMax 2014
 	pos = ::miauuWindClass_efioj98.GetWindowPosAndSize hwndMove[1]
-	::miauuWindClass_efioj98.SetWindowPos hwndMove[1] 0 pos[1] pos[2] 600 32 2 -- VILBUR: wider window = 615 px
+	::miauuWindClass_efioj98.SetWindowPos hwndMove[1] 0 pos[1] pos[2] 624 32 2 -- VILBUR: wider window = 615 px
 	--	3dsMax 2014+
 -- 	windows.setWindowPos hwndMove[1] pos[1] pos[2] 612 20 true	
 )

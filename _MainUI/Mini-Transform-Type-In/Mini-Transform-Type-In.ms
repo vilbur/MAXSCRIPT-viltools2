@@ -87,10 +87,10 @@
 	hwndMove = windows.getChildHWND 0 "Move Transform Type-In"
 	hwnd = dotnetobject "IntPtr" hwndMove[1]
 	--	rearange controls
-	posX = 2
+	posX = 0
 	--	first rearange the labels
 	labelsArr = for c in (windows.getChildrenHWND hwndMove[1]) where c[4] == "Static" collect c[1]
-	::miauuWindClass_efioj98.SetWindowPos labelsArr[1] 0 posX 5 18 18 0
+	::miauuWindClass_efioj98.SetWindowPos labelsArr[1] 0 posX 2 18 18 0
 	::miauuWindClass_efioj98.SetWindowPos labelsArr[2] 0 (posX+95) 5 18 18 0
 	::miauuWindClass_efioj98.SetWindowPos labelsArr[3] 0 (posX+195) 5 18 18 0
 	--	local offset labels
@@ -123,20 +123,20 @@
 	::miauuWindClass_efioj98.SetWindowPos arrowsArr[6] 0 (posX+588) 5 12 18 0
 	
 	--	remove title bar and borders
---	GWL_STYLE = -16
---    WS_BORDER = 0x00800000L
---    WS_CAPTION = 0x00C00000L    
---    WS_FRAME = bit.or WS_BORDER WS_CAPTION  
---	
---    flags = ::miauuUser32_4ijh4gr.GetWindowLong hwnd GWL_STYLE
---    flags = bit.xor flags WS_FRAME
---    ::miauuUser32_4ijh4gr.SetWindowLong hwnd GWL_STYLE flags
---    ::miauuUser32_4ijh4gr.GetWindowLong hwnd GWL_STYLE
+	GWL_STYLE = -16
+    WS_BORDER = 0x00800000L
+    WS_CAPTION = 0x00C00000L    
+    WS_FRAME = bit.or WS_BORDER WS_CAPTION  
+	
+    flags = ::miauuUser32_4ijh4gr.GetWindowLong hwnd GWL_STYLE
+    flags = bit.xor flags WS_FRAME
+    ::miauuUser32_4ijh4gr.SetWindowLong hwnd GWL_STYLE flags
+    ::miauuUser32_4ijh4gr.GetWindowLong hwnd GWL_STYLE
 	
 	--	set new TTI window size
 	--	before  3dsMax 2014
 	pos = ::miauuWindClass_efioj98.GetWindowPosAndSize hwndMove[1]
-	::miauuWindClass_efioj98.SetWindowPos hwndMove[1] 0 pos[1] pos[2] 605 20 2
+	::miauuWindClass_efioj98.SetWindowPos hwndMove[1] 0 pos[1] pos[2] 600 32 2 -- VILBUR: wider window = 615 px
 	--	3dsMax 2014+
 -- 	windows.setWindowPos hwndMove[1] pos[1] pos[2] 612 20 true	
 )

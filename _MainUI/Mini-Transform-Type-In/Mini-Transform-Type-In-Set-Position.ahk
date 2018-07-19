@@ -7,21 +7,23 @@ setMiniTransformWindowPosition()
 {
 	setTitleMatchMode 2
 	
-	$offset_right	:= 256
-	$offset_top	:= 2
+	$offset_right	:= 204
+	$offset_bottom	:= 54
 	
 	$trans_title	:= "Move Transform Type-In"
-	$max_title	:= "Autodesk 3ds Max 2016"
+	$max_title	:= "Autodesk 3ds Max"
 	
 	WinGetPos,	$max_X,	$max_Y,	$max_width,	$max_height,	%$max_title% 
 	WinGetPos,	$trans_X,	$trans_Y,	$trans_width,	$trans_height,	%$trans_title% 
 	
 	$pos_x_new	:= $max_X + $max_width - $trans_width - $offset_right
+	$pos_y_new	:= $max_Y + $max_height - $offset_bottom
 
-	WinMove,	%$trans_title%,, %$pos_x_new%, % $max_Y - $offset_top
+	WinMove,	%$trans_title%,, %$pos_x_new%, % $pos_y_new
+	;WinSetTitle, %$trans_title%,, Mini Transform Type-In
 	;DisableCloseButton(WinExist($trans_title))
-	WinActivate, %$trans_title% 
-	WinActivate, %$max_title% 
+	;WinActivate, %$trans_title% 
+	;WinActivate, %$max_title% 
 }
 
 /** https://autohotkey.com/board/topic/80593-how-to-disable-grey-out-the-close-button/#entry58524
@@ -59,9 +61,10 @@ hookWindowChange()
 ShellMessage( $wParam, $lParam )
 {
 	WinGetTitle, $title, ahk_id %$lParam%
-	
+	setTitleMatchMode 2
 	IfInString, $title, Autodesk 3Ds Max
 	{
+	;MsgBox,262144,, Test,2 
 		setMiniTransformWindowPosition()
 	}
 		

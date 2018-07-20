@@ -43,6 +43,35 @@ struct EpolyEdit_v
 		--	mod.EnterCommandMode to_extrude
 			
 	),
+	/** Connect
+	 */
+	function connect =
+	(
+		sub_obj = subObjectLevel
+
+		case sub_obj of
+		(
+			(1):	this.connectToLastVert()
+			(2):	(this.EpolyMod.getEpoly()).connectEdges()
+			(4):	this.connectPolygon()
+
+			--default:	
+		)
+		--(this.EpolyMod.getEpoly()).connect()
+	),
+	/** Connect to last vert
+	 */
+	function connectPolygon =
+	(
+		(Epoly_v()).convertSelection #vertex
+		--this.connectToLastVert()
+	),
+	/** Connect to last vert
+	 */
+	function connectToLastVert =
+	(
+		macros.run "miauu" "miauu_ConnectToLastSelVertAlt"
+	),
 	/** Target weld
 	 */
 	function targetWeld =
@@ -55,6 +84,9 @@ struct EpolyEdit_v
 	(
 		(EpolyMod.getEpoly()).makePlanar axis
 	),
+	
+	
+	
 	--/** Extrude
 	-- */
 	--function extrude =

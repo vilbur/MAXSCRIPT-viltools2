@@ -36,20 +36,20 @@ struct EditablePoly_v
 	),
 	/** Connect subobject
 	 */
-	function connect =
+	function connectEdges =
 	(
 		--sub_obj = subObjectLevel
-		
-		if subObjectLevel == 4 then
-		(
-			mod.ConvertSelection #face #vertex
-			subObjectLevel = 1
-			mod.ConnectVertices ()
-		)
-		else if subObjectLevel == 1 then
-			mod.ConnectVertices () 
-
-		else if subObjectLevel == 2 then
+		--
+		--if subObjectLevel == 4 then
+		--(
+		--	mod.ConvertSelection #face #vertex
+		--	subObjectLevel = 1
+		--	mod.ConnectVertices ()
+		--)
+		--else if subObjectLevel == 1 then
+		--	mod.ConnectVertices () 
+		--
+		--else if subObjectLevel == 2 then
 			mod.ConnectEdges ()	
 	),
 	/** Remove edge with vertices
@@ -123,7 +123,17 @@ struct EditablePoly_v
 	(		
 		polyop.getNumFaces obj --return 
 	),
-	
+	/** Face count
+	 */
+	function count sub_obj =
+	(		
+		case sub_obj of
+		(
+			(1):	polyop.getNumVerts obj
+			(2):	polyop.getNumEdges obj
+			(4):	polyop.getNumFaces obj
+		)
+	),
 	/** Set mat id
 	 */
 	function setMatId facelist id =

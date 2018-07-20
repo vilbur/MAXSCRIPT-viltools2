@@ -35,20 +35,21 @@ struct EditPoly_v
 	),
 	/** Connect subobject
 	 */
-	function connect =
+	function connectEdges sub_obj =
 	(
-		sub_obj = subObjectLevel
-		
-		if sub_obj == 4 or sub_obj == 5 then
-		(
-			mod.ConvertSelection #face #vertex
-			subObjectLevel = 1
-			mod.ButtonOp #ConnectVertices
-		)
-		else if sub_obj == 1 then
-			mod.ButtonOp #ConnectVertices
-
-		else if sub_obj == 2 then	
+		--sub_obj = subObjectLevel
+		--
+		--
+		--if sub_obj == 4 or sub_obj == 5 then
+		--(
+		--	mod.ConvertSelection #face #vertex
+		--	subObjectLevel = 1
+		--	mod.ButtonOp #ConnectVertices
+		--)
+		--else if sub_obj == 1 then
+		--	mod.ButtonOp #ConnectVertices
+		--
+		--else if sub_obj == 2 then	
 		    mod.ButtonOp #ConnectEdges
 	),
 	/** Remove subobject
@@ -115,7 +116,24 @@ struct EditPoly_v
 		
 		face_counts --return	
 	),
-	
+	/** Face count
+	 */
+	function count sub_obj =
+	(		
+		_counts = #()
+		
+		for obj in _selection do
+			append _counts (
+				case sub_obj of
+				(
+					(1):	polyop.getNumVerts  obj
+					(2):	polyop.getNumEdges  obj
+					(4):	polyop.getNumFaces obj
+				)
+			)
+		
+		_counts --return	
+	),
 	/** Set mat id
 	 */
 	function setMatId facelist id =
@@ -249,10 +267,23 @@ struct EditPoly_v
 
 		for face_count in face_counts do
 			append all_faces ( #{1..( face_count )} )
-		--print ( "all_faces = " + all_faces as string )
+
 		all_faces --return
 	),
+	/** Get counts of elenments
+	  * @param	integer	sub_obj
+	  * @return	[BitArray]	
+	 */
+	function _all sub_obj =
+	(
+		all_counts	= #()
+		_counts	= this.count sub_obj
 
+		for _count in _counts do
+			append all_counts ( #{1..( _count )} )
+
+		all_counts --return
+	),
 	/** Set object
 	 */
 	function _setObjects =

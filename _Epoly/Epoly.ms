@@ -55,8 +55,30 @@ struct Epoly_v
 	extrude 	= EpolyEdit.extrude,
 	targetWeld 	= EpolyEdit.targetWeld,
 	makePlanar 	= EpolyEdit.makePlanar,
+	connect 	= EpolyEdit.connect,
 
-	
+	/** Get subobj
+	 */
+	function getAWhereB sub_obj_A sub_obj_B expr count =
+	(
+		_Epoly = EpolyMod.getEpoly()
+		
+		sub_ob_count	= _Epoly.count 1
+		print ( "sub_ob_count = " + sub_ob_count as string )
+		
+		--for i in ( #{1..sub_ob_count} as Array ) where (  execute ((_count as string ) + expr + ( count as string )) ) do
+		--for i in ( #{1..sub_ob_count} as Array )  do
+		result_sub_obj =	for i = 1 to sub_ob_count where
+		(
+			_count_sub_obj	= (( _Epoly.getAusingB #edge #vertex i ) as Array).count
+			execute (_count_sub_obj as string + expr + count as string )
+		)
+		collect i 	
+		
+		result_sub_obj as BitArray --return
+		--print ( "result_sub_obj = " + result_sub_obj as string )
+		--(EpolyMod.mod()).SetSelection #Vertex result_sub_obj
+	),
 	
 	/** Get epoly info
 	  !!!! MOVE THIS TO OWN FILE
@@ -112,13 +134,7 @@ struct Epoly_v
 			)
 		)
 	),
-	/** Connect subobject
-	 */
-	function connect =
-	(
-		(this.EpolyMod.getEpoly()).connect()
-	),
-	
+
 	/** Remove subobject
 	 */
 	function remove =

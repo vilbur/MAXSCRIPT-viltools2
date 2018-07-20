@@ -68,7 +68,16 @@ tooltip:	"Add Noise"
 	(Modifier_v type:#Noise).add()
 
 )
-
+macroscript	modifier_noise
+category:	"_Modifiers"  
+buttonText:	"Noise"
+tooltip:	"Add Noise MORE"
+(
+	--clearListener()
+	_Noise	= (Modifier_v type:#Noise).add()
+	_Noise.strength	= [90, 90, 90]
+	_Noise.scale	= 100
+)
 macroscript	modifier_smooth
 category:	"_Modifiers"  
 buttonText:	"Smooth"

@@ -31,6 +31,8 @@ struct EpolyEdges_v
 			_EpolyMod.ButtonOp #SplitEdges
 	),
 
+	
+	
 	function test =
 	(
 		(EpolyMod.getEpoly()).test() 

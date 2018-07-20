@@ -29,3 +29,19 @@ tooltip:	"Split HARD edges on all objects"
 	subObjectLevel = 2
 	
 )
+
+macroscript	epoly_select_corner_edges
+category:	"_Epoly-Edges"  
+buttonText:	"Corner Edges"
+tooltip:	"Select Corner Edges, edges where meets 3 polygons"
+(
+	
+	Epoly 	= (Epoly_v())
+	--(Epoly_v()).selectCornerEdges()
+	verts = Epoly.getAWhereB #vertex #edge "==" 3
+	--print ( "verts = " + verts as string )
+	subObjectLevel = 1
+	Epoly.setSel #Vertex verts
+	Epoly.convertSelection #edge
+	
+)

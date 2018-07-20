@@ -51,10 +51,10 @@ Floater.dock "right"
 
 
 /*---------------------------------------
-	RUN AHK
+	STARTUP
 -----------------------------------------*/
 ShellLaunch ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/selectLoopOrRingOnMouseWheel.ahk" ) ""
-
+macros.run "_MainUI" "mainui_mini_transform_type_in"
 
 
 

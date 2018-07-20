@@ -90,3 +90,9 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Transform//CoordMode/CoordMod
 	TOOLMODE
 --------------------------------------------------------------------------------*/
 filein ( getFilenamePath(getSourceFileName()) + "/_Tools/ToolMode.ms" )
+
+/*------------------------------------------------------------------------------
+	MAIN UI
+--------------------------------------------------------------------------------*/
+--filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Mini-Transform-Type-In/Mini-Transform-Type-In.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Mini-Transform-Type-In/Mini-Transform-Type-In-Start.ms" )

@@ -6,11 +6,11 @@
   *
  */
 runMacro( "_vilTools2", "vilTools2" )
-
-runMacro( "_Epoly-Test", "epoly_selection_setselselection_test" )
+;
+;runMacro( "_Epoly-Test", "epoly_selection_setselselection_test" )
 
 ;runMacro( "_Epoly-EpolySelection", "epolyselection_select_loop_up" )
-runMacro( "_Epoly-EpolySelection", "epolyselection_select_ring_up" )
+;runMacro( "_Epoly-EpolySelection", "epolyselection_select_ring_up" )
 
 
 

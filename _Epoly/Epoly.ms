@@ -57,6 +57,7 @@ struct Epoly_v
 	makePlanar 	= EpolyEdit.makePlanar,
 	connect 	= EpolyEdit.connect,
 
+	
 	/** Get subobj
 	 */
 	function getAWhereB sub_obj_A sub_obj_B expr count =
@@ -147,6 +148,12 @@ struct Epoly_v
 	function faceCount =
 	(		
 		(this.EpolyMod.getEpoly()).faceCount()
+	),
+	/** Face count
+	 */
+	function count sub_obj =
+	(		
+		(this.EpolyMod.getEpoly()).count sub_obj
 	),
 	/** Create polygon
 	 */

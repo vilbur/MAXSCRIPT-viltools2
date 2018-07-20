@@ -126,8 +126,8 @@ struct EditPoly_v
 			append _counts (
 				case sub_obj of
 				(
-					(1):	polyop.getNumVerts  obj
-					(2):	polyop.getNumEdges  obj
+					(1):	polyop.getNumVerts obj
+					(2):	polyop.getNumEdges obj
 					(4):	polyop.getNumFaces obj
 				)
 			)
@@ -270,20 +270,7 @@ struct EditPoly_v
 
 		all_faces --return
 	),
-	/** Get counts of elenments
-	  * @param	integer	sub_obj
-	  * @return	[BitArray]	
-	 */
-	function _all sub_obj =
-	(
-		all_counts	= #()
-		_counts	= this.count sub_obj
 
-		for _count in _counts do
-			append all_counts ( #{1..( _count )} )
-
-		all_counts --return
-	),
 	/** Set object
 	 */
 	function _setObjects =

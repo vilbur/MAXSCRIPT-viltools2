@@ -64,11 +64,13 @@ category:	"_Modifiers"
 buttonText:	"Noise"
 tooltip:	"Add Noise"
 (
-	--clearListener()
-	(Modifier_v type:#Noise).add()
+	_Noise	= (Modifier_v type:#Noise).add()
+	_Noise.strength	= [15, 15, 15]
+	_Noise.scale	= 10
+	_Noise.fractal	= false
 
 )
-macroscript	modifier_noise
+macroscript	modifier_noise_more
 category:	"_Modifiers"  
 buttonText:	"Noise"
 tooltip:	"Add Noise MORE"

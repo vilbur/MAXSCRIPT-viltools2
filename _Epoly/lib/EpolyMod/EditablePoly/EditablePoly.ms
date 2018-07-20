@@ -138,10 +138,7 @@ struct EditablePoly_v
 	 */
 	function setMatId facelist id =
 	(
-		--print ( "setMatId = " + facelist as string )
-		--print ( "classOf facelist = " + (classOf facelist as BitArray ) as string )
-		--print ( "obj = " + obj as string )
-		--print ( "id = " + id as string )
+
 		polyop.setFaceMatID obj facelist id
 		--polyop.setFaceMatID obj ( facelist as BitArray ) id
 	),
@@ -203,8 +200,10 @@ struct EditablePoly_v
 	function getSel sub_obj =
 	(		
 		this.init()
-
+--print ( "getSel() = " + sub_obj as string )
+--print ( "mod = " + mod as string )
 		mod.GetSelection sub_obj --return
+
 	),
 	/** Set editable poly selection of subobjects
 	  * @param	name	sub_obj

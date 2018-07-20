@@ -43,24 +43,15 @@ toolTip:	"Select faces by material id"
 	Epoly 	=  Epoly_v()
 	EditPolyMaterial 	=  EditPolyMaterial_v()
 
-	face_count = Epoly.count 4
-	--print ( "face_count = " + face_count as string )
-	mat_ids = EditPolyMaterial.getMatId facelist:( Epoly.getSel #Face )
-	
-	--mat_ids_faces = EditPolyMaterial.getFacesByMatId facelist:( (Epoly_v()).getSel #Face )
-
-	mat_ids_unique = makeUniqueArray  mat_ids
-	
-	print ( "mat_ids = " + mat_ids as string )
-	print ( "mat_ids_unique = " + mat_ids_unique as string )
+	faces_ids_merged	= #{}
+	face_count	= Epoly.count 4
+	mat_ids	= EditPolyMaterial.getMatId facelist:( Epoly.getSel #Face )
 
 	faces_ids	= EditPolyMaterial.getFacesByMatId ( makeUniqueArray  mat_ids )
-	faces_ids_merged	= #{}
 	for faces_id in faces_ids do
 		join faces_ids_merged faces_id
 	
 	Epoly.setSel #Face faces_ids_merged
-	--print ( "faces_ids = " + faces_ids as string )
 )
 
 

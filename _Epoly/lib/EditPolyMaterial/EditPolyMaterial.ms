@@ -25,19 +25,27 @@ struct EditPolyMaterial_v
 	 */
 	function getMatId facelist:undefined =
 	(
+		print ( "getMatId facelist = " + facelist as string )
+		--print (  classOf facelist[1] == BitArray  as String )
+			if( facelist != undefined and  classOf facelist[1] == BitArray ) then -- HORT FIX make working with wditable poly and one object
+				facelist = facelist[1]
+	
+		print ( "facelist = " + facelist as string )
+		
 		Epoly 	=  EpolyMod.getEpoly()
 		mat_ids	= #()
+		count = Epoly.count 4
+		
+		if( classOf count == Array ) then -- HORT FIX make working with wditable poly and one object
+			count = count[1]
 		
 		if( facelist == undefined ) then
-			facelist	= #{1..Epoly.count 4}
-
-		print ( "facelist = " + facelist as string )
-		--print ( "_all_faces = " + _all_faces as string )
-		--print ( "_selected_faces = " + _selected_faces as string )
+			facelist	= #{1..count}
 
 		for face in facelist as Array do
+			--print ( "face = " + face as string )
 			append mat_ids ( polyop.getFaceMatID selection[1] face )
-			--print ( "_selected_face = " + _selected_face as string )
+
 		mat_ids --return
 	),
 	/** Get faces by mat id

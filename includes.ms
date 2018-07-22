@@ -96,3 +96,5 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Tools/ToolMode.ms" )
 --------------------------------------------------------------------------------*/
 --filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Mini-Transform-Type-In/Mini-Transform-Type-In.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Mini-Transform-Type-In/Mini-Transform-Type-In-Start.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/MainUI.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Snap/Snap.ms" )

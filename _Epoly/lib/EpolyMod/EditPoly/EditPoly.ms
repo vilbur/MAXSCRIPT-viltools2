@@ -237,6 +237,7 @@ struct EditPoly_v
 			( aType == #Face	and bType == #Vertex	): mod.getFacesUsingVert &returnBitArray subobjects
 			( aType == #Face	and bType == #Edge	): mod.getFacesUsingEdge &returnBitArray subobjects
 		)
+		print ( "returnBitArray = " + returnBitArray as string )
 		returnBitArray --return
 
 	),

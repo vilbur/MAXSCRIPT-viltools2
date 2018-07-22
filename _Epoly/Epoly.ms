@@ -56,6 +56,8 @@ struct Epoly_v
 	targetWeld 	= EpolyEdit.targetWeld,
 	makePlanar 	= EpolyEdit.makePlanar,
 	connect 	= EpolyEdit.connect,
+	
+	getAusingB 	= (EpolyMod.getEpoly()).getAusingB,
 
 	
 	/** Get subobj

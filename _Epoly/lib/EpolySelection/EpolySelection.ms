@@ -55,7 +55,7 @@ struct EpolySelection_v
 		(this.epoly()).getSel sub_obj --return
 	),
 	/** Get current subobejct selection
-	  * @param	name	sub_obj
+	  * @param	name1	sub_obj
 	  * @param	bitArray|[bitArray]	_selection	bitArray of elements to select, for Edit_Poly can be array of bitArrays for each object
 	 */
 	function setSel sub_obj _selection =
@@ -186,29 +186,6 @@ struct EpolySelection_v
 		(
 			(EditPolyRingLoop_v mod:modOrObj).selectLoopRing loop_or_ring direction select_mode
 
-		-- 	if( loop_or_ring == #loop ) then
-		--	(
-		--		modOrObj.LoopSelect 2 select_or_move select_mode
-		--		
-		--		edge_selection_new	= modOrObj.GetSelection #Edge
-		--		
-		--		new_edge = this.getNewEdge ((edge_selection_new - edge_selection) as Array ) direction
-		--		
-		--		
-		--		edge_selection_one_way = append edge_selection new_edge
-		--		
-		--		--print ( "edge_selection_one_way = " + edge_selection_one_way as string )
-		--		
-		--		modOrObj.SetSelection #Edge edge_selection_one_way
-		--		
-		--		
-		--		last_loop_ring_selection = edge_selection_one_way
-		--	)
-		--	else
-		--	(
-		--		modOrObj.RingSelect 2 select_or_move select_mode
-		--		--modOrObj.RingSelect _direction select_or_move select_mode
-		--	)
 		)
 	),
 

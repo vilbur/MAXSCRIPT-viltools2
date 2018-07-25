@@ -71,16 +71,14 @@ struct EditPoly_v
 	),
 	/** Extrude
 	 */
-	function extrude to_extrude options:true height:20 =
+	function extrude to_extrude options:true width:20 height:20 =
 	(
-		if options == true then
-		(
-			mod.PopupDialog to_extrude
-			mod.extrudeEdgeWidth	= 20
-			mod.extrudeEdgeHeight	= height
-		)
-		else
-			mod.EnterCommandMode to_extrude
+		mod.PopupDialog to_extrude
+		mod.extrudeEdgeWidth	= width
+		mod.extrudeEdgeHeight	= height
+		
+		if options != true then
+			mod.Commit ()
 	),
 	/** Target weld
 	 */

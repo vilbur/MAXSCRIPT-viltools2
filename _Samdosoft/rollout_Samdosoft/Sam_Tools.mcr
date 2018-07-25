@@ -44,7 +44,7 @@ tooltip:	"Chamfer rock"
 			
 			_Chamfer = (Modifier_v type:#Chamfer name:"Chamfer-rock").add()
 				
-			_Chamfer.amount	= 12
+			_Chamfer.amount	= 10
 			_Chamfer.chamfertype	= 1
 			_Chamfer.limiteffect	= on
 			
@@ -55,6 +55,7 @@ tooltip:	"Chamfer rock"
 	else
 		deleteModifier $ (selection[1].modifiers[#Chamfer_rock])
 )
+
 macroscript samdosoft_chamfer_remove
 category:"_Samdosoft"  
 buttonText:"Chamfer Rock"
@@ -66,4 +67,7 @@ tooltip:"Chamfer rock REMOVE"
 		deleteModifier _obj _obj.modifiers[#Chamfer_rock]
 
 )
+
+
+
 

@@ -45,5 +45,13 @@ toolTip:	"Isolate Selection Toggle & undo viewport"
 	actionMan.executeAction 0 "40104"  -- Views: Undo Viewport Operation
 )
 	
+macroscript	objects_backaface_cull_toggle
+category:	"_Objects"
+buttontext:	"Backaface cull"
+toolTip:	"Backaface culling toggle"
+--icon:	"#(path, index)"
+(
+	$.backfacecull = $.backfacecull != true
+)
 
 

@@ -35,6 +35,7 @@ struct Epoly_v
 	convertSelection	= EpolySelection.convertSelection,
 	allFaces	= EpolySelection.allFaces,
 	getSelectedOrAllFaces	= EpolySelection.getSelectedOrAllFaces,
+	getAusingB 	= EpolySelection.getAusingB,
 	
 	/*------ EpolyEdges ------*/
 	selectHardEdges	= EpolyEdges.selectHardEdges,
@@ -57,7 +58,6 @@ struct Epoly_v
 	makePlanar 	= EpolyEdit.makePlanar,
 	connect 	= EpolyEdit.connect,
 	
-	getAusingB 	= (EpolyMod.getEpoly()).getAusingB,
 
 	
 	/** Get subobj

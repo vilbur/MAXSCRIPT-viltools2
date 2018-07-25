@@ -15,6 +15,7 @@ struct EditPolyRingLoop_v
 		
 	function selectLoopRing loop_or_ring direction select_mode =
 	(
+
 		this.setParameters loop_or_ring direction select_mode
 		
 		mod	= modPanel.getCurrentObject()
@@ -57,10 +58,14 @@ struct EditPolyRingLoop_v
 			EditPolyLoop 	= EditPolyLoop_v obj:obj mod:mod
 			EditPolyLoop.getLoopForEdge _edge
 			EditPolyLoop.filterSelectionEdges edge_selection
+			--print ( "edge_selection = " + edge_selection as string )
+			if( EditPolyLoop.loop != undefined ) then
+			(
+				append	_Loops EditPolyLoop
+				
+				join	loops_processed ( EditPolyLoop.loop as BitArray )
+			)
 			
-			append	_Loops EditPolyLoop
-
-			join	loops_processed ( EditPolyLoop.loop as BitArray )
 		)
 		for i=1 to _Loops.count do print ( i as string +": 	" + _Loops[i] as string )
 		
@@ -126,9 +131,9 @@ struct EditPolyRingLoop_v
 		
 		_selection_difference	= ( mod.GetSelection #Edge ) - edge_selection -- only new ring loops
 		_Loops_new	= this._getLoops _selection_difference
-		
+		--print ( "_Loops_new = " + _Loops_new as string )
 		_Loop_new	= if( direction == #forward ) then _Loops_new[1] else _Loops_new[2] 
-	
+		
 		this._addOrRemoveLoop	_Loop_new
 
 	),

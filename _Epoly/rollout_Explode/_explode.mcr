@@ -60,3 +60,19 @@ toolTip:	"Explode by  HARD edges"
 		select final_sel
 	)
 )
+
+
+macroscript	epoly_explode_by_selected_edge
+category:	"_Epoly-Explode"
+buttontext:	"By edges"
+toolTip:	"Explode by selected edges"
+(
+	undo "explode By Edges" on
+	(
+		macros.run "Editable Polygon Object" "EPoly_Split"
+
+		final_sel = (Epoly_v()).explodeByElement()
+	
+		select final_sel
+	)
+)

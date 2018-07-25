@@ -90,17 +90,16 @@ struct EditablePoly_v
 
 	/** Extrude
 	 */
-	function extrude to_extrude options:true  height:20 =
+	function extrude to_extrude options:true width:20 height:20 =
 	(
+
+		mod.edgeExtrudeWidth	= width
+		mod.edgeExtrudeHeight	= height
+		
 		if options == true then
-		(
 			mod.PopupDialog #Extrude
-			mod.edgeExtrudeWidth	= 20
-			mod.edgeExtrudeHeight	= height
-		)
-		else mod.toggleCommandMode to_extrude
-		
-		
+		else		
+			mod.buttonOp #Extrude
 	),
 	/** Target weld
 	 */

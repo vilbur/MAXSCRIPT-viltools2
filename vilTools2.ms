@@ -1,10 +1,3 @@
-clearListener();
-
-filein ( getFilenamePath(getSourceFileName()) + "/../Library/_UI/UI.ms" )
-filein ( getFilenamePath(getSourceFileName()) + "/includes.ms" )
-
-(MacroAutoLoader_v()).importScripts()
-
 /* HOTFIX - Floater should be closed regularry */
 try(cui.UnRegisterDialogBar rollout_viltools2)catch() --try to unregister if already registered
 try(DestroyDialog rollout_viltools2)catch()	

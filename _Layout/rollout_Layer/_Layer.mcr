@@ -5,5 +5,6 @@ macroScript vilTools2
 	toolTip:	"Open vilTools2"
 (
 	filein @"$userscripts\viltools2\viltools2.ms"
+	
 )
 

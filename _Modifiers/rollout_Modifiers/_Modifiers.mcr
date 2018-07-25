@@ -66,7 +66,7 @@ tooltip:	"Add Noise"
 (
 	_Noise	= (Modifier_v type:#Noise).add()
 	_Noise.strength	= [15, 15, 15]
-	_Noise.scale	= 10
+	_Noise.scale	= 30
 	_Noise.fractal	= false
 
 )

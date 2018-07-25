@@ -1,5 +1,5 @@
 macroscript	layers_rename_current_layer
-category:	"_Layers"
+category:	"_Layer"
 buttontext:	"Rename"
 toolTip:	"Rename current layer"
 --icon:	"#(path, index)"
@@ -10,8 +10,6 @@ toolTip:	"Rename current layer"
 	modeal	= dialog.Showmodal()
 	
 	result = dialog.InstanceName
-		--print ( "result = " + result as string )
-	
 	
 	current_layer.setName result
 	

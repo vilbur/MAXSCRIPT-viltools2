@@ -2,7 +2,7 @@
 macroscript	epoly_selection_getselselection_test
 category:	"_Epoly-Test"  
 buttonText:	"Get\Set Selection"
-tooltip:	"Get current subobejct Selection"
+tooltip:	"Get current subobejct Selection test"
 (
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
 	clearListener()
@@ -16,7 +16,7 @@ tooltip:	"Get current subobejct Selection"
 macroscript	epoly_selection_setselselection_test
 category:	"_Epoly-Test"  
 buttonText:	"Get\Set Selection"
-tooltip:	"Set current subobejct Selection"
+tooltip:	"Set current subobejct Selection test"
 (
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
 	clearListener()
@@ -27,25 +27,25 @@ tooltip:	"Set current subobejct Selection"
 macroscript	epoly_convert_selection_test
 category:	"_Epoly-Test"  
 buttonText:	"Convert to face"
-tooltip:	"Convert to face"
+tooltip:	"Convert to face test"
 (
 	(Epoly_v()).convertSelection #face
 )
 
-macroscript	epoly_selection_empty
+macroscript	epoly_selection_empty_test
 category:	"_Epoly-Test"
 buttontext:	"Test"
-toolTip:	"X"
+tooltip:	"X test"
 --icon:	"#(path, index)"
 (
 	--(EpolySelection_v()).select_loop 1 false
 	(Epoly_v()).EpolySelection.test()
 )
 
-macroscript	epoly_selection_getAusingB
+macroscript	epoly_selection_getAusingB_test
 category:	"_Epoly-Test"
 buttontext:	"get A using B"
-toolTip:	"get A using B"
+tooltip:	"get A using B test"
 --icon:	"#(path, index)"
 (
 	clearListener()
@@ -62,10 +62,10 @@ toolTip:	"get A using B"
 	--(EpolySelection_v()).select_loop 1 false   
 )
 
-macroscript	epoly_selection_GetNextRingLoop
+macroscript	epoly_selection_GetNextRingLoop_test
 category:	"_Epoly-Test"
 buttontext:	"GetNextRingLoop"
-toolTip:	"GetNextRingLoop"
+tooltip:	"GetNextRingLoop test"
 --icon:	"#(path, index)"
 (
 	clearListener()
@@ -95,17 +95,16 @@ toolTip:	"GetNextRingLoop"
 	redrawViews()
 )
 
-macroscript	epolyselection_get_ring_loop_edges
+macroscript	epolyselection_get_ring_loop_edges_test
 category:	"_Epoly-Test"
 buttontext:	"Get ring loop edges"
-toolTip:	"Get ring loop edges"
+tooltip:	"Get ring loop edges test"
 --icon:	"#(path, index)"
 (
 	all_loops = (Epoly_v()).EpolySelection.getRingLoopEdges selection[1] (( modPanel.getCurrentObject() ).GetSelection #Edge)
 	print ( "all_loops = " + all_loops as string )
 
 )
-
 
 
 

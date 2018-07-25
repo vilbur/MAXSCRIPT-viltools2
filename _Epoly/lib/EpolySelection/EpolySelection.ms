@@ -23,15 +23,27 @@ struct EpolySelection_v
 	  * 1) If not subobject active then enter to subobject
 	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
 	  * 
+	  * Convert FACE selection to BORDER will select outline edges of faces selection
+	  * 
 	  * @param	name	to_sub_obj E.g.: #vertex
 	  */
 	function convertSelection to_sub_obj =
 	(
 		this._init()
 
-		if( subObjectLevel > 0 ) then
-			_mod.convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
-
+		sub_obj	= subObjectLevel
+		
+		if( sub_obj == 0 ) then
+			return false
+			
+		if( sub_obj == 4 and to_sub_obj == #border ) then
+		(
+			this.selectOutlineEdgesOfFaces()
+			to_sub_obj = #edge
+		)
+		else
+			_mod.convertSelection (_subobjects[sub_obj]) to_sub_obj
+		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
 	/** Get selected or all faces
@@ -55,7 +67,7 @@ struct EpolySelection_v
 		(this.epoly()).getSel sub_obj --return
 	),
 	/** Get current subobejct selection
-	  * @param	name1	sub_obj
+	  * @param	name	sub_obj
 	  * @param	bitArray|[bitArray]	_selection	bitArray of elements to select, for Edit_Poly can be array of bitArrays for each object
 	 */
 	function setSel sub_obj _selection =
@@ -120,7 +132,18 @@ struct EpolySelection_v
 	--	)
 	--	
 	--);)()),
-	
+	/** Get outline edges of faces
+	 */
+	function selectOutlineEdgesOfFaces =
+	(
+		_mod	= EpolyMod.mod()
+		faces	= this.getSel #face
+
+		edges_of_faces	= this.getAusingB _mod faces	aType:#Edge bType:#Face
+		edges_of_faces_inverted	= this.getAusingB _mod (-faces)	aType:#Edge bType:#Face
+		
+		this.setSel #edge (edges_of_faces*edges_of_faces_inverted) --return
+	),
 	/** Get new edge
 	 */
 	function getNewEdge edges_new direction =

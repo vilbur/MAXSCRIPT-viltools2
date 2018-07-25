@@ -5,7 +5,7 @@
   *
   *
  */
-runMacro( "_vilTools2", "vilTools2" )
+runMacro( "_vilTools2", "vilTools2_open" )
 ;
 ;runMacro( "_Epoly-Test", "epoly_selection_setselselection_test" )
 

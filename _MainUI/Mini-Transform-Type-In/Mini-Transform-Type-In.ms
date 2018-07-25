@@ -85,6 +85,7 @@
 	max move
 	max tti	
 	hwndMove = windows.getChildHWND 0 "Move Transform Type-In"
+	
 	hwnd = dotnetobject "IntPtr" hwndMove[1]
 	--	rearange controls
 	posX = 5

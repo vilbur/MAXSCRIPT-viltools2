@@ -97,6 +97,11 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Tools/ToolMode.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Transform/Transform.ms" )
 
 /*------------------------------------------------------------------------------
+	LAYER
+--------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_Layer/Layer.ms" )
+
+/*------------------------------------------------------------------------------
 	MAIN UI
 --------------------------------------------------------------------------------*/
 --filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Mini-Transform-Type-In/Mini-Transform-Type-In.ms" )

@@ -5,28 +5,32 @@ struct Layer_v
 	current,
 	
 	/** Toggle
-	  * @param	string|name|array	_layers_A|_layers_B
+	  * @param	string|name|array	layer_name
 	  * @example 
-			_layers_A = "Layer name"  
-			_layers_A = #Layer_name 
-			_layers_A = #( "Layer name A", #Layer_name_B )
+			layer_name = "Layer name"  
+			layer_name = #Layer_name 
+			layer_name = #( "Layer name A", #Layer_name_B )
 	  
 	 */
-	function toggle _layers_A _layer_B =
+	function toggle layer_names =
 	(
 		clearListener()
-		this.setCurrentLayer()
-		print ( "_layers_A = " + _layers_A as string )
-		layers_A = this._getLayers (this._sanitizeLayerNames _layers_A)
+		--this.setCurrentLayer()
+		--print ( "layer_names = " + layer_names as string )
+		layers = this._getLayers (this._sanitizeLayerNames layer_names)
 		
-		layers_A_visible	= this._getVisibleLayers layers_A
-		layers_to_on	= if layers_A_visible.count > 0 then layers_A else ( this._getLayers (this._sanitizeLayerNames _layers_B) )
-		
-		this.turnOnAllLayers()
+		--layers_A_visible	= this._getVisibleLayers layers
+		--layers_to_on	= if layers_A_visible.count > 0 then layers else ( this._getLayers (this._sanitizeLayerNames _layers_B) )
+		--this.turnOnAllLayers()
 		--print ( "layers_A_visible = " + layers_A_visible as string )
-		--print ( "layers_A = " + layers_A as string )
-		--print ( "this._sanitizeLayerNames _layers_A = " + (this._sanitizeLayerNames _layers_A) as string )
-		this.hideAllLayers excludes:layers_to_on
+		print ( "layers = " + layers as string )
+
+
+		state	= layers[1].on != true
+		
+		
+		for layer in layers do
+			layer.on = state
 		
 	),
 	/** Hide all layers

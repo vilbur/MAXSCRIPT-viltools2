@@ -19,14 +19,15 @@ struct Layer_v
 		print ( "_layers_A = " + _layers_A as string )
 		layers_A = this._getLayers (this._sanitizeLayerNames _layers_A)
 		
-		layers_A_visible = this._getVisibleLayers layers_A
+		layers_A_visible	= this._getVisibleLayers layers_A
+		layers_to_on	= if layers_A_visible.count > 0 then layers_A else ( this._getLayers (this._sanitizeLayerNames _layers_B) )
 		
 		this.turnOnAllLayers()
 		--print ( "layers_A_visible = " + layers_A_visible as string )
 		--print ( "layers_A = " + layers_A as string )
 		--print ( "this._sanitizeLayerNames _layers_A = " + (this._sanitizeLayerNames _layers_A) as string )
-		this.hideAllLayers excludes:( if layers_A_visible.count > 0 then layers_A else ( this._getLayers (this._sanitizeLayerNames _layers_B) ) )
-		--print ( "this.allLayers() = " + this.allLayers() as string )
+		this.hideAllLayers excludes:layers_to_on
+		
 	),
 	/** Hide all layers
 	 */
@@ -38,14 +39,27 @@ struct Layer_v
 		for layer in this.allLayers() do
 			if( findItem excludes layer == 0 ) then
 				layer.on = false
+				--layer.on = false
+	),
+	/** Activate layer
+	 */
+	function activate layer_name =
+	(
+		layer	= this.getLayer layer_name
+		
+		if( layer == undefined ) then
+			return false
+			
+		print ( "Layer = " + layer as string )
+		layer.current	= true
+		layer.on	= true
+		--layer.visibility	= 1.0
 	),
 	/** Set current layer
 	 */
 	function setCurrentLayer =
 	(
 		current = LayerManager.current
-		
-		--layer = LayerManager.getLayer current
 	),
 	--/** Set count
 	-- */
@@ -76,10 +90,26 @@ struct Layer_v
 	 */
 	function _getLayers names =
 	(
-
 		print ( "names = " + names as string )
 		for layer in this.allLayers() where findItem names layer.name > 0 collect layer
-
+	),
+	/** Get layer by index or name
+	  * classOf name is converted to lowercase string E.G.: #LayerName become "LayerName"
+	  *
+	  * @param	integer|string|name	layer_name_index
+	  * return [LayerProperties MixinInterface](http://help.autodesk.com/view/3DSMAX/2015/ENU/?guid=__files_GUID_78B79975_7BA5_4A03_8FEF_27E78D14B575_htm)
+	 */
+	function getLayer layer_name_index =
+	(
+		print ( "getLayer = " + layer_name_index as string )
+		if( classOf layer_name_index == integer ) then
+			LayerManager.getLayer layer_name_index --return
+		
+		else
+		--print ( "getLayerFromName = " + ( LayerManager.getLayerFromName ( layer_name_index as string ) ) as string )
+			LayerManager.getLayerFromName ( layer_name_index as string ) --return
+		--print ( "layer = " + layer as string )
+		--layer --return 
 	),
 	/** Sanitize layer names
 	 */

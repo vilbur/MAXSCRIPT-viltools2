@@ -2,6 +2,8 @@
  */
 struct ObjectCleaner_v
 (
+	export_layer = "Export",
+	
 	_objects,
 	obj,
 	
@@ -9,18 +11,26 @@ struct ObjectCleaner_v
 	 */
 	function prepareObjectsForExport =
 	(
-		this.setObjectsInExportLayer()
-		
+		this.setObjects()
+		--print ( "_objects = " + _objects as string )
 		for obj in _objects do
 			this.prepareObject obj
 	),
-	
-	/** Set objects in export layer
+	/** Set objects
+	 */
+	function setObjects =
+	(
+		_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
+		--print ( "selection = " + _objects as string )
+		if( _objects.count == 0 ) then 
+			_objects	= this.getObjectsInExportLayer()
+	),
+	/** Get objects in export layer
 	  * @return	collection of geometry objects in layer "Export"	
 	 */
-	function setObjectsInExportLayer =
+	function getObjectsInExportLayer =
 	(
-		_objects = for obj in objects where superClassOf obj == GeometryClass and obj.layer.name == "Export" collect obj
+		for obj in objects where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
 	),
 
 	/** Prepare object
@@ -101,13 +111,15 @@ struct ObjectCleaner_v
 		
 		obj.pivot.z = 0
 	),
-	/** Rename object
+	/** Rename object if name is not matching scene name
 	 */
 	function renameObject =
 	(
-		_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile maxFileName) "" 
+		if( this._isNameMatchingSceneName() ) then 
+			return false
 		
-		--obj.name	= uniqueName _name
+		_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile maxFileName) "" 
+
 		obj.name	= _name
 	),
 	/*------------------------------------------------------------------------------
@@ -118,6 +130,16 @@ struct ObjectCleaner_v
 	function _isObjectMirrored =
 	(
 		(obj.scale.x < 0.0 or obj.scale.y < 0.0  or obj.scale.z < 0.0) --return
+	),
+	/** Is name matching scene name
+	  * @example obj.name = "scene_name_foo_bar" // return true  if scene name is "scene_name" 
+	  * @example obj.name = "bar_x_obj_59"       // return false if scene name is "scene_name"
+	  * @return	boolean	
+	 */
+	function _isNameMatchingSceneName =
+	(
+		matchPattern obj.name pattern:("*"+getFilenameFile maxFileName +"_*")
+		
 	),
 	function test =
 	(

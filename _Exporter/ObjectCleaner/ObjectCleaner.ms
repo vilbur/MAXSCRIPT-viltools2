@@ -50,6 +50,8 @@ struct ObjectCleaner_v
 		
 		this.planarizeFaces()
 		this.renameObject()
+		
+		this.setOneSideFaces()
 	),
 	
 	/** Convert to editable poly
@@ -121,6 +123,12 @@ struct ObjectCleaner_v
 		_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile maxFileName) "" 
 
 		obj.name	= _name
+	),
+	/** 
+	 */
+	function setOneSideFaces =
+	(
+		obj.backfacecull = on
 	),
 	/*------------------------------------------------------------------------------
 		PRIVATE

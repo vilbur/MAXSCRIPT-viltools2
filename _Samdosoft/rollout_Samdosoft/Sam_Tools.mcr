@@ -44,7 +44,7 @@ tooltip:	"Chamfer rock"
 			
 			_Chamfer = (Modifier_v type:#Chamfer name:"Chamfer-rock").add()
 				
-			_Chamfer.amount	= 10
+			_Chamfer.amount	= 3
 			_Chamfer.chamfertype	= 1
 			_Chamfer.limiteffect	= on
 			

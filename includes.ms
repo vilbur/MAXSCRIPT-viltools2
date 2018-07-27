@@ -102,6 +102,13 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Transform/Transform.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Layer/Layer.ms" )
 
 /*------------------------------------------------------------------------------
+	EXPORTER
+--------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/Exporter.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/ObjectCleaner/ObjectCleaner.ms" )
+
+
+/*------------------------------------------------------------------------------
 	MAIN UI
 --------------------------------------------------------------------------------*/
 --filein ( getFilenamePath(getSourceFileName()) + "/_MainUI/Mini-Transform-Type-In/Mini-Transform-Type-In.ms" )

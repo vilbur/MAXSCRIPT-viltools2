@@ -17,7 +17,7 @@ struct Layer_v
 		clearListener()
 		--this.setCurrentLayer()
 		--print ( "layer_names = " + layer_names as string )
-		layers = this._getLayers (this._sanitizeLayerNames layer_names)
+		layers = this._getLayers layer_names
 		
 		--layers_A_visible	= this._getVisibleLayers layers
 		--layers_to_on	= if layers_A_visible.count > 0 then layers else ( this._getLayers (this._sanitizeLayerNames _layers_B) )
@@ -38,7 +38,7 @@ struct Layer_v
 	function hideAllLayers excludes:#() =
 	(
 		--print ( "this._sanitizeLayerNames excludes = " + (this._sanitizeLayerNames excludes) as string )
-		excludes = this._getLayers (this._sanitizeLayerNames excludes)
+		excludes = this._getLayers excludes
 		--print ( "excludes = " + excludes as string )
 		for layer in this.allLayers() do
 			if( findItem excludes layer == 0 ) then
@@ -94,7 +94,9 @@ struct Layer_v
 	 */
 	function _getLayers names =
 	(
-		print ( "names = " + names as string )
+		--print ( "names = " + names as string )
+		names = this._sanitizeLayerNames names
+		
 		for layer in this.allLayers() where findItem names layer.name > 0 collect layer
 	),
 	/** Get layer by index or name
@@ -124,10 +126,6 @@ struct Layer_v
 			
 		 for _name in names collect ( _name as string ) --return
 		 
-		--print ( "names = " + names as string )
-		--sanitized = for _name in names collect ( _name as string )
-		--print ( "sanitized = " + sanitized as string )
-		--sanitized --return
 	),
 	/** Is any lyaer visible
 	 */

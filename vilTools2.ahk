@@ -14,6 +14,8 @@ runMacro( "_vilTools2", "vilTools2_open" )
 
 
 
+centerMouseToMaxWindow()
+
 /**  
  *	
  */
@@ -30,4 +32,13 @@ runMacro( $category, $name )
 	Control, EditPaste, % "macros.run """ $category  """ """ $name  """", %$listener%, %$max%
 	ControlSend, %$listener%, {NumpadEnter 2}, %$max%
 	
+}
+
+/**
+ */
+centerMouseToMaxWindow()
+{
+	WinGetPos, $max_X, $max_Y, $max_width, $max_height, ahk_class 3DSMAX
+	
+	MouseMove, $max_width/2, $max_height/2
 }

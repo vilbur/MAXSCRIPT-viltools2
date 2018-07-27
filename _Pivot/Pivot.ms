@@ -7,7 +7,7 @@ struct Pivot_v
 	 */
 	function resetToWord =
 	(
-		ResetPivot selection
+		selection.pivot = [0, 0, 0]
 	),
 	/** Center to object
 	 */
@@ -15,6 +15,7 @@ struct Pivot_v
 	(
 		CenterPivot selection
 	),
+	
 	--/** Reset to object
 	-- */
 	--function resetToObject =

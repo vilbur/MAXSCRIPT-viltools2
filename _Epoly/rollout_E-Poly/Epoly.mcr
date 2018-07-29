@@ -5,7 +5,6 @@ buttonText:	"Attach Selected"
 tooltip:	"Attach Selected"
 (
 	with redraw off
-
 	(
 		undo "repair smooth groups by mat" on
 		(
@@ -14,7 +13,8 @@ tooltip:	"Attach Selected"
 			--macros.run "_Material" "materialByObject"
 		
 			Epoly.attachSelection true
-	)	)
+		)
+	)
 )
 
 macroscript	epoly_attach_unique_mat

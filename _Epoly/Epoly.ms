@@ -111,31 +111,28 @@ struct Epoly_v
 	 */
 	function attachSelection weld =
 	(
-		if selection.count > 1 do
+		
+		for o=1 to (selection.count - 1 ) where superclassof selection[o] == geometryclass do 
 		(
-			undo "Attach_Selected_v" on
-			(
-				for o=1 to (selection.count - 1 ) where superclassof selection[o] == geometryclass do 
-				(
-					AddModifier selection[o] (Edit_Poly())
-					maxOps.CollapseNode selection[o] off
-				)
-
-				maxOps.CollapseNodeTo  selection[selection.count] 1 off
-
-				while selection.count > 1 do
-				(
-					selcount = selection.count
-					for i = selcount to 2 by -2 do
-						polyop.attach selection[i] selection[i-1]
-				)
-				update selection[1]
-
-				if weld == true do
-					(polyop.weldVertsByThreshold selection[1] #{1..( polyop.getNumVerts selection[1])}) --weld vetices
-
-			)
+			AddModifier selection[o] (Edit_Poly())
+			maxOps.CollapseNode selection[o] off
 		)
+
+		maxOps.CollapseNodeTo  selection[selection.count] 1 off
+
+		while selection.count > 1 do
+		(
+			selcount = selection.count
+			for i = selcount to 2 by -2 do
+				polyop.attach selection[i] selection[i-1]
+		)
+		update selection[1]
+		
+		_mod = EpolyMod.mod()
+		_mod.weldThreshold = 0.001
+
+		polyop.weldVertsByThreshold selection[1] #{1..( polyop.getNumVerts selection[1])} --weld vetices
+
 	),
 
 	/** Remove subobject
@@ -167,6 +164,7 @@ struct Epoly_v
 				macros.run "PolyTools" "CreatePolygon"
 		)
 	),
+
 	/*---------------------------------------
 		PRIVATE
 	-----------------------------------------*/

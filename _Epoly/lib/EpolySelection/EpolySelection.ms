@@ -78,30 +78,31 @@ struct EpolySelection_v
 	/**  
 	 *	
 	 */
-	function getAusingB modOrObj bInVar aType:#currentLevel bType:#currentLevel =
+	function getAusingB _elements aType bType =
 	(
-		print ("GetAUsingB" + " bInVar: " + bInVar as string + " aType: " + aType as string + " bType: " + bType as string)
+		--print ("GetAUsingB" + " _elements: " + _elements as string + " aType: " + aType as string + " bType: " + bType as string)
 		bBitArray = #{}
-		--returnBitArray = #{}
+		--elements_B = #{}
 		--class conversion
-		case classOf bInVar of
+		case classOf _elements of
 		(
-			Integer:	bBitArray = #{bInVar}
-			BitArray:	bBitArray = bInVar
-			Array:	bBitArray = bInVar as BitArray
+			Integer:	elements = #{_elements}
+			BitArray:	elements = _elements
+			Array:	elements = _elements as BitArray
 			default:	(print "invalid inVar class"; return())
 		)
 		--currentLvl conversion
-		if aType == #currentLevel do (aType = modOrObj.GetMeshSelLevel() )
-		if bType == #currentLevel do (bType = modOrObj.GetMeshSelLevel() )
+		--if aType == #currentLevel do (aType = _mod.GetMeshSelLevel() )
+		--if bType == #currentLevel do (bType = _mod.GetMeshSelLevel() )
 		--if both a and b are of the same type return b
 
-		if aType == bType do ( return bBitArray )
+		if aType == bType do ( return elements )
 
-		returnBitArray = (this.epoly()).getAusingB aType bType bBitArray
-
-		returnBitArray --return
+		elements_B = (this.epoly()).getAusingB aType bType elements
+		
+		elements_B --return
 	),
+	
 
 	--/** Get all edges in loop for edge
 	--  * @param	integer	_edge	Index of edge

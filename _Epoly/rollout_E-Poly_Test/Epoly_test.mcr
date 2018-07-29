@@ -30,6 +30,18 @@ tooltip:	"Connect"
 	)
 )
 
+macroscript	epoly_rebuild_faces_test
+category:	"_Epoly_Test"  
+buttonText:	"Rebuild faces"
+tooltip:	"Rebuild faces"
+(
+	--undo "Rebuild faces" on
+	(
+		Epoly 	= Epoly_v()
+		
+		Epoly.rebuildFaces (Epoly.getSel #face as Array )
+	)
+)
 
 
 

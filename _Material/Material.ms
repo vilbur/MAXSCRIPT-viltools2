@@ -70,11 +70,32 @@ struct Material_v
 		--select sel
 	),
 
+	/** Get material from scene by name
+	  *
+	  * @param	string	mat_name
+	  * @return	Material|false	
+	 */
+	function getMat mat_name =
+	(
+		_materials = for mat in SceneMaterials where mat.name == mat_name collect mat
+		--print ( "_materials = " + _materials.count as string )
+		if( _materials.count > 0 ) then 
+			_materials[1] --return
+		else
+			false
+	),
 	/** Create multimaterial where every diffuse color has different color
 	  * @return multimaterial
 	 */
 	function getIdMaterial =
 	(
+		mat_name = "IDmat"
+		
+		mat_existing = this.getMat mat_name 
+		print ( "mat_existing = " + mat_existing as string )
+		if( mat_existing != false ) then
+			return mat_existing
+		
 		colors	= 6
 		
 		RGB	= this.getColorsPallete colors minmax:#(215,	255)
@@ -83,7 +104,7 @@ struct Material_v
 		
 		join RGB (join RGB_dark RGB_darker)
 	
-		multi_mat	= multiMaterial numsubs:RGB.count name:"IDmat" -- (getFilenamePath  loadedMat)
+		multi_mat	= multiMaterial numsubs:RGB.count name:mat_name -- (getFilenamePath  loadedMat)
 		
 		for c=1 to RGB.count do
 			multi_mat[c].diffuse = color RGB[c][1] RGB[c][2] RGB[c][3]

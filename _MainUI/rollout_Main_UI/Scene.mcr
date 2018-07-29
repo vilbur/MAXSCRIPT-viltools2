@@ -1,12 +1,13 @@
-macroscript	scene_scene_setup
-category:	"_MainUI-Scene"
-buttontext:	"Scene setup"
-toolTip:	"Scene setup"
+/** Set viewport setting for modeling 
+ *	
+ */
+macroscript	scene_light_toggle
+category:	"_MainUI-Ligtning"
+buttontext:	"Ligtning"
+toolTip:	"Scene light setup toggle"
 --icon:	"#(path, index)"
 (
-	
-	ambientColor	= color 50 50 50
-	lightTintColor	= color 140 140 140
-	
-	redrawViews()
+	macro_name = if( ambientColor == ( color 50	50	50 ) ) then "scene_light_unity" else "scene_light_modeling"
+	print ( "macro_name = " + macro_name as string )
+	macros.run "_MainUI-Ligtning" macro_name
 )

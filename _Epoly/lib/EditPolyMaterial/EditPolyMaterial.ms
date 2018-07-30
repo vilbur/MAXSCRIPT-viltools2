@@ -21,7 +21,7 @@ struct EditPolyMaterial_v
 		Epoly.setMatId (Epoly._allFaces()) id 
 	),
 	
-	/** Select material
+	/** GEt material ids of faces
 	 */
 	function getMatId facelist:undefined =
 	(
@@ -54,7 +54,11 @@ struct EditPolyMaterial_v
 	(
 		faces 	= #()
 		all_ids	= this.getMatId()
-		print ( "all_ids = " + all_ids as string )
+		
+		if( classOf mat_ids != Array ) then 
+			mat_ids = #( mat_ids )
+		
+		--print ( "all_ids = " + all_ids as string )
 		--face_count = Epoly.count 4
 		for mat_id in mat_ids do
 		(
@@ -62,8 +66,6 @@ struct EditPolyMaterial_v
 				
 			append faces (faces_ids as BitArray )
 		)
-		
-		--print ( "faces = " + faces as string )
 		faces --return
 	),
 	

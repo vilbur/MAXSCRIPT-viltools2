@@ -12,11 +12,13 @@ toolTip:	"Scene light setup - Modeling"
 	lightTintColor	= color 140	140	140
 	ambientColor	= color 50	50	50
 	
-	settings = NitrousGraphicsManager.GetActiveViewportSetting()
+	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	
-	settings.ShowHighlightEnabled = false
-	settings.VisualStyleMode  = #Shaded
-	settings.UseEnvironmentBackgroundColorEnabled = false
+	settings.ShowHighlightEnabled	= false
+	settings.VisualStyleMode	= #Shaded
+	settings.UseEnvironmentBackgroundColorEnabled	= false
+	settings.AmbientOcclusionEnabled	= false
+	settings.ShadowsEnabled	= false
 
 	redrawViews()
 )
@@ -34,11 +36,12 @@ toolTip:	"Scene light setup - Unity"
 	ambientColor	= color 10	10	10
 	backgroundColor	= color 136	173	201
 
-	settings = NitrousGraphicsManager.GetActiveViewportSetting()
+	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	
-	settings.ShowHighlightEnabled = true
-	settings.VisualStyleMode  = #Facets
-	settings.UseEnvironmentBackgroundColorEnabled = true
-
+	settings.ShowHighlightEnabled	= true
+	settings.VisualStyleMode	= #Facets
+	settings.UseEnvironmentBackgroundColorEnabled	= true
+	settings.AmbientOcclusionEnabled	= false
+	settings.ShadowsEnabled	= false
 	redrawViews()
 )

@@ -9,7 +9,7 @@ toolTip:	"Rock"
 
 	--if( mat == fasle ) then
 	--(
-		mat = StandardMaterial name:mat_name glossiness:50 specularLevel:50
+		mat = StandardMaterial name:mat_name glossiness:50 specularLevel:80
 		
 		mat.diffuse = color 97 119 130
 	--	

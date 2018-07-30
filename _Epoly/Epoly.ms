@@ -14,6 +14,7 @@ struct Epoly_v
 	EditPolyMaterial 	= EditPolyMaterial_v(),
 	EpolyEdit 	= EpolyEdit_v(),
 
+	Material 	= EditPolyMaterial_v(),
 	/*---------------------------------------
 		EXTENDS
 	-----------------------------------------*/

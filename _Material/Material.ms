@@ -92,7 +92,7 @@ struct Material_v
 		mat_name = "IDmat"
 		
 		mat_existing = this.getMat mat_name 
-		print ( "mat_existing = " + mat_existing as string )
+		--print ( "mat_existing = " + mat_existing as string )
 		if( mat_existing != false ) then
 			return mat_existing
 		

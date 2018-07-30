@@ -19,3 +19,16 @@ toolTip:	"Close Mini Transform Type In"
 	--messageBox "close" beep:false
 	--ShellLaunch ( getFilenamePath(getSourceFileName()) + "/../Mini-Transform-Type-In/Mini-Transform-Type-In-Close.ahk" ) ""
 )
+
+macroscript	dialogs_face_id_dialogs
+category:	"_MainUI"
+buttontext:	"Face IDs"
+toolTip:	"Open Mat & Smooth group dialogs"
+--icon:	"#(path, index)"
+(
+	macros.run "Ribbon - Modeling" "MaterialIDDialog"
+	macros.run "Ribbon - Modeling" "SmoothingGroupsDialog"
+	
+	ShellLaunch ( "$userscripts/vilTools2/_MainUI/Ahk/SetLastDialogPosition.ahk" ) ""
+
+)

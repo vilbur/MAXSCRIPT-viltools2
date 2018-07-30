@@ -40,7 +40,7 @@ struct EpolyEdit_v
 		case sub_obj of
 		(
 			(1):	this.connectToLastVert()
-			(2):	(this.EpolyMod.getEpoly()).connectEdges()
+			(2):	(this.EpolyMod.getEpoly()).connectEdges sub_obj
 			(4):	this.connectPolygon()
 
 			--default:	

@@ -10,7 +10,11 @@ tooltip:"Planarize Faces"
 	(
 		maxOps.CollapseNode _obj off
 		
-		for x=1 to 20 do (for i=1 to ( polyop.getNumFaces _obj) do ( polyop.makeFacesPlanar _obj #(i)) ) 
+		for x=1 to 20 do (for i=1 to ( polyop.getNumFaces _obj) do ( polyop.makeFacesPlanar _obj #(i)) )
+		
+		addModifier _obj (Edit_Poly())
+		
+		(Pivot_v()).centerToObject()
 	)
 	
 	

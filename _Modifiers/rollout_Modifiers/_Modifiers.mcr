@@ -3,8 +3,13 @@ category:	"_Modifiers"
 buttonText:	"EditPoly"
 tooltip:	"Add EditPoly"
 (
+	sub_obj	= subObjectLevel
+	
 	_Edit_Poly = (Modifier_v type:#Edit_Poly ).add()
 
+	if( sub_obj != 0 ) then 
+		subObjectLevel = sub_obj
+		
 	redrawViews()
 )
 macroscript	modifier_add_normal

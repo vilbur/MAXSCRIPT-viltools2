@@ -14,11 +14,11 @@ toolTip:	"Scene light setup - Modeling"
 	
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	
-	settings.ShowHighlightEnabled	= false
-	settings.VisualStyleMode	= #Shaded
-	settings.UseEnvironmentBackgroundColorEnabled	= false
-	settings.AmbientOcclusionEnabled	= false
-	settings.ShadowsEnabled	= false
+	settings.ShowHighlightEnabled	= false	-- show highlights
+	settings.VisualStyleMode	= #Shaded	-- shaded render
+	settings.UseEnvironmentBackgroundColorEnabled	= false	-- allow background color
+	settings.AmbientOcclusionEnabled	= false	-- ambient occlusion
+	settings.ShadowsEnabled	= false	-- shadows
 
 	redrawViews()
 )
@@ -41,7 +41,16 @@ toolTip:	"Scene light setup - Unity"
 	settings.ShowHighlightEnabled	= true
 	settings.VisualStyleMode	= #Facets
 	settings.UseEnvironmentBackgroundColorEnabled	= true
-	settings.AmbientOcclusionEnabled	= false
-	settings.ShadowsEnabled	= false
+	settings.DefaultLightMode 	= #OneLight
+	
+	settings.ShadowsEnabled	= true
+	settings.ShadowIntensity	= 0.8	-- shadows intensity
+	
+	settings.AmbientOcclusionEnabled	= true
+	settings.AmbientOcclusionIntensity  	= 2.0
+	settings.AmbientOcclusionRadius 	= 150.0
+	
 	redrawViews()
 )
+
+	

@@ -35,3 +35,22 @@ toolTip:	"Rock"
 
 	selection.material = mat
 )
+
+macroscript	material_assign_grass_3dsmax
+category:	"_Material"
+buttontext:	"Grass Mat"
+toolTip:	"Grass"
+--icon:	"#(path, index)"
+(
+	mat_name = "grass_3dsmax"
+	--mat		= this.getMat mat_name 
+
+	--if( mat == fasle ) then
+	--(
+		mat = StandardMaterial name:mat_name glossiness:80 specularLevel:50
+		
+		mat.diffuse = color 105 116 73
+	--)
+
+	selection.material = mat
+)

@@ -14,7 +14,7 @@ tooltip:"Planarize Faces"
 		
 		addModifier _obj (Edit_Poly())
 		
-		(Pivot_v()).centerToObject()
+		--(Pivot_v()).centerToObject()
 	)
 	
 	

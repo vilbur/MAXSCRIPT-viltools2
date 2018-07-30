@@ -140,8 +140,8 @@ struct EpolySelection_v
 		_mod	= EpolyMod.mod()
 		faces	= this.getSel #face
 
-		edges_of_faces	= this.getAusingB _mod faces	aType:#Edge bType:#Face
-		edges_of_faces_inverted	= this.getAusingB _mod (-faces)	aType:#Edge bType:#Face
+		edges_of_faces	= this.getAusingB faces    #Edge #Face 
+		edges_of_faces_inverted	= this.getAusingB (-faces) #Edge #Face 
 		
 		this.setSel #edge (edges_of_faces*edges_of_faces_inverted) --return
 	),
@@ -323,7 +323,7 @@ struct EpolySelection_v
 			default:	(print "unhandled oEdge variable"; return #{})
 		)
 
-		edge_verts = this.getAusingB modOrObj oEdge aType:#Vertex bType:#Edge --edge_verts should always be 2
+		edge_verts = this.getAusingB oEdge #Vertex #Edge  --edge_verts should always be 2
 
 		if edge_verts.numberSet == 2 then
 		(	
@@ -331,21 +331,21 @@ struct EpolySelection_v
 			forward_loop_vert = (edge_verts as array)[2]
 			print ("edge_verts:	" + edge_verts as string)
 
-			_edges.loop.reverse = this.getAusingB modOrObj reverse_loop_vert aType:#Edge bType:#Vertex
-			_edges.loop.forward = this.getAusingB modOrObj forward_loop_vert aType:#Edge bType:#Vertex
+			_edges.loop.reverse = this.getAusingB reverse_loop_vert #Edge #Vertex 
+			_edges.loop.forward = this.getAusingB forward_loop_vert #Edge #Vertex 
 
 			_edges.ring.filter = (_edges.loop.forward + _edges.loop.reverse) --union and store these for later
 		) else
 			return #{} --should be an impossible abortcondition unless passed something other than an Edge
 
-		edge_faces = this.getAusingB modOrObj oEdge aType:#Face bType:#Edge --edge_faces can be either 2 or 1(for border oEdge)
+		edge_faces = this.getAusingB oEdge #Face #Edge  --edge_faces can be either 2 or 1(for border oEdge)
 
 		if (num_faces = edge_faces.numBerset) > 0 then
 		(
-			_edges.ring.reverse = this.getAusingB modOrObj (edge_faces as array)[1] aType:#Edge bType:#Face
+			_edges.ring.reverse = this.getAusingB (edge_faces as array)[1] #Edge #Face
 
 			if num_faces == 2 then
-				_edges.ring.forward = this.getAusingB modOrObj (edge_faces as array)[2] aType:#Edge bType:#Face
+				_edges.ring.forward = this.getAusingB (edge_faces as array)[2] #Edge #Face
 
 			else
 				print "is border Edge"

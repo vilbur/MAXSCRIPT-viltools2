@@ -6,6 +6,8 @@ toolTip:	"Center pivot to objects"
 --icon:	"#(path, index)"
 (
 	(Pivot_v()).centerToObject()
+	
+	redrawViews()
 )
 
 macroscript pivot_reset_to_word
@@ -15,6 +17,8 @@ toolTip:	"Reset pivot to world"
 --icon:	"#(path, index)"
 (
 	(Pivot_v()).resetToWord()
+	
+	redrawViews()
 )
 
 macroscript pivot_free_mode
@@ -25,5 +29,7 @@ toolTip:	"Affect pivot only mode"
 (
 	--for o in selection where superClassOf o == GeometryClass collect o
 	(Pivot_v()).freePivot()
+	
+	redrawViews()
 )
 	

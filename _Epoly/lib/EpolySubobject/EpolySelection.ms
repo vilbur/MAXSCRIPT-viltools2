@@ -6,37 +6,8 @@ struct EpolySelection_v
 (
 	Epoly,
 
-	_EPselection,
-	EditablePolySelection	= EditablePolySelection_v(),
-	EditPolySelection	= EditPolySelection_v(),
 	
-	/** Get subobject selection
-	  * @param	name	sub_obj
-	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
-	  */
-	function get sub_obj =
-	(		
-		this._setEPselection()
-		
-		if( _EPselection != undefined ) then 
-			_EPselection.getSelection sub_obj
-	),
 	
-	/** _get selection
-	 */
-	function _setEPselection =
-	(
-		prop_name = (Epoly.Mod.class camel_case:true) + "Selection"
-		print ( "prop_name = " + prop_name as string )
-		if not( hasProperty this prop_name ) then
-			return undefined
-
-		_EPselection = getProperty this prop_name
-		
-		_EPselection.setMod (Epoly.Mod.get())
-		
-		--_EPselection --return	
-	),
 	
 	
 	/*------------------------------------------------------------------------------
@@ -50,6 +21,7 @@ struct EpolySelection_v
 
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 
+	
 	/** Init
 	 */
 	function _init =

@@ -4,6 +4,31 @@ struct EpolyEdit_v
 (
 	Epoly,
 	
+	
+	/** Connect
+	 */
+	function connect =
+	(
+		sub_obj = subObjectLevel
+
+		messageBox "message" beep:false
+		--case sub_obj of
+		--(
+		--	(1):	this.connectToLastVert()
+		--	(2):	(this.EpolyMod.getEpoly()).connectEdges sub_obj
+		--	(4):	this.connectPolygon()
+		--
+		--	--default:	
+		--)
+		----(this.EpolyMod.getEpoly()).connect()
+	),
+	
+
+	/*------------------------------------------------------------------------------
+		OLD
+	--------------------------------------------------------------------------------*/
+	
+	
 	obj,
 	EpolyMod	= EpolyMod_v(),
 	
@@ -33,22 +58,7 @@ struct EpolyEdit_v
 			(EpolyMod.getEpoly()).extrude to_extrude options:options width:width height:height
 
 	),
-	/** Connect
-	 */
-	function connect =
-	(
-		sub_obj = subObjectLevel
 
-		case sub_obj of
-		(
-			(1):	this.connectToLastVert()
-			(2):	(this.EpolyMod.getEpoly()).connectEdges sub_obj
-			(4):	this.connectPolygon()
-
-			--default:	
-		)
-		--(this.EpolyMod.getEpoly()).connect()
-	),
 	/** Connect to last vert
 	 */
 	function connectPolygon =

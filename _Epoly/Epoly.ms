@@ -15,28 +15,35 @@
  */
 struct Epoly_v
 (
-	EpolyMod	= EpolyMod_v(),
-
-
+	Mod	= EpolyMod_v(),
 	Options	= EpolyOptions_v	Epoly:this,
 	Selection	= EpolySelection_v	Epoly:this,
+	Edit 	= EpolyEdit_v	Epoly:this,
 	SmoothGroups	= EpolySmoothGroups_v	Epoly:this,
 	Edges	= EpolyEdges_v	Epoly:this,
 	Explode	= EditPolyExplode_v	Epoly:this,
-	Edit 	= EpolyEdit_v	Epoly:this,
 	Material 	= EditPolyMaterial_v	Epoly:this,
 	
+	
+	/** Is epoly
+	 */
+	function isEpoly =
+	(
+			
+		true --return
+	),
 	
 	
 	
 	/*------------------------------------------------------------------------------
 	  
 		!!! OLD !!
-		
+		 
 		REMOVE METHODS BELOW
 		
 	--------------------------------------------------------------------------------*/
 	
+	EpolyMod	= EpolyMod_v(),
 	EpolyOptions	= EpolyOptions_v(),
 	EpolySelection	= EpolySelection_v(),
 	EpolySmoothGroups	= EpolySmoothGroups_v(),

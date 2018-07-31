@@ -3,8 +3,53 @@
  */
 struct EpolyMod_v
 (
-	--EditablePoly	= EditablePoly_v(),
-	--EditPoly	= EditPoly_v(),
+	_mod,
+	
+	/** _construct
+	 */
+	function _construct =
+	(
+		--messageBox "_construct" beep:false
+	),
+	
+	/** Set _mod by current modifier if EditPoly OR Edit_Poly
+	  *
+	  * @return	boolean	true if current mod is EditPoly OR Edit_Poly, false if not	
+	 */
+	function current =
+	(
+		_mod_current	= modPanel.getCurrentObject()
+		_mod	= if( classOf _mod_current == Editable_Poly or classOf _mod_current == Edit_Poly ) then _mod_current else undefined
+			
+		_mod != undefined --return
+	),
+	
+	/** Get _mod property
+	 */
+	function get =
+	(
+		_mod --return
+	),
+	
+	
+	/** Return class name of _mod
+	  * @param	boolean	camel_case	Returned string is camelCased
+	  *
+	  * @return	Editable_Poly|Edit_Poly|EditablePoly|EditPoly	
+	 */
+	function class camel_case:false =
+	(
+		class_name = classOf _mod as string --return
+		print ( "camel_case = " + camel_case as string )
+		if not camel_case then
+			class_name --return  
+		else
+			substituteString class_name "_" "" 	--return  
+	),
+
+	/*------------------------------------------------------------------------------
+		OLD
+	--------------------------------------------------------------------------------*/
 
 	Epoly,	-- store EditablePoly_v or EditPoly_v
 	
@@ -89,7 +134,8 @@ struct EpolyMod_v
 	function test =
 	(
 		messagebox "Epoly_v.test()"
-	)
+	),
 	
+	__construct = _construct()
 )
 

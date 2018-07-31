@@ -22,7 +22,14 @@ tooltip:	"Target Weld"
 	Epoly.targetWeld()
 
 )
-
+/**  
+ *	If subobject:
+ *		#vertex	- A) Connect to last selected vertex, if selected vertices are on one face
+ *			  B) Connect all vertices if vertices does not share one face
+ *		#edge	- Connect edges
+ *		#border	- Do nothing
+ *		#face	- Connect middles of edges
+ */
 macroscript	epoly_connect
 category:	"_Epoly-Edit"  
 buttonText:	"Connect"
@@ -30,6 +37,20 @@ tooltip:	"Connect subobject"
 (
 	undo "Connect subobject" on
 	(
-		(Epoly_v()).connect()
+		Epoly = Epoly_v()
+
+		if not ( Epoly.Mod.current() or subObjectLevel ) then
+			return false
+			
+		if( subObjectLevel == 1 ) then
+		(
+			Epoly.selection.get #vertex
+			
+			
+		)
+	
+		
+
+		--(Epoly_v()).connect()
 	)
 )

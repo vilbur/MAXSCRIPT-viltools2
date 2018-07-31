@@ -2,6 +2,8 @@
  */
 struct EpolyEdit_v
 (
+	Epoly,
+	
 	obj,
 	EpolyMod	= EpolyMod_v(),
 	

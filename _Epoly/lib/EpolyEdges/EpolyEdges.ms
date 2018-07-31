@@ -2,6 +2,8 @@
  */
 struct EpolyEdges_v
 (
+	Epoly,
+
 	obj,
 	EpolyMod	= EpolyMod_v(),
 	

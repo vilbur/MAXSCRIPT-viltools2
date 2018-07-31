@@ -2,6 +2,8 @@
  */
 struct EditablePoly_v
 (
+	Epoly,
+	
 	mod,
 	obj,
 	

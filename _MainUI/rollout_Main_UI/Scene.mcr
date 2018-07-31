@@ -7,7 +7,7 @@ buttontext:	"Ligtning"
 toolTip:	"Scene light setup toggle"
 --icon:	"#(path, index)"
 (
-	macro_name = if( ambientColor == ( color 10	10	10 ) ) then "scene_light_modeling" else "scene_light_unity"
+	macro_name = if( (NitrousGraphicsManager.GetActiveViewportSetting()).VisualStyleMode == #Facets ) then "scene_light_modeling" else "scene_light_unity"
 	print ( "macro_name = " + macro_name as string )
 	macros.run "_MainUI-Ligtning" macro_name
 )
@@ -20,14 +20,14 @@ buttontext:	"Preview"
 toolTip:	"Preview scene in Unity like setup"
 --icon:	"#(path, index)"
 (
-	--macro_name = if( ambientColor == ( color 10	10	10 ) ) then "scene_light_modeling" else "scene_light_unity"
+	--macro_name = if( (NitrousGraphicsManager.GetActiveViewportSetting()).VisualStyleMode == #Facets ) then "scene_light_modeling" else "scene_light_unity"
 	--print ( "macro_name = " + macro_name as string )
 	--macros.run "_MainUI-Ligtning" macro_name
 	sub_obj	= subObjectLevel
 	if( sub_obj != 0 ) then 
 		subObjectLevel = 0
 	--print ( "sub_obj = " + sub_obj as string )
-	macro_name = if( ambientColor == ( color 10 10 10 ) ) then "scene_light_modeling" else "scene_light_unity"
+	macro_name = if( (NitrousGraphicsManager.GetActiveViewportSetting()).VisualStyleMode == #Facets ) then "scene_light_modeling" else "scene_light_unity"
 	mat_name	= if( macro_name == "scene_light_modeling" )then "idmat" else "rock_3dsmax" 
 	
 	macros.run "_MainUI-Ligtning"	macro_name

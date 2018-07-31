@@ -2,10 +2,41 @@
  *		- EditablePoly_v
  *		- EditPoly_v
  *
+ 
+	Epoly = Epoly_v()
+ 
+	Selection= Selection_v Epoly:Epoly
+ 
+	Epoly.Mod.FindOrAdd()
+	
+	Epoly.Selection
+	Epoly.Selection.get #face
+  
  */
 struct Epoly_v
 (
 	EpolyMod	= EpolyMod_v(),
+
+
+	Options	= EpolyOptions_v	Epoly:this,
+	Selection	= EpolySelection_v	Epoly:this,
+	SmoothGroups	= EpolySmoothGroups_v	Epoly:this,
+	Edges	= EpolyEdges_v	Epoly:this,
+	Explode	= EditPolyExplode_v	Epoly:this,
+	Edit 	= EpolyEdit_v	Epoly:this,
+	Material 	= EditPolyMaterial_v	Epoly:this,
+	
+	
+	
+	
+	/*------------------------------------------------------------------------------
+	  
+		!!! OLD !!
+		
+		REMOVE METHODS BELOW
+		
+	--------------------------------------------------------------------------------*/
+	
 	EpolyOptions	= EpolyOptions_v(),
 	EpolySelection	= EpolySelection_v(),
 	EpolySmoothGroups	= EpolySmoothGroups_v(),
@@ -13,8 +44,7 @@ struct Epoly_v
 	EditPolyExplode	= EditPolyExplode_v(),
 	EditPolyMaterial 	= EditPolyMaterial_v(),
 	EpolyEdit 	= EpolyEdit_v(),
-
-	Material 	= EditPolyMaterial_v(),
+	--Material 	= EditPolyMaterial_v(),
 	/*---------------------------------------
 		EXTENDS
 	-----------------------------------------*/

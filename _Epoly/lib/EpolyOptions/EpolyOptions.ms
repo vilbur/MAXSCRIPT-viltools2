@@ -2,7 +2,8 @@
  */
 struct EpolyOptions_v
 (
-	
+	Epoly,
+
 	/** Ignore backfacing
 	  * @param	boolean|undefined|#get	state	1) Toggle state if undefined 2) Get current state if #get 3) Set state if boolean
 	  * @return	boolean		State of ignoreBackfacing

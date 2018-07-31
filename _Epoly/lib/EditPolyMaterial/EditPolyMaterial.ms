@@ -2,6 +2,8 @@
  */
 struct EditPolyMaterial_v
 (
+	Epoly,
+
 	EpolyMod	= EpolyMod_v(),
 
 	/** Set mat id

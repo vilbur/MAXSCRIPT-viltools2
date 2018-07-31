@@ -2,6 +2,8 @@
  */
 struct EpolySmoothGroups_v
 (
+	Epoly,
+
 	EpolyMod	= EpolyMod_v(),
 	
 	/** Set smooth group

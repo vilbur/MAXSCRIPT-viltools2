@@ -4,6 +4,8 @@
  */
 struct EpolySelection_v
 (
+	Epoly,
+
 	EpolyMod	= EpolyMod_v(),
 	--EpolySelection, -- store EditablePolySelection_v or EditPolySelection_v
 	_objects,
@@ -50,13 +52,13 @@ struct EpolySelection_v
 	 */
 	function getSelectedOrAllFaces =
 	(
-		(this.epoly()).getSelectedOrAllFaces() --return
+		(this.getEpoly()).getSelectedOrAllFaces() --return
 	),
 	/** All faces
 	 */
 	function allFaces =
 	(
-		(this.epoly())._allFaces() --return
+		(this.getEpoly())._allFaces() --return
 	),
 	/** Get current subobejct selection
 	  * @param	name	sub_obj
@@ -64,7 +66,7 @@ struct EpolySelection_v
 	  */
 	function getSel sub_obj =
 	(		
-		(this.epoly()).getSel sub_obj --return
+		(this.getEpoly()).getSel sub_obj --return
 	),
 	/** Get current subobejct selection
 	  * @param	name	sub_obj
@@ -72,7 +74,7 @@ struct EpolySelection_v
 	 */
 	function setSel sub_obj _selection =
 	(		
-		(this.epoly()).setSel sub_obj _selection --return
+		(this.getEpoly()).setSel sub_obj _selection --return
 	),
 
 	/**  
@@ -98,7 +100,7 @@ struct EpolySelection_v
 
 		if aType == bType do ( return elements )
 
-		elements_B = (this.epoly()).getAusingB aType bType elements
+		elements_B = (this.getEpoly()).getAusingB aType bType elements
 		
 		elements_B --return
 	),
@@ -395,7 +397,7 @@ struct EpolySelection_v
 	--------------------------------------------------------------------------------*/
 	/** Epoly
 	 */
-	function epoly =
+	function getEpoly =
 	(
 		this._init()
 

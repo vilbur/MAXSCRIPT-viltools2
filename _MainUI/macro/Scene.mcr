@@ -32,8 +32,8 @@ buttontext:	"Light Unity"
 toolTip:	"Scene light setup - Unity"
 --icon:	"#(path, index)"
 (
-	lightTintColor	= color 140	140	140
-	ambientColor	= color 10	10	10
+	lightTintColor	= color 215	215	215
+	ambientColor	= color 20	20	20
 	backgroundColor	= color 136	173	201
 
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
@@ -44,10 +44,10 @@ toolTip:	"Scene light setup - Unity"
 	settings.DefaultLightMode 	= #OneLight
 	
 	settings.ShadowsEnabled	= true
-	settings.ShadowIntensity	= 0.8	-- shadows intensity
+	settings.ShadowIntensity	= 0.9	-- shadows intensity
 	
 	settings.AmbientOcclusionEnabled	= true
-	settings.AmbientOcclusionIntensity  	= 2.0
+	settings.AmbientOcclusionIntensity  	= 1.0
 	settings.AmbientOcclusionRadius 	= 150.0
 	
 	redrawViews()

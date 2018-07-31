@@ -2,6 +2,9 @@
  */
 struct EditPoly_v
 (
+	Epoly,
+
+
 	mod,
 	_selection,
 

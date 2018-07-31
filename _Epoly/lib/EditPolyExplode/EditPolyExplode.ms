@@ -2,6 +2,8 @@
  */
 struct EditPolyExplode_v
 (
+	Epoly,
+
 	--obj,
 	final_sel = #(),
 

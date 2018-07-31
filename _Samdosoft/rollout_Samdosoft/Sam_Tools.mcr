@@ -29,7 +29,7 @@ tooltip:	"Chamfer edges on material ID borders"
 
 			/*------ CHAMFER ------*/
 			_Chamfer	= (Modifier_v type:#Chamfer name:"Chamfer-mat").add()
-			_Chamfer.amount	= 5
+			_Chamfer.amount	= 4
 			_Chamfer.chamfertype	= 1
 			_Chamfer.selectionoption	= 5
 			_Chamfer.useminangle	= false

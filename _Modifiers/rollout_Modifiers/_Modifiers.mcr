@@ -28,6 +28,13 @@ tooltip:	"Add Shell"
 (
 	_Shell = (Modifier_v type:#Shell ).add()
 
+	_Shell.overrideMatID = on
+	_Shell.matID = 255
+	
+	_Shell.selectInnerFaces = on
+	_Shell.innerAmount = 30
+	_Shell.outerAmount = 0
+	
 	redrawViews()
 )
 

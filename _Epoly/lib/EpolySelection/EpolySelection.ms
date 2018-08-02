@@ -83,7 +83,23 @@ struct EpolySelection_v
 		elements_B --return
 	),
 	
-	
+	/** Get shared elemetns using another element
+	  *
+	  * @example getSharedAwithB #face #vertex #{1..7} -- get shared #faces for #vertices 1-7
+	  *
+	  * @return	BitArray	
+	  */
+	function getSharedAwithB subo_A subo_B _subobjects =
+	(
+		subobjects_B_all	= this.getAusingB subo_A subo_B _subobjects
+		
+		subobjects_B	= for item in _subobjects collect this.getAusingB subo_A subo_B #{item}
+		
+		for _subobjects_B in subobjects_B do
+			subobjects_B_all = subobjects_B_all * _subobjects_B
+		
+		subobjects_B_all --return
+	),
 	
 	
 	/*------------------------------------------------------------------------------

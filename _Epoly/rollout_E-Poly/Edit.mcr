@@ -28,7 +28,7 @@ tooltip:	"Target Weld"
  *			  B) Connect all vertices if vertices does not share one face
  *		#edge	- Connect edges
  *		#border	- Do nothing
- *		#face	- Connect middles of edges
+ *		#face	- Convert to #vertex and connect vertices
  */
 macroscript	epoly_connect
 category:	"_Epoly-Edit"  
@@ -37,20 +37,33 @@ tooltip:	"Connect subobject"
 (
 	undo "Connect subobject" on
 	(
-		Epoly = Epoly_v()
-
+		Epoly	= Epoly_v()
+		connect_method	= #polyToolsConnect
+		
 		if not ( Epoly.Mod.current() or subObjectLevel ) then
 			return false
-			
-		if( subObjectLevel == 1 ) then
+		
+		if( subObjectLevel == 4 ) then
+			(Epoly_v()).convertSelection #vertex
+		
+		else 4if( subObjectLevel == 1 ) then
 		(
-			_selection = Epoly.Sel.getSel #vertex
+			_selection	= Epoly.Sel.getSel #vertex
+			shared_faces	= Epoly.Sel.getSharedAwithB #face #vertex _selection
 			
-			
-			print ( "_selection = " + _selection as string )
-			
+			if( ( shared_faces as array ).count == 1 ) then 
+				connect_method	= #ConnectToLastSelVert -- connect to last vertex if all faces shared one face
 		)
-	
+		--else if( subObjectLevel == 2 ) then
+		--(
+		--	
+		--)
+		
+		case connect_method of
+		(
+			(#polyToolsConnect):	macros.run "Editable Polygon Object"	"EPoly_Connect"
+			(#ConnectToLastSelVert):	macros.run "miauu"	"miauu_ConnectToLastSelVertAlt"
+		)
 		
 
 		--(Epoly_v()).connect()

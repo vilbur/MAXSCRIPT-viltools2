@@ -66,12 +66,12 @@ struct EpolyEdit_v
 		(Epoly_v()).convertSelection #vertex
 		--this.connectToLastVert()
 	),
-	/** Connect to last vert
-	 */
-	function connectToLastVert =
-	(
-		macros.run "miauu" "miauu_ConnectToLastSelVertAlt"
-	),
+	--/** Connect to last vert
+	-- */
+	--function connectToLastVert =
+	--(
+	--	macros.run "miauu" "miauu_ConnectToLastSelVertAlt"
+	--),
 	/** Target weld
 	 */
 	function targetWeld =

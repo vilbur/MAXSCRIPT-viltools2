@@ -28,15 +28,16 @@ struct EditablePolySelection_v
 	 */
 	function getAusingB subo_A subo_B subobjects =
 	(
-		print ("EditablePolySelection_v.getAUsingB" + " subobjects: " + subobjects as string + " subo_A: " + subo_A as string + " subo_B: " + subo_B as string)
+		print ("EditablePolySelection_v.getAUsingB" + " subo_A: " + subo_A as string + " subo_B: " + subo_B as string + " subobjects: " + subobjects as string)
 		--this._setObject()
 		--this.init()
 		obj = this._obj()
-		
+		print ( "obj = " + obj as string )
 		case of
 		(
 			( subo_A == #Vertex	and subo_B == #Edge	): polyop.getVertsUsingEdge obj subobjects
-			( subo_A == #Vertex	and subo_B == #Face	): polyop.getVertsUsingFace obj subobjects
+			--( subo_A == #Vertex	and subo_B == #Face	): polyop.getVertsUsingFace obj subobjects
+			( subo_A == #Vertex	and subo_B == #Face	): print "YESSS"
 			( subo_A == #Edge	and subo_B == #Vertex	): polyop.getEdgesUsingVert obj subobjects
 			( subo_A == #Edge	and subo_B == #Face	): polyop.getEdgesUsingFace obj subobjects
 			( subo_A == #Face	and subo_B == #Vertex	): polyop.getFacesUsingVert obj subobjects

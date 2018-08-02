@@ -10,6 +10,7 @@ struct EpolyMod_v
 	function _construct =
 	(
 		--messageBox "_construct" beep:false
+		this.current()
 	),
 	
 	/** Set _mod by current modifier if EditPoly OR Edit_Poly
@@ -136,6 +137,6 @@ struct EpolyMod_v
 		messagebox "Epoly_v.test()"
 	),
 	
-	__construct = _construct()
+	__construct = this._construct()
 )
 

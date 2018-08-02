@@ -4,6 +4,14 @@ struct EditablePoly_v
 (
 	Epoly,
 	
+
+	
+	
+	
+	/*---------------------------------------
+		OLD
+	-----------------------------------------*/
+	
 	mod,
 	obj,
 	
@@ -213,22 +221,7 @@ struct EditablePoly_v
 	(
 		mod.SetSelection sub_obj facelist
 	),
-	/** Get ausing b
-	 */
-	function getAusingB aType bType subobjects =
-	(
-		this.init()
-		
-		case of
-		(
-			( aType == #Vertex	and bType == #Edge	): polyop.getVertsUsingEdge obj subobjects
-			( aType == #Vertex	and bType == #Face	): polyop.getVertsUsingFace obj subobjects
-			( aType == #Edge	and bType == #Vertex	): polyop.getEdgesUsingVert obj subobjects
-			( aType == #Edge	and bType == #Face	): polyop.getEdgesUsingFace obj subobjects
-			( aType == #Face	and bType == #Vertex	): polyop.getFacesUsingVert obj subobjects
-			( aType == #Face	and bType == #Edge	): polyop.getFacesUsingEdge obj subobjects
-		)
-	),
+
 
 	/*---------------------------------------
 		PRIVATE 

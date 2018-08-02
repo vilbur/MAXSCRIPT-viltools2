@@ -44,8 +44,10 @@ tooltip:	"Connect subobject"
 			
 		if( subObjectLevel == 1 ) then
 		(
-			Epoly.selection.get #vertex
+			_selection = Epoly.Sel.getSel #vertex
 			
+			
+			print ( "_selection = " + _selection as string )
 			
 		)
 	

@@ -3,6 +3,7 @@
  *		- EditPoly_v
  *
  
+	------- DESIGN -- DELTE NOTES BELLOW LATER
 	Epoly = Epoly_v()
  
 	Selection= Selection_v Epoly:Epoly
@@ -15,16 +16,24 @@
  */
 struct Epoly_v
 (
+	_objects, -- This property is accessed from other classes
+	
 	Mod	= EpolyMod_v(),
 	Options	= EpolyOptions_v	Epoly:this,
-	Selection	= EpolySelection_v	Epoly:this,
+	Sel	= EpolySelection_v	Epoly:this,
 	Edit 	= EpolyEdit_v	Epoly:this,
 	SmoothGroups	= EpolySmoothGroups_v	Epoly:this,
 	Edges	= EpolyEdges_v	Epoly:this,
 	Explode	= EditPolyExplode_v	Epoly:this,
 	Material 	= EditPolyMaterial_v	Epoly:this,
 	
-	
+	/** _construct
+	 */
+	function _construct =
+	(
+		--messageBox "_construct" beep:false
+		this.setSelection()
+	),
 	/** Is epoly
 	 */
 	function isEpoly =
@@ -32,6 +41,48 @@ struct Epoly_v
 			
 		true --return
 	),
+
+	
+	/** Get subobj
+	 */
+	function getAWhereB sub_obj_A sub_obj_B expr count =
+	(
+		_Epoly = EpolyMod.getEpoly()
+		
+		sub_ob_count	= _Epoly.count 1
+		
+		result_sub_obj =	for i = 1 to sub_ob_count where
+		(
+			_count_sub_obj	= (( _Epoly.getAusingB #edge #vertex i ) as Array).count
+			execute (_count_sub_obj as string + expr + count as string )
+		)
+		collect i 	
+		
+		result_sub_obj as BitArray --return
+		--print ( "result_sub_obj = " + result_sub_obj as string )
+		--(EpolyMod.mod()).SetSelection #Vertex result_sub_obj
+	),
+	
+	/*------------------------------------------------------------------------------
+		PRIVATE
+	--------------------------------------------------------------------------------*/
+	/** Set selection of objects
+	 */
+	function setSelection =
+	(
+		_objects	= for obj in selection where superClassOf obj == GeometryClass collect obj
+		--_objects = (Selection_v()).get() -- THIS METHOD WILL BE USED, IT WILL FILTER INSTANCES
+	),
+	
+	
+	__construct = this._construct(),
+
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -73,7 +124,7 @@ struct Epoly_v
 	convertSelection	= EpolySelection.convertSelection,
 	allFaces	= EpolySelection.allFaces,
 	getSelectedOrAllFaces	= EpolySelection.getSelectedOrAllFaces,
-	getAusingB 	= EpolySelection.getAusingB,
+	--getAusingB 	= EpolySelection.getAusingB,
 	
 	/*------ EpolyEdges ------*/
 	selectHardEdges	= EpolyEdges.selectHardEdges,
@@ -97,29 +148,6 @@ struct Epoly_v
 	connect 	= EpolyEdit.connect,
 	
 
-	
-	/** Get subobj
-	 */
-	function getAWhereB sub_obj_A sub_obj_B expr count =
-	(
-		_Epoly = EpolyMod.getEpoly()
-		
-		sub_ob_count	= _Epoly.count 1
-		print ( "sub_ob_count = " + sub_ob_count as string )
-		
-		--for i in ( #{1..sub_ob_count} as Array ) where (  execute ((_count as string ) + expr + ( count as string )) ) do
-		--for i in ( #{1..sub_ob_count} as Array )  do
-		result_sub_obj =	for i = 1 to sub_ob_count where
-		(
-			_count_sub_obj	= (( _Epoly.getAusingB #edge #vertex i ) as Array).count
-			execute (_count_sub_obj as string + expr + count as string )
-		)
-		collect i 	
-		
-		result_sub_obj as BitArray --return
-		--print ( "result_sub_obj = " + result_sub_obj as string )
-		--(EpolyMod.mod()).SetSelection #Vertex result_sub_obj
-	),
 	
 	/** Get epoly info
 	  !!!! MOVE THIS TO OWN FILE
@@ -150,14 +178,15 @@ struct Epoly_v
 	function attachSelection weld =
 	(
 		
-		for o=1 to (selection.count - 1 ) where superclassof selection[o] == geometryclass do 
+		--for o=1 to (selection.count ) where superclassof selection[o] == geometryclass do 
+		for obj in selection where superClassOf obj == GeometryClass do
 		(
-			AddModifier selection[o] (Edit_Poly())
-			maxOps.CollapseNode selection[o] off
+			addModifier obj (Edit_Poly())
+			maxOps.CollapseNode obj off
 		)
 
-		maxOps.CollapseNodeTo  selection[selection.count] 1 off
-
+		maxOps.CollapseNodeTo  selection[ selection.count] 1 off
+		
 		while selection.count > 1 do
 		(
 			selcount = selection.count
@@ -168,7 +197,7 @@ struct Epoly_v
 		
 		_mod = EpolyMod.mod()
 		_mod.weldThreshold = 0.001
-
+		
 		polyop.weldVertsByThreshold selection[1] #{1..( polyop.getNumVerts selection[1])} --weld vetices
 
 	),

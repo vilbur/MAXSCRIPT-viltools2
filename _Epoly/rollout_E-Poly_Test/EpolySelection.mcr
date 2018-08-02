@@ -7,7 +7,7 @@ tooltip:	"Get current subobejct Selection test"
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
 	clearListener()
 	global sub_selection_test
-	sub_selection_test = (EpolySelection_v()).getSel subObjectLevel
+	sub_selection_test = (Epoly_v()).Sel.getSel subObjectLevel
 	--sub_selection_test = (Epoly_v()).EpolySelection.getSel subObjectLevel
 	
 	print ( "Subobjects selected = " + sub_selection_test as string ) 
@@ -21,8 +21,10 @@ tooltip:	"Set current subobejct Selection test"
 	actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
 	clearListener()
 	
-	(EpolySelection_v()).setSel subObjectLevel sub_selection_test
+	(Epoly_v()).Sel.setSel subObjectLevel sub_selection_test
 )
+
+
 
 macroscript	epoly_convert_selection_test
 category:	"_Epoly-Test"  
@@ -44,19 +46,20 @@ tooltip:	"X test"
 
 macroscript	epoly_selection_getAusingB_test
 category:	"_Epoly-Test"
-buttontext:	"get A using B"
-tooltip:	"get A using B test"
+buttontext:	"Get A using B"
+tooltip:	"Get A using B test"
 --icon:	"#(path, index)"
 (
 	clearListener()
 
-	modOrObj = Filters.GetModOrObj()
+	--modOrObj = Filters.GetModOrObj()
+	subObjectLevel	= 4
 	
-	subObjectLevel	= 2
+	sub_selection = ( modPanel.getCurrentObject() ).GetSelection #Face
 	
-	sub_selection = modOrObj.GetSelection #Face
+	print ( "sub_selection = " + sub_selection as string )
 	
-	b_get =  (Epoly_v()).EpolySelection.getAusingB modOrObj sub_selection aType:#Face bType:#Vertex 
+	b_get =  (Epoly_v()).Sel.getAusingB #Face #Vertex sub_selection
 	
 	print ( "b_get = " + b_get as string )
 	--(EpolySelection_v()).select_loop 1 false   

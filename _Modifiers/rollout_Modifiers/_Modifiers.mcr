@@ -111,3 +111,30 @@ tooltip:	"Add Volume Select"
 	(Modifier_v type:#VolumeSelect).add()
 
 )
+
+macroscript	modifier_face_extrude
+category:	"_Modifiers"  
+buttonText:	"Face Extrude"
+tooltip:	"Add Volume Select"
+(
+	--clearListener()
+	
+	dialog	= dotNetObject "MaxCustomControls.RenameInstanceDialog" ""
+	dialog.text	= "Extrude Name"
+	modal	= dialog.Showmodal()
+	modifier_name	= dialog.InstanceName
+	
+	if( modifier_name!="" ) then
+		modifier_name += "-"
+	
+	_Mesh_Select	= (Modifier_v type:#Mesh_Select	name:(modifier_name+"Select"	)).add()
+	_Face_Extrude	= (Modifier_v type:#Face_Extrude	name:(modifier_name+"Extrude"	)).add()
+	
+	_Mesh_Select.ignoreBackfacing = on
+
+	modPanel.setCurrentObject _Mesh_Select
+	subObjectLevel = 4 
+)
+
+
+

@@ -6,37 +6,84 @@ struct EpolySelection_v
 (
 	Epoly,
 
-	_EPselection,
-	EditablePolySelection	= EditablePolySelection_v(),
-	EditPolySelection	= EditPolySelection_v(),
+	_EPselection,	-- NOTE !!! temp name of property, SHOULD BE COSEN BETTER THEN "_EPselection"
+	EditablePolySelection	= EditablePolySelection_v	Epoly:Epoly,
+	EditPolySelection	= EditPolySelection_v	Epoly:Epoly,
 	
 	/** Get subobject selection
 	  * @param	name	sub_obj
 	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
 	  */
-	function get sub_obj =
+	function getSel sub_obj =
 	(		
 		this._setEPselection()
-		
+
 		if( _EPselection != undefined ) then 
 			_EPselection.getSelection sub_obj
 	),
-	
+	/** Set selection of subobjects 
+	  * @param	name	sub_obj
+	  * @param	BitArrray	facelist_array
+	 */
+	function setSel sub_obj facelist_array =
+	(
+		this._setObjects()
+
+		for o=1 to _objects.count do
+		(
+			sub_selection	= if( classOf facelist_array == Array )then facelist_array[o] else facelist_array
+			
+			_mod.SetSelection	sub_obj #{}	node: _objects[o]
+			_mod.Select	sub_obj sub_selection	node: _objects[o]
+		)
+	),	
 	/** _get selection
 	 */
 	function _setEPselection =
 	(
 		prop_name = (Epoly.Mod.class camel_case:true) + "Selection"
 		print ( "prop_name = " + prop_name as string )
+		
 		if not( hasProperty this prop_name ) then
 			return undefined
 
 		_EPselection = getProperty this prop_name
 		
 		_EPselection.setMod (Epoly.Mod.get())
-		
-		--_EPselection --return	
 	),
+	
+	/**  
+	 *	
+	 */
+	function getAusingB subo_A subo_B _subobjects =
+	(
+		print ("EpolySelection_v.getAUsingB" + " subobjects: " + subobjects as string + " subo_A: " + subo_A as string + " subo_B: " + subo_B as string)
+		--bBitArray = #{}
+		--elements_B = #{}
+		--class conversion
+		case classOf _subobjects of
+		(
+			Integer:	subobjects = #{_subobjects}
+			BitArray:	subobjects = _subobjects
+			Array:	subobjects = _subobjects as BitArray
+			default:	(print "invalid inVar class"; return())
+		)
+		--currentLvl conversion
+		--if subo_A == #currentLevel do (subo_A = _mod.GetMeshSelLevel() )
+		--if subo_B == #currentLevel do (subo_B = _mod.GetMeshSelLevel() )
+		--if both a and b are of the same type return b
+
+		if subo_A == subo_B do ( return subobjects )
+
+		this._setEPselection()
+
+		if( _EPselection != undefined ) then 
+			elements_B = _EPselection.getAusingB subo_A subo_B subobjects
+		
+		elements_B --return
+	),
+	
+	
 	
 	
 	/*------------------------------------------------------------------------------
@@ -45,7 +92,7 @@ struct EpolySelection_v
 	
 	EpolyMod	= EpolyMod_v(),
 	--EpolySelection, -- store EditablePolySelection_v or EditPolySelection_v
-	_objects,
+	--_objects,
 	_mod,
 
 	_subobjects	= #(#vertex, #edge, #border, #face, #element),
@@ -114,33 +161,7 @@ struct EpolySelection_v
 		(this.getEpoly()).setSel sub_obj _selection --return
 	),
 
-	/**  
-	 *	
-	 */
-	function getAusingB _elements aType bType =
-	(
-		--print ("GetAUsingB" + " _elements: " + _elements as string + " aType: " + aType as string + " bType: " + bType as string)
-		bBitArray = #{}
-		--elements_B = #{}
-		--class conversion
-		case classOf _elements of
-		(
-			Integer:	elements = #{_elements}
-			BitArray:	elements = _elements
-			Array:	elements = _elements as BitArray
-			default:	(print "invalid inVar class"; return())
-		)
-		--currentLvl conversion
-		--if aType == #currentLevel do (aType = _mod.GetMeshSelLevel() )
-		--if bType == #currentLevel do (bType = _mod.GetMeshSelLevel() )
-		--if both a and b are of the same type return b
 
-		if aType == bType do ( return elements )
-
-		elements_B = (this.getEpoly()).getAusingB aType bType elements
-		
-		elements_B --return
-	),
 	
 
 	--/** Get all edges in loop for edge

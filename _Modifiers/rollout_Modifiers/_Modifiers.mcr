@@ -136,5 +136,30 @@ tooltip:	"Add Volume Select"
 	subObjectLevel = 4 
 )
 
+/** Add FFD box to selection 
+ *	If baseobject is box, then Add number of points as count of segments of box
+ */
+macroscript	modifiers_ffdbox
+category:	"_Modifiers"
+buttontext:	"FFDbox"
+toolTip:	"Add FFDbox"
+--icon:	"#(path, index)"
+(
+	obj	= selection[1]
+	_FFDBox	= FFDBox ()
+	segments	= [2, 2 , 2]
+	
+	 --[obj.widthsegs, obj.widthsegs, obj.lengthsegs  ]
+	print ( "obj.widthsegs = " + obj.widthsegs as string )
+	print ( "obj.lengthsegs = " + obj.lengthsegs as string )
+	print ( "obj.heightsegs = " + obj.heightsegs as string )
+	
+	
+	if( classOf obj.baseObject == Box ) then
+		segments	= [ (obj.widthsegs +1), (obj.lengthsegs +1), (obj.heightsegs  +1)]
+	setDimensions _FFDBox ( point3 segments[1] segments[2] segments[3] )
+
+	addModifier obj _FFDBox
+)
 
 

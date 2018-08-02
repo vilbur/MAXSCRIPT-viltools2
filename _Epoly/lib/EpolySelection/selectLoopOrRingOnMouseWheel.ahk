@@ -1,5 +1,5 @@
 #SingleInstance force
-#NoTrayIcon
+;#NoTrayIcon
 
 /**
  */

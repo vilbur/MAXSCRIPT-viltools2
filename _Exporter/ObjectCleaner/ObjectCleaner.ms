@@ -42,7 +42,7 @@ struct ObjectCleaner_v
 		
 		this.fixMirroredObjectNormals()
 		
-		this._resetXform()
+		this._resetXformUnity()
 		this.resetSmooth()
 		this.resetPivot()
 		
@@ -80,15 +80,21 @@ struct ObjectCleaner_v
 		
 		normal_mod --return
 	),
-	/** Reset xform
+	/** Reset xform for Unity engine
+	  *
+	  * Rotate Y axis
+	  * Rotate Z axis, Front view in Max and Unity and thumbnail match correctly
 	 */
-	function _resetXform =
+	function _resetXformUnity =
 	(
-		print ( "_resetXform = " + obj as string )
-		print ( "this._isObjectMirrored() = " + this._isObjectMirrored() as string )
-		
+		rot = eulerToQuat( EulerAngles 90 0 90)
+
 		ResetXForm obj
+		modPanel.addModToSelection (XForm ()) ui:on
+		obj.modifiers[#XForm].gizmo.rotation += rot as Quat
+		Rotate obj ( Inverse rot as Quat )
 	),
+
 	/** Planarize faces
 	 */
 	function planarizeFaces =

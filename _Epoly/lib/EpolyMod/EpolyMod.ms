@@ -10,14 +10,14 @@ struct EpolyMod_v
 	function _construct =
 	(
 		--messageBox "_construct" beep:false
-		this.current()
+		this.setCurrent()
 	),
-	
-	/** Set _mod by current modifier if EditPoly OR Edit_Poly
+
+	/** Set _mod by setCurrent modifier if EditPoly OR Edit_Poly
 	  *
-	  * @return	boolean	true if current mod is EditPoly OR Edit_Poly, false if not	
+	  * @return	boolean	true if setCurrent mod is EditPoly OR Edit_Poly, false if not	
 	 */
-	function current =
+	function setCurrent =
 	(
 		_mod_current	= modPanel.getCurrentObject()
 		_mod	= if( classOf _mod_current == Editable_Poly or classOf _mod_current == Edit_Poly ) then _mod_current else undefined
@@ -48,6 +48,33 @@ struct EpolyMod_v
 			substituteString class_name "_" "" 	--return  
 	),
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*------------------------------------------------------------------------------
 		OLD
 	--------------------------------------------------------------------------------*/
@@ -76,17 +103,8 @@ struct EpolyMod_v
 			this._initSubClass Edit_Poly
 			
 	),
-	/** Get Editable_Poly or Edit_Poly modifier from EditablePoly_v & EditPoly_v 
-	 */
-	function mod =
-	(
-		this._setEpoly()
-		--Epoly = this.getEpoly()
-		--print ( "Epoly = " + Epoly as string )
-		if( Epoly != undefined ) then
-			Epoly.mod --return
-	),
-	/** Test if current modifier is editable poly
+
+	/** Test if setCurrent modifier is editable poly
 	 */
 	function isEditablePoly =
 	(
@@ -95,7 +113,7 @@ struct EpolyMod_v
 		--else
 		this._isType Editable_Poly --return
 	),
-	/** Test if current modifier is edit poly
+	/** Test if setCurrent modifier is edit poly
 	 */
 	function isEditPoly =
 	(

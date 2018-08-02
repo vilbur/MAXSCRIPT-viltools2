@@ -9,7 +9,9 @@ struct EpolySelection_v
 	_EPselection,	-- NOTE !!! temp name of property, SHOULD BE COSEN BETTER THEN "_EPselection"
 	EditablePolySelection	= EditablePolySelection_v	Epoly:Epoly,
 	EditPolySelection	= EditPolySelection_v	Epoly:Epoly,
-	
+
+	_subobjects	= #(#vertex, #edge, #border, #face, #element),
+
 	/** Get subobject selection
 	  * @param	name	sub_obj
 	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
@@ -27,15 +29,10 @@ struct EpolySelection_v
 	 */
 	function setSel sub_obj facelist_array =
 	(
-		this._setObjects()
+		this._setEPselection()
 
-		for o=1 to _objects.count do
-		(
-			sub_selection	= if( classOf facelist_array == Array )then facelist_array[o] else facelist_array
-			
-			_mod.SetSelection	sub_obj #{}	node: _objects[o]
-			_mod.Select	sub_obj sub_selection	node: _objects[o]
-		)
+		if( _EPselection != undefined ) then 
+			_EPselection.setSelection sub_obj facelist_array
 	),	
 	/** _get selection
 	 */
@@ -101,26 +98,6 @@ struct EpolySelection_v
 		subobjects_B_all --return
 	),
 	
-	
-	/*------------------------------------------------------------------------------
-		OLD
-	--------------------------------------------------------------------------------*/
-	
-	EpolyMod	= EpolyMod_v(),
-	--EpolySelection, -- store EditablePolySelection_v or EditPolySelection_v
-	--_objects,
-	_mod,
-
-	_subobjects	= #(#vertex, #edge, #border, #face, #element),
-
-	/** Init
-	 */
-	function _init =
-	(
-		this._setObjects()
-		this._setMod()
-	),
-
 	/** Convert current subobject to given subobject
 	  * 1) If not subobject active then enter to subobject
 	  * 2) If object is not Editable_Poly or Edit_Poly then Edit_Poly is added
@@ -131,8 +108,8 @@ struct EpolySelection_v
 	  */
 	function convertSelection to_sub_obj =
 	(
-		this._init()
-
+		--_mod	= Epoly.Mod.get()
+		
 		sub_obj	= subObjectLevel
 		
 		if( sub_obj == 0 ) then
@@ -144,10 +121,77 @@ struct EpolySelection_v
 			to_sub_obj = #edge
 		)
 		else
-			_mod.convertSelection (_subobjects[sub_obj]) to_sub_obj
+			(Epoly.Mod.get()).convertSelection (_subobjects[sub_obj]) to_sub_obj
 		
 		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
 	),
+	/** Get outline edges of faces
+	 */
+	function selectOutlineEdgesOfFaces =
+	(
+		faces	= this.getSel #face
+		print ( "faces = " + faces as string )
+		edges_of_faces	= this.getAusingB #Edge #Face faces
+		edges_of_faces_inverted	= this.getAusingB #Edge #Face (-faces)
+		
+		this.setSel #edge (edges_of_faces*edges_of_faces_inverted) --return
+	),
+	
+	/*------------------------------------------------------------------------------
+		PRIVATE
+	--------------------------------------------------------------------------------*/
+	/** Get subobject index
+	  * @param	name	sub_obj
+	 */
+	function _getSubobjectIndex sub_obj =
+	(
+		findItem _subobjects sub_obj --return
+	),
+	
+	/** _objects
+	 */
+	function _objects =
+	(
+		Epoly._objects --return
+	),
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*------------------------------------------------------------------------------
+		OLD
+	--------------------------------------------------------------------------------*/
+	
+	EpolyMod	= EpolyMod_v(),
+	--EpolySelection, -- store EditablePolySelection_v or EditPolySelection_v
+	--_objects,
+	_mod,
+
+
+	/** Init
+	 */
+	function _init =
+	(
+		this._setObjects()
+		this._setMod()
+	),
+
+
+	
+	
 	/** Get selected or all faces
 	 */
 	function getSelectedOrAllFaces =
@@ -159,22 +203,6 @@ struct EpolySelection_v
 	function allFaces =
 	(
 		(this.getEpoly())._allFaces() --return
-	),
-	/** Get current subobejct selection
-	  * @param	name	sub_obj
-	  * @return	bitArray|[bitArray]	bitArray of selected elements or array of bitArrays for each object if Edit_Poly
-	  */
-	function getSel sub_obj =
-	(		
-		(this.getEpoly()).getSel sub_obj --return
-	),
-	/** Get current subobejct selection
-	  * @param	name	sub_obj
-	  * @param	bitArray|[bitArray]	_selection	bitArray of elements to select, for Edit_Poly can be array of bitArrays for each object
-	 */
-	function setSel sub_obj _selection =
-	(		
-		(this.getEpoly()).setSel sub_obj _selection --return
 	),
 
 
@@ -209,18 +237,7 @@ struct EpolySelection_v
 	--	)
 	--	
 	--);)()),
-	/** Get outline edges of faces
-	 */
-	function selectOutlineEdgesOfFaces =
-	(
-		_mod	= EpolyMod.mod()
-		faces	= this.getSel #face
 
-		edges_of_faces	= this.getAusingB faces    #Edge #Face 
-		edges_of_faces_inverted	= this.getAusingB (-faces) #Edge #Face 
-		
-		this.setSel #edge (edges_of_faces*edges_of_faces_inverted) --return
-	),
 	/** Get new edge
 	 */
 	function getNewEdge edges_new direction =
@@ -477,13 +494,7 @@ struct EpolySelection_v
 
 		EpolyMod.getEpoly() --return 
 	),
-	/** Get subobject index
-	  * @param	name	sub_obj
-	 */
-	function _getSubobjectIndex sub_obj =
-	(
-		findItem _subobjects sub_obj --return
-	),
+
 
 	/*---------------------------------------
 		INIT METHODS

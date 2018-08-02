@@ -53,7 +53,8 @@ struct EditPolySelection_v
 		PRIVATE
 	--------------------------------------------------------------------------------*/
 	/** Set mod
-	 */
+	  * mod is set by EpolySelection_v
+	  */
 	function setMod __mod =
 	(
 		_mod = __mod

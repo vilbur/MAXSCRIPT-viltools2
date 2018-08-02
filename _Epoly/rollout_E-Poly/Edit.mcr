@@ -26,7 +26,7 @@ tooltip:	"Target Weld"
  *	If subobject:
  *		#vertex	- A) Connect to last selected vertex, if selected vertices are on one face
  *			  B) Connect all vertices if vertices does not share one face
- *		#edge	- Connect edges
+ *		#edge	- Connect edges, if one selected then select ring
  *		#border	- Do nothing
  *		#face	- Convert to #vertex and connect vertices
  */
@@ -35,37 +35,60 @@ category:	"_Epoly-Edit"
 buttonText:	"Connect"
 tooltip:	"Connect subobject"
 (
-	undo "Connect subobject" on
-	(
-		Epoly	= Epoly_v()
-		connect_method	= #polyToolsConnect
+	
+	
+	On Execute Do (
 		
-		if not ( Epoly.Mod.current() or subObjectLevel ) then
-			return false
-		
-		if( subObjectLevel == 4 ) then
-			(Epoly_v()).convertSelection #vertex
-		
-		else 4if( subObjectLevel == 1 ) then
+		undo "Connect subobject" on
 		(
-			_selection	= Epoly.Sel.getSel #vertex
-			shared_faces	= Epoly.Sel.getSharedAwithB #face #vertex _selection
+			Epoly	= Epoly_v()
+			connect_method	= #polyToolsConnect
 			
-			if( ( shared_faces as array ).count == 1 ) then 
-				connect_method	= #ConnectToLastSelVert -- connect to last vertex if all faces shared one face
-		)
-		--else if( subObjectLevel == 2 ) then
-		--(
-		--	
-		--)
-		
-		case connect_method of
-		(
-			(#polyToolsConnect):	macros.run "Editable Polygon Object"	"EPoly_Connect"
-			(#ConnectToLastSelVert):	macros.run "miauu"	"miauu_ConnectToLastSelVertAlt"
-		)
-		
+			if not ( Epoly.Mod.setCurrent() or subObjectLevel ) then
+				return false
+			
+			if( subObjectLevel == 4 ) then
+				Epoly.convertSelection #vertex
+			
+			else if( subObjectLevel == 1 ) then
+			(
+				_selection	= Epoly.Sel.getSel #vertex
+				shared_faces	= Epoly.Sel.getSharedAwithB #face #vertex _selection
+				
+				if( ( shared_faces as array ).count == 1 ) then 
+					connect_method	= #ConnectToLastSelVert -- connect to last vertex if all faces shared one face
+			)
+			else if( subObjectLevel == 2 ) then
+			(
+				_selection	= Epoly.Sel.getSel #edge
+				
+				if( ( _selection as array ).count == 1 ) then 
+					(Epoly.Mod.get()).SelectEdgeRing()
+					
+				connect_method = #ConnectEdges
+			)
+			print ( "connect_method = " + connect_method as string )
+			case connect_method of
+			(
+				(#polyToolsConnect):	macros.run "Editable Polygon Object"	"EPoly_Connect"
+				(#ConnectToLastSelVert):	macros.run "miauu"	"miauu_ConnectToLastSelVertAlt"
+				(#ConnectEdges):	macros.run "Ribbon - Modeling"	"ConnectEdges"
 
-		--(Epoly_v()).connect()
+			)
+		)
 	)
+	
+	/** Options menu item 
+	 */
+	On AltExecute type do (
+		Try (
+			If SubObjectLevel == undefined then Max Modify Mode
+			local A = Filters.GetModOrObj()
+			A.popupDialog #ConnectEdges
+		)
+		Catch()
+	)
+			
+		
+	
 )

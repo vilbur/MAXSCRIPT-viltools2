@@ -49,6 +49,8 @@ Floater.dock "right"
 ShellLaunch ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/selectLoopOrRingOnMouseWheel.ahk" ) ""
 macros.run "_MainUI" "mainui_mini_transform_type_in"
 
+clearListener()
+print "cleared in vilTools2.ms"
 
 
 

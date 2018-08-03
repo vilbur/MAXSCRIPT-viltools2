@@ -43,7 +43,7 @@ tooltip:	"Chamfer edges on material ID borders"
 			faces_id	= Epoly.Material.getFacesByMatId 999 
 			print ( "faces_id = " + faces_id as string )
 			subObjectLevel = 4
-			Epoly.setSel #face faces_id[1]
+			Epoly.Sel.setSel #face faces_id[1]
 			
 			/*------ NOISE ------*/
 			_Noise	= (Modifier_v type:#Noise name:"Noise-Chamfer").add()

@@ -4,13 +4,13 @@ struct EditPolyMaterial_v
 (
 	Epoly,
 
-	EpolyMod	= EpolyMod_v(),
+	--EpolyMod	= EpolyMod_v(),
 
 	/** Set mat id
 	 */
 	function setMatId id =
 	(
-		Epoly = EpolyMod.getEpoly()
+		--Epoly = EpolyMod.getEpoly()
 
 		Epoly.setMatId (Epoly.getSelectedOrAllFaces()) id 
 	),
@@ -18,7 +18,7 @@ struct EditPolyMaterial_v
 	 */
 	function setMatIdToObject id =
 	(
-		Epoly = EpolyMod.getEpoly()
+		--Epoly = EpolyMod.getEpoly()
 
 		Epoly.setMatId (Epoly._allFaces()) id 
 	),
@@ -34,7 +34,7 @@ struct EditPolyMaterial_v
 	
 		print ( "facelist = " + facelist as string )
 		
-		Epoly 	=  EpolyMod.getEpoly()
+		--Epoly 	=  EpolyMod.getEpoly()
 		mat_ids	= #()
 		count = Epoly.count 4
 		

@@ -150,16 +150,73 @@ toolTip:	"Add FFDbox"
 	segments	= [2, 2 , 2]
 	
 	 --[obj.widthsegs, obj.widthsegs, obj.lengthsegs  ]
-	print ( "obj.widthsegs = " + obj.widthsegs as string )
-	print ( "obj.lengthsegs = " + obj.lengthsegs as string )
-	print ( "obj.heightsegs = " + obj.heightsegs as string )
+	--print ( "obj.widthsegs = " + obj.widthsegs as string )
+	--print ( "obj.lengthsegs = " + obj.lengthsegs as string )
+	--print ( "obj.heightsegs = " + obj.heightsegs as string )
+	print ( "subObjectLevel = " + subObjectLevel as string )
 	
+	print ( "TEST = " + (classOf obj.baseObject == Box ) as string )
+	print ( "subObjectLevel = " + ( subObjectLevel == 0) as string )
+	print ( "baseObject = " + (classOf obj.baseObject == Box and subObjectLevel == 0) as string )
 	
-	if( classOf obj.baseObject == Box ) then
+	if( classOf obj.baseObject == Box and subObjectLevel == 0 ) then
 		segments	= [ (obj.widthsegs +1), (obj.lengthsegs +1), (obj.heightsegs  +1)]
+		
 	setDimensions _FFDBox ( point3 segments[1] segments[2] segments[3] )
 
-	addModifier obj _FFDBox
+	--addModifier obj _FFDBox
+	modPanel.addModToSelection _FFDBox ui:on
+
 )
+
+macroscript	modifiers_taper
+category:	"_Modifiers"
+buttontext:	"Taper"
+toolTip:	"Add Taper"
+--icon:	"#(path, index)"
+(
+	_selection	= selection
+	amount = -0.1
+	--dialog	= dotNetObject "MaxCustomControls.RenameInstanceDialog" "5"
+	--dialog.text	= "Amount"
+	--modal	= dialog.Showmodal()
+	--amount	= dialog.InstanceName
+	
+	
+	for obj in _selection where superClassOf obj == GeometryClass do
+	(
+		--print ( "obj = " + obj as string )
+		--select obj
+		--modPanel.addModToSelection  (Taper amount:(amount as float )) ui:on
+		_taper = Taper amount:(amount as float )
+
+		
+		--_taper.Gizmo.position  = obj.pos
+
+		addModifier obj _taper
+		
+		--print ( "_taper.center = " + _taper.center as string )
+		--print ( "_taper.Gizmo.position = " + _taper.Gizmo.position as string )
+		
+		/**  http://www.scriptspot.com/forums/3ds-max/general-scripting/help-to-gizmo-center-modifier 
+		 *	
+		 */
+		if isProperty _taper #gizmo and isProperty _taper #center do
+		(
+			
+			node = (refs.dependentnodes _taper)[1]
+			_taper.gizmo.transform = obj.transform * inverse node.transform 
+		)
+		
+		
+		
+	)
+
+	--select _selection
+
+)
+
+
+
 
 

@@ -38,6 +38,7 @@ struct EpolySelection_v
 	 */
 	function _setEPselection =
 	(
+		print ( "==== Epoly = " + Epoly as string )
 		prop_name = (Epoly.Mod.class camel_case:true) + "Selection"
 		print ( "prop_name = " + prop_name as string )
 		

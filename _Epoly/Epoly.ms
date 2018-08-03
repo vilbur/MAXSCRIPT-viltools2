@@ -66,6 +66,19 @@ struct Epoly_v
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
+	/** _objects
+	 */
+	function obj =
+	(
+		_objects[1] --return
+	),	
+	/** _objects
+	 */
+	function objs =
+	(
+		_objects --return
+	),	
+	
 	/** Set selection of objects
 	 */
 	function setSelection =

@@ -87,12 +87,19 @@ struct ObjectCleaner_v
 	 */
 	function _resetXformUnity =
 	(
-		rot = eulerToQuat( EulerAngles 90 0 90)
+		rot = eulerToQuat( EulerAngles 90 0 0)
+		Rotate obj (angleaxis -90 [0,0,1]) -- rotate Z axis, match sides of views
 
+		--rot = eulerToQuat( EulerAngles 90 0 90) -- -- rotate only Y with ( EulerAngles 90 -90 0)
+		
 		ResetXForm obj
 		modPanel.addModToSelection (XForm ()) ui:on
 		obj.modifiers[#XForm].gizmo.rotation += rot as Quat
 		Rotate obj ( Inverse rot as Quat )
+		
+
+
+
 	),
 
 	/** Planarize faces

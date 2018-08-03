@@ -22,6 +22,65 @@ tooltip:	"Target Weld"
 	Epoly.targetWeld()
 
 )
+macroscript	edit_chamfer
+category:	"_Epoly-Edit"
+buttontext:	"Chamfer"
+toolTip:	"Chamfer"
+--icon:	"#(path, index)"
+(
+	
+	--On Execute Do (
+		
+		undo "Chamfer" on
+		(
+			Epoly	= Epoly_v()
+			--connect_method	= #polyToolsConnect
+			--
+			--if not ( Epoly.Mod.setCurrent() or subObjectLevel ) then
+			--	return false
+			--
+			if( subObjectLevel == 4 ) then
+				Epoly.convertSelection #edge
+			
+			else if( subObjectLevel == 1 ) then
+			(
+				vertices	= Epoly.Sel.getSel 1
+				print ( "vertices = " + vertices as string )
+				_edges	= Epoly.Sel.getAusingB #edge #vertex vertices
+				print ( "_edges = " + _edges as string )
+				edge_lengths	= Epoly.Edges.getLength _edges
+				print ( "edge_lengths = " + edge_lengths as string )
+				print ( "amin  edge_lengths = " + amin  edge_lengths as string )
+				
+				
+				
+			--	if( ( shared_faces as array ).count == 1 ) then 
+			--		connect_method	= #ConnectToLastSelVert -- connect to last vertex if all faces shared one face
+			)
+			--else if( subObjectLevel == 2 ) then
+			--(
+			--	_selection	= Epoly.Sel.getSel #edge
+			--	
+			--	if( ( _selection as array ).count == 1 ) then 
+			--		(Epoly.Mod.get()).SelectEdgeRing()
+			--		
+			--	connect_method = #ConnectEdges
+			--)
+			--print ( "connect_method = " + connect_method as string )
+			--case connect_method of
+			--(
+			--	(#polyToolsConnect):	macros.run "Editable Polygon Object"	"EPoly_Connect"
+			--	(#ConnectToLastSelVert):	macros.run "miauu"	"miauu_ConnectToLastSelVertAlt"
+			--	(#ConnectEdges):	macros.run "Ribbon - Modeling"	"ConnectEdges"
+			--
+			--)
+		)
+	--)
+	
+	
+	
+)
+
 /**  
  *	If subobject:
  *		#vertex	- A) Connect to last selected vertex, if selected vertices are on one face
@@ -35,8 +94,7 @@ category:	"_Epoly-Edit"
 buttonText:	"Connect"
 tooltip:	"Connect subobject"
 (
-	
-	
+
 	On Execute Do (
 		
 		undo "Connect subobject" on
@@ -88,7 +146,5 @@ tooltip:	"Connect subobject"
 		)
 		Catch()
 	)
-			
-		
-	
+
 )

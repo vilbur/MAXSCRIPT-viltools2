@@ -32,8 +32,33 @@ struct EpolyEdges_v
 		else if( classOf _EpolyMod == Edit_Poly ) then
 			_EpolyMod.ButtonOp #SplitEdges
 	),
-
+	/** Get edge length
+	  * @return	array
+	 */
+	function getLength _edges  =
+	(
+		--for _edge in _edges collect this._getEdgeLength _edge --return
+		for _edge in _edges collect print _edge --return
+	),
 	
+	/*------------------------------------------------------------------------------
+		PRIVATE 
+	--------------------------------------------------------------------------------*/
+	/** Get edge length
+	 */
+	function _getEdgeLength _edge  =
+	(
+		obj	= Epoly.obj()
+		-- get vertexes defining the edge into an Array
+		edge_verts = Epoly.Sel.getAusingB #vertex #edge #{_edge}
+		
+		-- get vertexes positions into an Array
+		vert_position = for iVert in edge_verts collect
+		polyop.getVert obj iVert
+		
+		-- return the distance between vertexes
+		return (distance vert_position[1] vert_position[2])
+	),
 	
 	function test =
 	(

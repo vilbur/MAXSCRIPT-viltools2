@@ -26,43 +26,16 @@ struct Epoly_v
 	Edges	= EpolyEdges_v	Epoly:this,
 	Explode	= EditPolyExplode_v	Epoly:this,
 	Material 	= EditPolyMaterial_v	Epoly:this,
+	Subobject 	= EpolySubobject_v	Epoly:this,
 	
 	/** _construct
 	 */
 	function _construct =
 	(
 		--messageBox "_construct" beep:false
-		this.setSelection()
-	),
-	/** Is epoly
-	 */
-	function isEpoly =
-	(
-			
-		true --return
+		this.setObjects()
 	),
 
-	
-	/** Get subobj
-	 */
-	function getAWhereB sub_obj_A sub_obj_B expr count =
-	(
-		_Epoly = EpolyMod.getEpoly()
-		
-		sub_ob_count	= _Epoly.count 1
-		
-		result_sub_obj =	for i = 1 to sub_ob_count where
-		(
-			_count_sub_obj	= (( _Epoly.getAusingB #edge #vertex i ) as Array).count
-			execute (_count_sub_obj as string + expr + count as string )
-		)
-		collect i 	
-		
-		result_sub_obj as BitArray --return
-		--print ( "result_sub_obj = " + result_sub_obj as string )
-		--(EpolyMod.mod()).SetSelection #Vertex result_sub_obj
-	),
-	
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
@@ -81,11 +54,14 @@ struct Epoly_v
 	
 	/** Set selection of objects
 	 */
-	function setSelection =
+	function setObjects =
 	(
 		_objects	= for obj in selection where superClassOf obj == GeometryClass collect obj
 		--_objects = (Selection_v()).get() -- THIS METHOD WILL BE USED, IT WILL FILTER INSTANCES
 	),
+	
+	
+	
 	
 	
 	__construct = this._construct(),
@@ -160,7 +136,33 @@ struct Epoly_v
 	makePlanar 	= EpolyEdit.makePlanar,
 	connect 	= EpolyEdit.connect,
 	
-
+	--/** Is epoly
+	-- */
+	--function isEpoly =
+	--(
+	--	true --return
+	--),
+	/** Get subobj
+	 */
+	function getAWhereB sub_obj_A sub_obj_B expr count =
+	(
+		messageBox "Method renamed\nEpoly_v.getAWhereB()\n>>>\nEpoly_v.Sel.getAWhereB()"
+		--_Epoly = EpolyMod.getEpoly()
+		--
+		--sub_ob_count	= _Epoly.count 1
+		--
+		--result_sub_obj =	for i = 1 to sub_ob_count where
+		--(
+		--	_count_sub_obj	= (( _Epoly.getAusingB #edge #vertex i ) as Array).count
+		--	execute (_count_sub_obj as string + expr + count as string )
+		--)
+		--collect i 	
+		--
+		--result_sub_obj as BitArray --return
+		----print ( "result_sub_obj = " + result_sub_obj as string )
+		----(EpolyMod.mod()).SetSelection #Vertex result_sub_obj
+	),
+	
 	
 	/** Get epoly info
 	  !!!! MOVE THIS TO OWN FILE

@@ -42,7 +42,7 @@ struct ObjectCleaner_v
 		
 		this.fixMirroredObjectNormals()
 		
-		this._resetXformUnity()
+		--this._resetXformUnity()
 		this.resetSmooth()
 		this.resetPivot()
 		
@@ -88,7 +88,7 @@ struct ObjectCleaner_v
 	function _resetXformUnity =
 	(
 		rot = eulerToQuat( EulerAngles 90 0 0)
-		Rotate obj (angleaxis -90 [0,0,1]) -- rotate Z axis, match sides of views
+		--Rotate obj (angleaxis -90 [0,0,1]) -- rotate Z axis, match sides of views
 
 		--rot = eulerToQuat( EulerAngles 90 0 90) -- -- rotate only Y with ( EulerAngles 90 -90 0)
 		

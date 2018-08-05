@@ -10,7 +10,6 @@ struct EpolySelection_v
 	EditablePolySelection	= EditablePolySelection_v	Epoly:Epoly,
 	EditPolySelection	= EditPolySelection_v	Epoly:Epoly,
 
-	_subobjects	= #(#vertex, #edge, #border, #face, #element),
 
 	/** Get subobject selection
 	  * @param	name	sub_obj
@@ -21,7 +20,7 @@ struct EpolySelection_v
 		this._setEPselection()
 
 		if( _EPselection != undefined ) then 
-			_EPselection.getSelection sub_obj
+			_EPselection.getSelection ( Epoly.Subobject.getName sub_obj )
 	),
 	/** Set selection of subobjects 
 	  * @param	name	sub_obj
@@ -32,15 +31,15 @@ struct EpolySelection_v
 		this._setEPselection()
 
 		if( _EPselection != undefined ) then 
-			_EPselection.setSelection sub_obj facelist_array
+			_EPselection.setSelection ( Epoly.Subobject.getName sub_obj ) facelist_array
 	),	
 	/** _get selection
 	 */
 	function _setEPselection =
 	(
-		print ( "==== Epoly = " + Epoly as string )
+		--print ( "==== Epoly = " + Epoly as string )
 		prop_name = (Epoly.Mod.class camel_case:true) + "Selection"
-		print ( "prop_name = " + prop_name as string )
+		--print ( "prop_name = " + prop_name as string )
 		
 		if not( hasProperty this prop_name ) then
 			return undefined
@@ -55,29 +54,25 @@ struct EpolySelection_v
 	 */
 	function getAusingB subo_A subo_B _subobjects =
 	(
-		print ("EpolySelection_v.getAUsingB" + " subobjects: " + subobjects as string + " subo_A: " + subo_A as string + " subo_B: " + subo_B as string)
-		--bBitArray = #{}
-		--elements_B = #{}
-		--class conversion
+		print ("EpolySelection_v.getAUsingB" + " subo_A: " + subo_A as string + " subo_B: " + subo_B as string + " _subobjects: " + _subobjects as string)
+
 		case classOf _subobjects of
 		(
 			Integer:	subobjects = #{_subobjects}
 			BitArray:	subobjects = _subobjects
-			Array:	subobjects = _subobjects as BitArray
-			default:	(print "invalid inVar class"; return())
+			--Array:	subobjects = _subobjects as BitArray
+			Array:	subobjects	= if( classOf _subobjects[1] == BitArray ) then _subobjects[1] else _subobjects as BitArray 
+			default:	(print "EpolySelection_v.getAusingB invalid datatype of _subobjects"; return())
 		)
-		--currentLvl conversion
-		--if subo_A == #currentLevel do (subo_A = _mod.GetMeshSelLevel() )
-		--if subo_B == #currentLevel do (subo_B = _mod.GetMeshSelLevel() )
-		--if both a and b are of the same type return b
 
-		if subo_A == subo_B do ( return subobjects )
+		if subo_A == subo_B do
+			return subobjects
 
 		this._setEPselection()
 
 		if( _EPselection != undefined ) then 
 			elements_B = _EPselection.getAusingB subo_A subo_B subobjects
-		
+		--print ( "elements_B = " + elements_B as string )
 		elements_B --return
 	),
 	
@@ -109,33 +104,28 @@ struct EpolySelection_v
 	  */
 	function convertSelection to_sub_obj =
 	(
-		--_mod	= Epoly.Mod.get()
-		
-		sub_obj	= subObjectLevel
-		
-		if( sub_obj == 0 ) then
+		if( subObjectLevel == 0 ) then
 			return false
 			
-		if( sub_obj == 4 and to_sub_obj == #border ) then
-		(
+		if( subObjectLevel == 4 and to_sub_obj == #border ) then -- convert #face to #border
 			this.selectOutlineEdgesOfFaces()
-			to_sub_obj = #edge
-		)
+			
 		else
-			(Epoly.Mod.get()).convertSelection (_subobjects[sub_obj]) to_sub_obj
+			(Epoly.Mod.get()).convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
 		
-		(Subobject_v()).enterForced (this._getSubobjectIndex to_sub_obj)
+		--(Subobject_v()).enter (this._getSubobjectIndex to_sub_obj)
 	),
 	/** Get outline edges of faces
 	 */
 	function selectOutlineEdgesOfFaces =
 	(
+		this._setEPselection()
 		faces	= this.getSel #face
-		print ( "faces = " + faces as string )
-		edges_of_faces	= this.getAusingB #Edge #Face faces
-		edges_of_faces_inverted	= this.getAusingB #Edge #Face (-faces)
+		outline_edges	= _EPselection.getOutlineEdgesOfFaces faces
 		
-		this.setSel #edge (edges_of_faces*edges_of_faces_inverted) --return
+		subObjectLevel = 2
+		
+		this.setSel #edge outline_edges
 	),
 	
 	/*------------------------------------------------------------------------------

@@ -30,15 +30,6 @@ tooltip:	"Enter to subobject 3"
 	(Subobject_v()).enter 3
 )
 
-
-macroscript enter_subobject_4
-category:	"_Subobject" 
-buttonText:	"Enter 4"
-tooltip:	"Enter to subobject 4"
-(
-	(Subobject_v()).enter 4
-)
-
 macroscript enter_subobject_4
 category:	"_Subobject" 
 buttonText:	"Enter 4"

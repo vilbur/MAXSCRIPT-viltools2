@@ -44,7 +44,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Material/Material.ms" )
 /*------------------------------------------------------------------------------
 	SUBOBJECT
 --------------------------------------------------------------------------------*/ 
-filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/SubobjectModifiers/SubobjectModifiers.ms" ) 
+--filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/SubobjectModifiers/SubobjectModifiers.ms" ) --DELETE
 filein ( getFilenamePath(getSourceFileName()) + "/_Subobject/Subobject.ms" )
 
 /*------------------------------------------------------------------------------
@@ -55,6 +55,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyMod/EditPoly/E
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyMod/EditablePoly/EditablePoly.ms" )
 
 
+filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySubobject/EpolySubobject.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyMod/EpolyMod.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyOptions/EpolyOptions.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolyEdges/EpolyEdges.ms" )

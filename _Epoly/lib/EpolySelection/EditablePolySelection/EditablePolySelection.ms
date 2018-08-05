@@ -25,6 +25,10 @@ struct EditablePolySelection_v
 	),
 	
 	/** Get ausing b
+	  * @param	name	subo_A	Subobject convert FROM
+	  * @param	name	subo_B	Subobject convert TO
+	  *
+	  * @param	BitArray|[BitArray]	subobjects for converting 
 	 */
 	function getAusingB subo_A subo_B subobjects =
 	(
@@ -36,15 +40,22 @@ struct EditablePolySelection_v
 		case of
 		(
 			( subo_A == #Vertex	and subo_B == #Edge	): polyop.getVertsUsingEdge obj subobjects
-			--( subo_A == #Vertex	and subo_B == #Face	): polyop.getVertsUsingFace obj subobjects
-			( subo_A == #Vertex	and subo_B == #Face	): print "YESSS"
+			( subo_A == #Vertex	and subo_B == #Face	): polyop.getVertsUsingFace obj subobjects
 			( subo_A == #Edge	and subo_B == #Vertex	): polyop.getEdgesUsingVert obj subobjects
 			( subo_A == #Edge	and subo_B == #Face	): polyop.getEdgesUsingFace obj subobjects
 			( subo_A == #Face	and subo_B == #Vertex	): polyop.getFacesUsingVert obj subobjects
 			( subo_A == #Face	and subo_B == #Edge	): polyop.getFacesUsingEdge obj subobjects
 		)
 	),
-	
+	/** Get outline edges of faces
+	 */
+	function getOutlineEdgesOfFaces faces =
+	(
+		edges_of_faces	= this.getAusingB #Edge #Face faces
+		edges_of_inverted_faces	= this.getAusingB #Edge #Face (-faces)
+		
+		edges_of_faces * edges_of_inverted_faces --return
+	),
 	
 	
 	/*------------------------------------------------------------------------------

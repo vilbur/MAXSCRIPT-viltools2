@@ -18,13 +18,19 @@ struct EditPolySelection_v
 	/** Set edit poly selection of subobjects 
 	  * @param	name	sub_obj
 	 */
-	function setSelection sub_obj facelist_array =
+	function setSelection sub_obj sub_objs =
 	(
+		print ("EditPolySelection_v.setSel()" + " sub_obj: " + sub_obj as string + " sub_objs: " + sub_objs as string )
 		_objs = this._objects()
-		
+		--print ( "_objs = " + _objs as string )
+		sub_obj = Epoly.Subobject.getIndex sub_obj
+		print ( "sub_obj = " + sub_obj as string )
+		print ( "_mod = " + _mod as string )
 		for o=1 to _objs.count do
 		(
-			sub_selection	= if( classOf facelist_array == Array )then facelist_array[o] else facelist_array
+			sub_selection	= if( classOf sub_objs == Array ) then sub_objs[o] else sub_objs
+			print ( "_objs[o] = " + _objs[o] as string )
+			print ( "sub_selection = " + sub_selection as string )
 			_mod.SetSelection	sub_obj #{}	node: _objs[o]
 			_mod.Select	sub_obj sub_selection	node: _objs[o]
 		)
@@ -34,6 +40,7 @@ struct EditPolySelection_v
 	 */
 	function getAusingB subo_A subo_B subobjects =
 	(
+		print ("EditPolySelection_v.getAUsingB" + " subo_A: " + subo_A as string + " subo_B: " + subo_B as string + " subobjects: " + subobjects as string)
 		subobjects_b = #{}
 		
 		case of
@@ -41,14 +48,25 @@ struct EditPolySelection_v
 			( subo_A == #Vertex	and subo_B == #Edge	): _mod.getVertsUsingEdge &subobjects_b subobjects
 			( subo_A == #Vertex	and subo_B == #Face	): _mod.getVertsUsingEdge &subobjects_b subobjects
 			( subo_A == #Edge	and subo_B == #Vertex	): _mod.getEdgesUsingVert &subobjects_b subobjects
-			( subo_A == #Edge	and subo_B == #Face	): this.getEdgesUsingFace subobjects_b subobjects
+			( subo_A == #Edge	and subo_B == #Face	): this.getEdgesUsingFace &subobjects_b subobjects
 			( subo_A == #Face	and subo_B == #Vertex	): _mod.getFacesUsingVert &subobjects_b subobjects
 			( subo_A == #Face	and subo_B == #Edge	): _mod.getFacesUsingEdge &subobjects_b subobjects
 		)
 		print ( "subobjects_b = " + subobjects_b as string )
 		subobjects_b --return
 	),
-	
+	/** Get outline edges of faces
+	 */
+	function getOutlineEdgesOfFaces faces_obj =
+	(
+		for faces in faces_obj collect 
+		(
+			edges_of_faces	= this.getAusingB #Edge #Face faces
+			edges_of_inverted_faces	= this.getAusingB #Edge #Face (-faces)
+			
+			edges_of_faces * edges_of_inverted_faces
+		)
+	),
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
@@ -59,7 +77,7 @@ struct EditPolySelection_v
 	(
 		_mod = __mod
 	),
-	/** _objects
+	/** Get objects from Epoly
 	 */
 	function _objects =
 	(
@@ -74,19 +92,21 @@ struct EditPolySelection_v
 	--),
 	/** Get edges using face
 	 */
-	function getEdgesUsingFace return_barray subobjects =
+	function getEdgesUsingFace &return_barray subobjects =
 	(
-		iFaceDeg = 0
+		print ( "EditPolySelection_.vgetEdgesUsingFace() return_barray:" + return_barray as string + " subobjects:" + subobjects as string  )
+		face_deg = 0
 		
-		for iFace in (subobjects as array) do
+		for face in (subobjects as Array ) do
 		(
-			iFaceDeg = mod.getFaceDegree iFace
-			--print ("faceIndex: " + iface as string + " degree: " + iFaceDeg as string)
-			for i = 1 to iFaceDeg do 
-				return_barray[_mod.getFaceEdge iFace i] = true
+			face_deg = _mod.getFaceDegree face
+			--print ("faceIndex: " + iface as string + " degree: " + face_deg as string)
+			for i = 1 to face_deg do 
+				return_barray[_mod.getFaceEdge face i] = true
 		)
 		return_barray
 	),
+	
 	function test =
 	(
 		messagebox "EditPolySelection.test()"

@@ -8,6 +8,7 @@ struct EpolyCallbacks_v
 	 */
 	function remove =
 	(
+		print "====== EpolyCallbacks_v.remove()"
 		try( callbacks.removeScripts #selectionSetChanged id:#onSelectionChangengeCallback_selectionSetChanged )catch()
 		try( callbacks.removeScripts #modPanelObjPostChange id:id )catch()
 	),
@@ -33,7 +34,7 @@ struct EpolyCallbacks_v
 	)
 )
 
-/** On selection changenge callback
+/** On selection change callback
  */
 function onSelectionChangengeCallback =
 (
@@ -53,10 +54,4 @@ function onSelectionChangengeCallback =
 	
 	)else
 		_Hud.hide()
-	
-	
 )
-	
-
-
-

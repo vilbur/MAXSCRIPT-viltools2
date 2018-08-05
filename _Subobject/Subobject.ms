@@ -2,42 +2,48 @@
  */
 struct Subobject_v
 (
+	/** Enter toggle to subject, if subject is aftive thrn exit suobject
+	 */
+	function enterToogle sub_obj =
+	(
+		if not ( this.modifierHasSubobjects() ) then
+			return false
+		
+		if( subObjectLevel == sub_obj ) then
+			subObjectLevel = 0
+		
+		else
+			this.enter sub_obj
+	),
+	
 	/** Enter to subobject if Editable_Poly or modifier with subobjects
 	  * @param	integer	sub_obj	Index of subobject
 	 */
 	function enter sub_obj =
-	(
-		max modify mode
-		
-		if( numSubObjectLevels == 0 ) then
+	(		
+		if not ( this.modifierHasSubobjects() ) then
 			return false
 		
-		if( sub_obj > 0 ) then
-			this.setActiveSubobject (this._testMaxSubObjectLevels sub_obj)
-		
-		else
-			this.enterToogle()
+		this.setActiveSubobject (this._testMaxSubObjectLevels sub_obj)
 	),
-	/** Enter toogle to subject, if subject is aftive thrn exit suobject
+	/** Enter toggle to last used subject
 	 */
-	function enterToogle sub_obj =
+	function enterToogleLast =
 	(
-		sub_obj = this.setActiveSubobject undefined
-		
-		subObjectLevel	= if( subObjectLevel == 0 ) then sub_obj else 0 
+		this.enterToogle (this._lastUsedSubobject())
 	),
 	/** Circle
 	 */
 	function circle subobjects =
 	(
-		--print ( "subobjects = " + subobjects as string )
-		next_index	= this.findNextIndex subobjects subObjectLevel
-		--actionMan.executeAction 0 "40472"  -- MAX Script: MAXScript Listener
-		sub_obj_new	= subobjects[next_index]
-		
-		this.setActiveSubobject sub_obj_new
+		if not ( this.modifierHasSubobjects() ) then
+			return false
+			
+		print ( "circle = " + subobjects as string )
+		next_subobject	= this.findNextSubobject subobjects subObjectLevel
+		print ( "next_subobject = " + next_subobject as string )
 
-		this.enter sub_obj_new
+		this.enter next_subobject
 	),
 	/** Test if sub_obj is not higher then available subjects
 	  *	@return	integer	
@@ -95,25 +101,50 @@ struct Subobject_v
 	(
 		subObjectLevel = sub_obj
 		
-		if( enter_subobject_last_subobject == undefined ) then
+		if( last_used_subobject == undefined ) then
 		(
-			global enter_subobject_last_subobject
-			enter_subobject_last_subobject = 1
+			global last_used_subobject
+			last_used_subobject = 1
 		)
 			
-		if( sub_obj == undefined) then
-			sub_obj = enter_subobject_last_subobject
-		--print ( "enter_subobject_last_subobject = " + sub_obj as string )
-		enter_subobject_last_subobject = sub_obj
+		if( sub_obj > 0 ) then
+			last_used_subobject = sub_obj
+			--sub_obj = last_used_subobject
+			
+		--print ( "last_used_subobject = " + sub_obj as string )
 	),
-	/** Find next index
+	/** _set last subobject global variable
 	 */
-	function findNextIndex array current_index =
+	function _lastUsedSubobject =
 	(
+		if( last_used_subobject == undefined ) then
+		(
+			global last_used_subobject
+			last_used_subobject = 1
+		)
+		last_used_subobject --return
+	),
+	/** Find next element in array
+	 */
+	function findNextSubobject subobjects current_subobject =
+	(
+		current_index	= findItem subobjects current_subobject
 		next_index	= current_index + 1
-		--print ( "current_index = " + current_index as string )
-		--print ( "next_index = " + next_index as string )
-		if( next_index<=array.count or next_index <= 0 ) then next_index else 1 --return
+		
+		if( current_index == undefined or subobjects[current_index] == undefined  or current_index ==  subobjects.count  ) then 
+			subobjects[1] --return
+		else
+			subobjects[next_index] --return
+	),
+	
+	
+	/** Is subobject modifier
+	 */
+	function modifierHasSubobjects =
+	(
+		max modify mode
+
+		numSubObjectLevels != 0
 	),
 	--/** Get edit poly modifiers
 	-- */
@@ -142,15 +173,7 @@ struct Subobject_v
 		
 		--modPanel.getCurrentObject()
 	--),
-	--/** Is subobject modifier
-	-- */
-	--function _isModifiersWithSubobjects _modifier =
-	--(
-	--	--classOf modifiers[m] == Edit_Poly
-	--	subobjects_of_modifier	= Subobjects.get _modifier
-	--	
-	--	subobjects_of_modifier != undefined --return
-	--),
+
 	
 	function test =
 	(

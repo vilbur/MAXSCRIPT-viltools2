@@ -61,6 +61,8 @@ struct EditPolySelection_v
 	  */
 	function convertSelection from_sub_obj to_sub_obj =
 	(
+		(EpolyCallbacks_v()).remove()
+		
 		_objs = this._objects()
 
 		for obj in _objs do 
@@ -70,6 +72,8 @@ struct EditPolySelection_v
 		)
 		
 		select _objs
+		
+		(EpolyCallbacks_v()).add()
 	),
 	/** Get outline edges of faces
 	 */

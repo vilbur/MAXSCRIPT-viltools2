@@ -109,6 +109,7 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Layer/Layer.ms" )
 /*------------------------------------------------------------------------------
 	EXPORTER
 --------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/UnityExportNode/UnityExportNode.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/plugin/Exporter-plugin.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/Exporter.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/ObjectCleaner/ObjectCleaner.ms" )

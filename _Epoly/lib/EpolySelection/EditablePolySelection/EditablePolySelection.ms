@@ -47,6 +47,13 @@ struct EditablePolySelection_v
 			( subo_A == #Face	and subo_B == #Edge	): polyop.getFacesUsingEdge obj subobjects
 		)
 	),
+	/** Convert current subobject to given subobject
+	  * This method is there because of match methods in EditablePolySelection_v & EditPolySelection_v
+	  */
+	function convertSelection from_sub_obj to_sub_obj =
+	(
+		_mod.convertSelection from_sub_obj to_sub_obj
+	),
 	/** Get outline edges of faces
 	 */
 	function getOutlineEdgesOfFaces faces =

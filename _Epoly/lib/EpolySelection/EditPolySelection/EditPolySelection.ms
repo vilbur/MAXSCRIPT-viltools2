@@ -36,6 +36,7 @@ struct EditPolySelection_v
 		)
 	),
 	
+	
 	/** Get ausing b
 	 */
 	function getAusingB subo_A subo_B subobjects =
@@ -52,8 +53,23 @@ struct EditPolySelection_v
 			( subo_A == #Face	and subo_B == #Vertex	): _mod.getFacesUsingVert &subobjects_b subobjects
 			( subo_A == #Face	and subo_B == #Edge	): _mod.getFacesUsingEdge &subobjects_b subobjects
 		)
-		print ( "subobjects_b = " + subobjects_b as string )
+		--print ( "subobjects_b = " + subobjects_b as string )
 		subobjects_b --return
+	),
+	/** Convert current subobject to given subobject
+	  * This method is there because of match methods in EditablePolySelection_v & EditPolySelection_v
+	  */
+	function convertSelection from_sub_obj to_sub_obj =
+	(
+		_objs = this._objects()
+
+		for obj in _objs do 
+		(
+			select obj
+			_mod.convertSelection  from_sub_obj to_sub_obj 
+		)
+		
+		select _objs
 	),
 	/** Get outline edges of faces
 	 */

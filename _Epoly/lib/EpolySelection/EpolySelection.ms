@@ -104,6 +104,8 @@ struct EpolySelection_v
 	  */
 	function convertSelection to_sub_obj =
 	(
+		this._setEPselection()
+
 		if( subObjectLevel == 0 ) then
 			return false
 			
@@ -111,15 +113,20 @@ struct EpolySelection_v
 			this.selectOutlineEdgesOfFaces()
 			
 		else
-			(Epoly.Mod.get()).convertSelection (_subobjects[ subObjectLevel ]) to_sub_obj
+			_EPselection.convertSelection  ( Epoly.Subobject.getName subObjectLevel ) to_sub_obj
+			
+			
+			--(Epoly.Mod.get()).convertSelection  ( Epoly.Subobject.getName subObjectLevel ) to_sub_obj
 		
+		--this.this.setSel to_sub_obj #{}
 		--(Subobject_v()).enter (this._getSubobjectIndex to_sub_obj)
+		subObjectLevel =  ( Epoly.Subobject.getIndex to_sub_obj )
+		
 	),
 	/** Get outline edges of faces
 	 */
 	function selectOutlineEdgesOfFaces =
 	(
-		this._setEPselection()
 		faces	= this.getSel #face
 		outline_edges	= _EPselection.getOutlineEdgesOfFaces faces
 		

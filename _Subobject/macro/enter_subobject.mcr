@@ -51,7 +51,5 @@ category:	"_Subobject"
 buttonText:	"Enter circle"
 tooltip:	"Circle subobjects  1, 2, 4"
 (
-	--Subobject	= Subobject_v()
-	
 	(Subobject_v()).circle #( 1, 2, 4)
 )

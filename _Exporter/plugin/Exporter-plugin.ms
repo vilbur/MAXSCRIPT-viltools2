@@ -8,9 +8,11 @@ function onUnityExportNodeSelected =
 	
 	if( classOf ExportNode == text and getUserProp ExportNode "unity-export-node" != undefined ) then 
 	(
+		----_mode = toolmode.commandmode 
 		print ("Export node selected " + ExportNode.name)
 		startObjectCreation unity_exporter_v
-
+		
+		----toolmode.commandmode = _mode
 		
 	)
 	
@@ -25,25 +27,17 @@ name:"Export"
 category:"Unity"
 (
 	local ExportNode = UnityExportNode_v()
-	local export_filename_placeholder = if( maxFileName != "" ) then ( ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile maxFileName) "" ) else ""  
-	local export_path_placeholder     = @"c:\Samdosoft\Test Prototype Internal Assets\Assets\FBX - MODEL\_vilbur\ExportTest"
-
-	
 	
 	tool create
 	(
-		on mousePoint click do
-		(
-			try( callbacks.removeScripts #selectionSetChanged	                           id:#onUnityExportNodeSelected )catch()
-			try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
-			
-			--ExportNode = UnityExportNode_v()
-			
-			ExportNode.create()
-			
-
-			#stop
-		)
+		--on mousePoint click do
+		--(
+		--	try( callbacks.removeScripts #selectionSetChanged	                           id:#onUnityExportNodeSelected )catch()
+		--	try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+		--	
+		--	--ExportNode = UnityExportNode_v()
+		--	#stop
+		--)
 	)
 	parameters main rollout:params
 	(
@@ -51,6 +45,15 @@ category:"Unity"
 		--cost type:#float ui:cost default:100
 		--sound type:#string
 		export_filename type:#string 
+	)
+	
+	rollout crate "Create"
+	(
+		button create_export_node "Create Node"
+		on create_export_node pressed do (
+			ExportNode.create()
+		)
+
 	)
 	
 	rollout params "Parameters"
@@ -63,16 +66,16 @@ category:"Unity"
 		edittext export_path "" text:ExportNode.path 
 		
 		on btn_browse pressed do (
-			local dir = getSavePath caption:"Browse export dir"
+			local dir = getSavePath caption:"Browse export dir" initialDir:ExportNode.path 
 			if (dir != undefined) do
 			(
 				export_path.text	= dir
-				btn_browse.tooltip	= dir
+				--btn_browse.tooltip	= dir
 			)
 		)
-		on export_filename changed val do (
-			$.text	= val
-		)
+		--on export_filename changed val do (
+		--	$.text	= val
+		--)
 		--spinner frab_value "Frabulate" range:[-1000,1000,20]
 		--on frab_value changed val do
 		--for i in 1 to boxes.count do

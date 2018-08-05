@@ -9,17 +9,16 @@ function onUnityExportNodeSelected =
 	if( classOf ExportNode == text and getUserProp ExportNode "unity-export-node" != undefined ) then 
 	(
 		----_mode = toolmode.commandmode 
-		print ("Export node selected " + ExportNode.name)
+		--print ("Export node selected " + ExportNode.name)
 		startObjectCreation unity_exporter_v
-		
 		----toolmode.commandmode = _mode
-		
 	)
 	
 )
 
-
-
+/** Create and manage export node 
+ *	
+ */
 plugin helper unity_exporter_v
 name:"Export"
 --extends:dummy
@@ -41,19 +40,15 @@ category:"Unity"
 	)
 	parameters main rollout:params
 	(
-		--hitPoints type:#float ui:hits default:10
-		--cost type:#float ui:cost default:100
-		--sound type:#string
 		export_filename type:#string 
 	)
 	
-	rollout crate "Create"
+	rollout create_roll "Create"
 	(
 		button create_export_node "Create Node"
 		on create_export_node pressed do (
 			ExportNode.create()
 		)
-
 	)
 	
 	rollout params "Parameters"
@@ -61,7 +56,7 @@ category:"Unity"
 	 
 		edittext export_filename "Name" text:ExportNode.name
 		
-		button btn_browse "Path" toolTip:"Test"
+		button btn_browse "Path" toolTip:ExportNode.path 
 
 		edittext export_path "" text:ExportNode.path 
 		
@@ -70,16 +65,12 @@ category:"Unity"
 			if (dir != undefined) do
 			(
 				export_path.text	= dir
-				--btn_browse.tooltip	= dir
+				btn_browse.tooltip	= dir
+				
+				ExportNode.setExportDir dir
 			)
 		)
-		--on export_filename changed val do (
-		--	$.text	= val
-		--)
-		--spinner frab_value "Frabulate" range:[-1000,1000,20]
-		--on frab_value changed val do
-		--for i in 1 to boxes.count do
-		--boxes[i].pos = [i*val,0,0] + clickAt
+
 	)
 
 

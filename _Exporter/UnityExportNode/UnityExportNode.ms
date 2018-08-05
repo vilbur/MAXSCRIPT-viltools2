@@ -15,18 +15,63 @@ struct UnityExportNode_v
 	function _construct =
 	(
 		--messageBox "_construct" beep:false
+		print ( "_construct() = " + (this.isExportNodeSelected()) as string )
+		if( this.isExportNodeSelected() ) then
+			this.setSelectedNode()
+		
 	),
 	/** Create
 	 */
 	function create =
 	(
-		_node = text name:name text:name isSelected:on
-		
-		setUserProp _node "unity-export-node" true
+		print "create()"
+		this.setNode()
 
 		this.createExportLayer()
 		
 		this.addCallback()
+	),
+	/** Set node
+	 */
+	function setNode =
+	(
+		print "setNode()"
+
+		 if( this.isExportNodeSelected()  ) then
+			this.setSelectedNode()
+		
+		else
+			this.createNodeObject()
+	),
+	/** Create node object
+	 */
+	function createNodeObject =
+	(
+		_node = text name:name text:name isSelected:on
+		--print ( "path = " + path as string ) 
+		this._setUserProp "unity-export-node"	true
+		this.setExportDir path
+
+		--_node --return
+	),
+	/** Set selected node
+	 */
+	function setSelectedNode =
+	(
+		--print ( "setSelectedNode = " + setSelectedNode as string )
+		--print ( "selection = " + selection[1] as string )
+		_node = selection[1]
+		--print ( "_node = " + _node as string )
+		name	= _node.name
+		path	= getUserProp _node "export-dir"
+		
+		_node.text = name
+	),
+	/** Is export node selected
+	 */
+	function isExportNodeSelected =
+	(
+		classOf selection[1] == text and getUserProp selection[1] "unity-export-node" != undefined 
 	),
 	/*------------------------------------------------------------------------------
 		PRIVATE
@@ -39,6 +84,24 @@ struct UnityExportNode_v
 		try( callbacks.removeScripts #selectionSetChanged	                           id:#onUnityExportNodeSelected )catch()
 		try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
 	),
+	
+	/*---------------------------------------
+		NODE USER PROPERTIES
+	-----------------------------------------*/
+	/** Set export dir
+	 */
+	function setExportDir dir =
+	(
+		this._setUserProp "export-dir"	dir
+	),
+	
+	/** Set user prop
+	 */
+	function _setUserProp key value =
+	(
+		setUserProp _node key	value
+	),
+	
 	
 	/*---------------------------------------
 		LAYER

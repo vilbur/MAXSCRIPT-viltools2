@@ -6,7 +6,7 @@ struct ObjectCleaner_v
 	export_node,
 	export_objects,
 	obj,
-	
+	_export_layer_name="Export-Unity-Objects",
 	/** Prepare objects for export
 	 */
 	function prepareForExport _export_node =
@@ -16,13 +16,14 @@ struct ObjectCleaner_v
 		
 		
 		this.cloneObjects (this._getSourceObjectsForExport())
-
-		this.rotateInWorld()
+		this.attachObjectsByMaterial()
 		
-		for obj in export_objects do
-			this.prepareObject obj
-		
-		export_objects --return	
+		--this.rotateInWorld()
+		--
+		--for obj in export_objects do
+		--	this.prepareObject obj
+		--
+		--export_objects --return	
 	),
 	
 	/** Set objects
@@ -52,12 +53,19 @@ struct ObjectCleaner_v
 	 */
 	function addToExportLayer =
 	(
-		_export_layer	= LayerManager.getLayerFromName "Export-Unity"
-		--print ( "_export_layer = " + _export_layer as string )
+
+		_export_layer	= LayerManager.getLayerFromName _export_layer_name
+		if( _export_layer == undefined ) then
+			_export_layer	= LayerManager.newLayerFromName _export_layer_name
 		
 		for obj in export_objects do
 			_export_layer.addNode obj
 
+	),
+	fn clearDeadNodes array = 
+	(
+		if array.count != 0 do (for i = array.count to 1 by -1 where not isValidNode array[i] do deleteItem array i)
+		array
 	),
 	--/** Get objects in export layer
 	--  * @return	collection of geometry objects in layer "Export"	
@@ -96,6 +104,43 @@ struct ObjectCleaner_v
 		
 		--this.setOneSideFaces()
 		
+	),
+	/** Attach objects by material
+	 */
+	function attachObjectsByMaterial =
+	(
+		merged_objects = #()
+		_materials	= for obj in export_objects where obj.material != undefined collect obj.material
+		print ( "_materials = " + _materials as string )
+		for mat in _materials do
+		(
+			_objects_per_mat	= for obj in export_objects where  obj.material == mat collect obj
+			
+			for obj in export_objects do
+				ConvertTo obj Editable_Poly
+			
+			clearSelection()
+			--select _objects_per_mat
+			--print ( "_objects_per_mat = " + _objects_per_mat as string )
+			while _objects_per_mat.count > 1 do
+			(
+				selcount = _objects_per_mat.count
+				for i = selcount to 2 by -2 do
+				(
+					if( isValidNode _objects_per_mat[i] and isValidNode array[i-1] ) then 
+					polyop.attach _objects_per_mat[i] _objects_per_mat[i-1]
+					--deleteItem _objects_per_mat (findItem _objects_per_mat _objects_per_mat[i-1] )
+				)
+					--polyop.attach selection[i] selection[i-1]
+			)
+			--print ( "_objects_per_mat = " + _objects_per_mat as string )
+			--update selection[1]
+			--print ( "selection = " + (selection as Array ) as string )
+			for obj in this.clearDeadNodes _objects_per_mat where obj != undefined  do
+				append merged_objects obj
+			
+		)
+		export_objects = merged_objects
 	),
 	
 	/** Convert to editable poly

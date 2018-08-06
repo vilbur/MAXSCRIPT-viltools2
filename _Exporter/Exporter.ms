@@ -61,13 +61,18 @@ struct Exporter_v
 		--ObjectCleaner = ObjectCleaner_v()
 		objects_export = (ObjectCleaner_v()).prepareForExport export_node
 		
-		--print ( "objects_export = " + objects_export as string )
+		print ( "objects_export = " + objects_export as string )
 		select objects_export
 		
-		exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
+		--exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
 		
-		if( deleteObjects ) then  
-			delete objects_export
+		if( deleteObjects ) then
+		(
+			export_layer	= LayerManager.getLayerFromName "Export-Unity-Objects"
+			export_layer_objects	= for obj in objects where obj.layer.name == export_layer.name do delete obj
+			
+		)
+			--delete objects_export
 		
 		(EpolyCallbacks_v()).add()
 	),

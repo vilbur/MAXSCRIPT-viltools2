@@ -5,7 +5,7 @@ toolTip:	"Rename current layer"
 --icon:	"#(path, index)"
 (
 	temp_name	= "layer_rename_temp"
-	current_layer	= LayerManager.getLayer 1
+	current_layer	= LayerManager.current
 	dialog	= dotNetObject "MaxCustomControls.RenameInstanceDialog" current_layer.name
 	dialog.text	= "Rename layer"
 	modal	= dialog.Showmodal()

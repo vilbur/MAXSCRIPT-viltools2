@@ -27,8 +27,12 @@ struct ObjectCleaner_v
 	function cloneObjects __objects =
 	(
 		--print ( "cloneObjects() __objects = " +  __objects as string )
-		maxOps.cloneNodes (__objects as array) cloneType:#copy newNodes:&export_objects #nodialog
+		_export_objects	= #()
+		
+		maxOps.cloneNodes (__objects as array) cloneType:#copy newNodes:&_export_objects #nodialog
 
+		
+		export_objects = _export_objects
 		print ( "cloneObjects() export_objects = " +  export_objects as string )
 		
 		--_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
@@ -58,15 +62,17 @@ struct ObjectCleaner_v
 		print ( "prepareObject() _obj = " + _obj as string )
 		obj = _obj
 		select obj
-		--this.fixMirroredObjectNormals()
+		
+		this._polySelectAll()
+		this.fixMirroredObjectNormals()
 		
 		this._resetXformUnity()
 		this.resetSmooth()
 		this.resetPivot()
 		
-		--this.convertToEditablePoly()
+		this.convertToEditablePoly()
 		
-		this.planarizeFaces()
+		--this.planarizeFaces()
 		this.renameObject()
 		
 		--this.setOneSideFaces()
@@ -79,15 +85,34 @@ struct ObjectCleaner_v
 	(
 		ConvertTo obj Editable_Poly
 	),
+	/** _poly select all
+	 */
+	function _polySelectAll =
+	(
+		modPanel.addModToSelection (Poly_Select ()) ui:on
+		subObjectLevel = 4
+		actionMan.executeAction 0 "40021"  -- Selection: Select All
+		subObjectLevel = 0
+	),
 	/** Fix mirrored object normals
 	 */
 	function fixMirroredObjectNormals =
 	(
+	print ( " this._isObjectMirrored() = " +  this._isObjectMirrored() as string )
+	
 		if not ( this._isObjectMirrored() ) then
 			return false
+		
+		--print ( "obj = " + obj as string )	
 			
+		--_Poly_Select = Poly_Select()
+		--print ( "selection = " + selection as string )
+		--for obj in selection where superClassOf obj == GeometryClass do print obj.name
+		--addModifier obj _Poly_Select
+
 		normal_mod = this.addNormalModifier()
-		normal_mod.flip = on
+		normal_mod.flip	= on
+		normal_mod.unify	= on
 	),
 	/** Add normal modifier
 	 */

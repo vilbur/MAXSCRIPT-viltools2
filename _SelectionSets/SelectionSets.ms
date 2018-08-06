@@ -25,9 +25,11 @@ struct SelectionSets_v
 	),
 	/** Objects
 	 */
-	function objects selection_set =
+	function objects selection_set filter:false =
 	(
-		for o in selectionSets[selection_set] collect o
+		set_objects = for o in selectionSets[selection_set] collect o
+		
+		if( filter==false ) then set_objects else this.filterArray set_objects filter  --return
 	),
 	/** Update selection set
 	 */
@@ -49,8 +51,17 @@ struct SelectionSets_v
 		print ( "set_objects = " + set_objects as string )
 		selectionSets[selection_set] = set_objects
 	),	
-	
-	
+	/*---------------------------------------
+		PRIVATE 
+	-----------------------------------------*/
+	/** Filter array
+	 */
+	function filterArray _array _filter =
+	(
+		for item in _filter where (findItem _array item > 0) do deleteItem _array ( findItem _array item ) 
+		
+		_array --return
+	),
 	/*------------------------------------------------------------------------------
 		OLD
 	--------------------------------------------------------------------------------*/

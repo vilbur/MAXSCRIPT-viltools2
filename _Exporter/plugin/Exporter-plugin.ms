@@ -183,6 +183,7 @@ category:"Unity"
 	(
 		Layer = LayerManager.getLayerFromName _export_layer_name
 		Layer.on = Layer.on != true
+		redrawViews()
 	)
 	/** Assign to nodes
 	 */

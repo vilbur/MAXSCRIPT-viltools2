@@ -10,10 +10,10 @@ struct Exporter_v
 	
 	export_path,
 	
-	function FBX_Export =
+	function exportNode _export_node =
 	(
-		export_node = selection[1]
-		
+		export_node = _export_node 
+		print ( "exportNode = " + export_node as string )
 		this._setExportPath()
 		
 		--individualFBXs = #()
@@ -54,9 +54,11 @@ struct Exporter_v
 		FBXExporterSetParam "ASCII"	true
 		FBXExporterSetParam "FileVersion" "FBX20120	"
 		
-		select export_node.children
+		--select export_node.children
 		
-		exportFile export_path #noPrompt selectedOnly:true using:FBXEXP 
+		_objects = (SelectionSets_v()).objects export_node.name filter:#(export_node)
+		print ( "_objects = " + _objects as string )
+		--exportFile export_path #noPrompt selectedOnly:true using:FBXEXP 
 	),
 
 	

@@ -23,5 +23,6 @@ buttontext:	"Export"
 toolTip:	"Export selected node"
 --icon:	"#(path, index)"
 (
-	(Exporter_v()).FBX_Export()
+	clearListener()
+	(Exporter_v()).exportNode selection[1]
 )

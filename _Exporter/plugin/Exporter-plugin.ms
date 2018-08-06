@@ -20,25 +20,28 @@ function onUnityExportNodeSelected =
  *	
  */
 plugin helper unity_exporter_v
-name:"Export"
+name:"Exporter"
 --extends:dummy
 --replaceUI:true
 category:"Unity"
 (
 	local ExportNode	= UnityExportNode_v()
 	local export_nodes_in_scene	= #()
+	local _export_layer_name	= "Export-Unity"
 	
 	tool create
 	(
-		--on mousePoint click do
-		--(
+		on mousePoint click do
+		(
 		--	try( callbacks.removeScripts #selectionSetChanged	                           	id:#onUnityExportNodeSelected )catch()
 		--	try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
 		--	
 		--	--ExportNode = UnityExportNode_v()
-		--	#stop
-		--)
+			--messageBox "Yupiii"
+			#stop
+		)
 	)
+	
 	parameters main rollout:params
 	(
 		export_filename type:#string 
@@ -48,6 +51,7 @@ category:"Unity"
 	(
 		multilistbox choose_export_node_mlb "Choose one" items:(this.exportNodeNames()) selection:(this.getSelectedNodes())
 		--multilistbox choose_export_node_mlb "Choose one" items:(this.exportNodeNames()) selection:#(2) 
+		
 		
 		--on mlb selected val do format "selected: % - %\n" val mlb.selection[val]
 		on choose_export_node_mlb selected  val do
@@ -65,14 +69,19 @@ category:"Unity"
 		)
 	)
 	
-	rollout manage_roll "Manage node"
+	rollout manage_roll "Manage noSelectionde"
 	(
 		button create_export_node		"Create"
 		button assign_to_export_node	"Assign"
+		checkbutton export_layer_display_toggle	"Show\Hide"
 
 
 		on create_export_node		pressed do ( ExportNode.create() )
-		on assign_to_export_node	pressed do ( this.pluginFunctionTest() )
+		on assign_to_export_node		pressed do ( this.assignSelectionToNodes (this.getSelectedExportNodes()) )
+		on export_layer_display_toggle	changed val do ( this.exportLayerToggleShowHide()
+
+		)
+		
 		--on assign_to_export_node	pressed do ( ExportNode.assign() )
 	)
 	
@@ -125,6 +134,17 @@ category:"Unity"
 		
 		selected_nodes as BitArray --return
 	)
+	/** Fileter export nodes
+	 */
+	function fileterExportNodes _objects =
+	(
+		_objects_filtered_export_nodes = #()
+		
+		for obj in _objects where findItem export_nodes_in_scene obj == 0 do
+			append _objects_filtered_export_nodes obj
+		
+		_objects_filtered_export_nodes --return
+	)
 	/** Select nodes
 	 */
 	function selectNodes selected_indexes =
@@ -137,13 +157,53 @@ category:"Unity"
 		--select export_nodes_in_scene[val]
 		print ( "selectNodes() selected_indexes = " + (selected_indexes as Array ) as string )		
 		print ( "export_nodes_in_scene = " + export_nodes_in_scene as string )
-		clearSelection()
+		--clearSelection()
+		this.deselectNodes()
+		
 		
 		for n in selected_indexes do
 			selectmore export_nodes_in_scene[n]
 			--print ( "export_nodes_in_scene[n] = " + export_nodes_in_scene[n] as string )
-		
+		 
 		UnityExportNode.addCallback()
 	)
+	/** Deselect nodes
+	 */
+	function deselectNodes =
+	(
+		for _node in export_nodes_in_scene do
+			deselect _node
+	)
+	/** Export layer toggle show hide
+	 */
+	function exportLayerToggleShowHide =
+	(
+		Layer = LayerManager.getLayerFromName _export_layer_name
+		Layer.on = Layer.on != true
+	)
+	/** Assign to nodes
+	 */
+	function assignSelectionToNodes nodes =
+	(
+		print ( "assignSelectionToNodes = " + nodes as string )
+		SelectionSets = SelectionSets_v()
+		
+		for _node in nodes do 
+			SelectionSets.add (this.fileterExportNodes selection) _node.name
+	)
+	/** Get export nodes
+	 */
+	function getSelectedExportNodes  =
+	(
+		indexes = export_nodes_roll.choose_export_node_mlb.selection
+		
+		for i in indexes collect export_nodes_in_scene[i] --return
+	)
+	
+	
+	
+	
+	
+
 )
 

@@ -9,9 +9,27 @@ struct SelectionSets_v
 	(
 		--print ( "SelectionSets_v.create() name: " + name as string )
 		selectionSets[name] = obj
-		
 	),
 
+	/** Add
+	 */
+	function add _objects selection_set =
+	(
+		set_objects = this.objects selection_set
+
+		for obj in _objects do
+			appendIfUnique set_objects obj
+
+		selectionSets[selection_set] = set_objects
+	),
+	/** Objects
+	 */
+	function objects selection_set =
+	(
+
+		for o in selectionSets[selection_set] collect o
+
+	),
 	/*------------------------------------------------------------------------------
 		OLD
 	--------------------------------------------------------------------------------*/
@@ -188,7 +206,7 @@ struct SelectionSets_v
 				(
 	-- 				o=$
 					selSets =  GetSet o
-					for s in selSets do appendifunique SelSetsInSelection s.name
+					for s in selSets do appendifunique selSetsInSelection s.name
 				)
 
 			if  SelSetsInSelection != undefined then	global LastSelSet = SelSetsInSelection[1]
@@ -310,8 +328,6 @@ struct SelectionSets_v
 			)		
 		)
 	),
-
-
 
 	/** Construct
 	 */

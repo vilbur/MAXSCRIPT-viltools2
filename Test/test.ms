@@ -1,56 +1,103 @@
---
---/** Get edge loop
--- */
---function getEdgeLoopEditPoly =
---(
---	obj	= selection[1]
---	mod	= modPanel.getCurrentObject()
---	edges_selected	= if( classOf ( modPanel.getCurrentObject() ) == Editable_Poly ) then polyop.getEdgeSelection obj else mod.GetSelection #Edge
---	edge_verts	= polyop.GetVertsUsingEdge obj edges_selected
---	one_edge_verts	= for v in edge_verts where ( (edges_selected * (polyop.getEdgesUsingVert obj v)).numberset	== 1) collect v
---	vL1	= #{one_edge_verts[1]}
---	this_edge_loop	= #()
---	e0	= #{}
---
---	--print ( "edges_selected = " + edges_selected as string )
---	--print ( "edge_verts = " + edge_verts as string )
---	--print ( "returnBitArray = " + returnBitArray as string )
---	--print ( "one_edge_verts = " + one_edge_verts as string )
---	
---	for vv in edge_verts do
---	(
---		e1 = (edges_selected * ( polyop.getEdgesUsingVert obj vL1)) - e0
---		if not e1.isEmpty then
---		(
---			for i in e1 do appendIfUnique this_edge_loop i
---			vL1 = (polyop.getVertsUsingEdge obj e1) - vL1
---			e0 = e1
---		)	
---	)	
---	format "Edge order: % \n" this_edge_loop
---	
---)
---
---getEdgeLoopEditPoly()
---
---
+(
+clearListener()
 
-Epoly 	= (Epoly_v())
+try (closeRolloutFloater ::rollTest.rollFloat) Catch()
 
-seletion_face = Epoly.getSel #face
---Epoly.setSel #face (-seletion_face)
+struct rollouts
+(
+public rollFloat, rollout1, rollout2, rollout3,
 
+fn createRollout1 =
+(
+local r = rollout roll1 "Rollout 1"
+(
+on roll1 open do
+(
+roll1.rollStruct = this
+)
 
---print ( "seletion_face = " + seletion_face as string )
-_mod	= modPanel.getCurrentObject()
+local rollStruct
 
-sel_edges	= Epoly.getAusingB _mod seletion_face	aType:#Edge bType:#Face
-sel_edges_inv	= Epoly.getAusingB _mod (-seletion_face)	aType:#Edge bType:#Face
+fn printCBs =
+(
+print rollStruct.rollout1.cb1.state
+print rollStruct.rollout2.cb2.state
+print rollStruct.rollout3.cb3.state
+)
 
---print ( "sel_edges = " + sel_edges as string ) 
-print ( "sel_edges = " + (sel_edges*sel_edges_inv) as string ) 
-subObjectLevel = 2
+button b1 "Button 1"
+checkBox cb1
 
-Epoly.setSel #edge (sel_edges*sel_edges_inv)
+on b1 pressed do printCBs()
+)
+r
+),
 
-redrawViews()
+fn createRollout2 =
+(
+local r = rollout roll2 "Rollout 2"
+(
+on roll2 open do
+(
+roll2.rollStruct = this
+)
+
+local rollStruct
+
+fn printCBs =
+(
+print rollStruct.rollout1.cb1.state
+print rollStruct.rollout2.cb2.state
+print rollStruct.rollout3.cb3.state
+)
+
+button b2 "Button 2"
+checkBox cb2
+
+on b2 pressed do printCBs()
+)
+r
+),
+
+fn createRollout3 =
+(
+local r = rollout roll3 "Rollout 3"
+(
+on roll3 open do
+(
+roll3.rollStruct = this
+)
+
+local rollStruct
+
+fn printCBs =
+(
+print rollStruct.rollout1.cb1.state
+print rollStruct.rollout2.cb2.state
+print rollStruct.rollout3.cb3.state
+)
+
+button b3 "Button 3"
+checkBox cb3
+
+on b3 pressed do printCBs()
+)
+r
+),
+
+fn createUI =
+(
+rollout1 = createRollout1()
+rollout2 = createRollout2()
+rollout3 = createRollout3()
+
+rollFloat = newRolloutFloater "Test Float" 100 250
+addRollout rollout1 rollFloat
+addRollout rollout2 rollFloat
+addRollout rollout3 rollFloat
+),
+
+start = createUI()
+)
+global rollTest = rollouts()
+)

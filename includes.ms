@@ -24,6 +24,11 @@ if( global_vievporttext == undefined ) then
 filein ( getFilenamePath(getSourceFileName()) + "/_Selection/Selection.ms" )
 
 /*------------------------------------------------------------------------------
+	SELECITON SETS
+--------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_SelectionSets/SelectionSets.ms" )
+
+/*------------------------------------------------------------------------------
 	MODIFIER 
 --------------------------------------------------------------------------------*/
 filein ( getFilenamePath(getSourceFileName()) + "/_Modifiers/Modifiers/RelaxModifier.ms" )

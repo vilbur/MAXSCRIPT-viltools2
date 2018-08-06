@@ -15,7 +15,7 @@ struct UnityExportNode_v
 	function _construct =
 	(
 		--messageBox "_construct" beep:false
-		print ( "_construct() = " + (this.isExportNodeSelected()) as string )
+		print ( "UnityExportNode_v._construct() = " + (this.isExportNodeSelected()) as string )
 		if( this.isExportNodeSelected() ) then
 			this.setSelectedNode()
 		
@@ -31,6 +31,13 @@ struct UnityExportNode_v
 		
 		this.addCallback()
 	),
+	/** Assign
+	 */
+	function assign =
+	(
+	 
+	),
+	
 	/** Set node
 	 */
 	function setNode =
@@ -47,11 +54,13 @@ struct UnityExportNode_v
 	 */
 	function createNodeObject =
 	(
-		_node = text name:name text:name isSelected:on
+		_node = text name:name text:name isSelected:on size:1000
 		--print ( "path = " + path as string ) 
 		this._setUserProp "unity-export-node"	true
 		this.setExportDir path
 
+		(SelectionSets_v()).create name _node
+		
 		--_node --return
 	),
 	/** Set selected node
@@ -61,13 +70,13 @@ struct UnityExportNode_v
 		--print ( "setSelectedNode = " + setSelectedNode as string )
 		--print ( "selection = " + selection[1] as string )
 		_node = selection[1]
-		--print ( "_node = " + _node as string )
+
 		name	= _node.name
 		path	= getUserProp _node "export-dir"
 		
 		_node.text = name
 	),
-	/** Is export node selected
+	/** Is export node selectedtt
 	 */
 	function isExportNodeSelected =
 	(
@@ -77,12 +86,19 @@ struct UnityExportNode_v
 		PRIVATE
 	--------------------------------------------------------------------------------*/
 	
+	/** Remove callback
+	 */
+	function removeCallback =
+	(
+		try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
+	),
 	/** Add callback
 	 */
 	function addCallback =
 	(
-		try( callbacks.removeScripts #selectionSetChanged	                           id:#onUnityExportNodeSelected )catch()
-		try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+		this.removeCallback()
+		
+		try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
 	),
 	
 	/*---------------------------------------

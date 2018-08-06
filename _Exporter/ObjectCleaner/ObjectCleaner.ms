@@ -21,7 +21,7 @@ struct ObjectCleaner_v
 	function setObjects =
 	(
 		_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
-		--print ( "selection = " + _objects as string )
+
 		if( _objects.count == 0 ) then 
 			_objects	= this.getObjectsInExportLayer()
 	),

@@ -15,21 +15,42 @@ struct SelectionSets_v
 	 */
 	function add _objects selection_set =
 	(
-		set_objects = this.objects selection_set
-
-		for obj in _objects do
-			appendIfUnique set_objects obj
-
-		selectionSets[selection_set] = set_objects
+		this.updateSelectionSet _objects selection_set
+	),
+	/** Remove
+	 */
+	function remove _objects selection_set =
+	(
+		this.updateSelectionSet _objects selection_set remove:true
 	),
 	/** Objects
 	 */
 	function objects selection_set =
 	(
-
 		for o in selectionSets[selection_set] collect o
-
 	),
+	/** Update selection set
+	 */
+	function updateSelectionSet _objects selection_set remove:false  =
+	(
+		print ( "updateSelectionSet() remove = " + remove as string )
+		print ( "===selection_set = " + selection_set as string )
+		print ( "_objects = " + _objects as string )
+		set_objects = this.objects selection_set
+
+		for obj in _objects do
+		(
+			print ( "index = " + (findItem set_objects obj) as string )
+			appendIfUnique set_objects obj
+			
+			if( remove==true ) then
+				deleteItem set_objects (findItem set_objects obj)
+		)
+		print ( "set_objects = " + set_objects as string )
+		selectionSets[selection_set] = set_objects
+	),	
+	
+	
 	/*------------------------------------------------------------------------------
 		OLD
 	--------------------------------------------------------------------------------*/

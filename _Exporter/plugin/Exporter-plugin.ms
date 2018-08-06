@@ -72,12 +72,15 @@ category:"Unity"
 	rollout manage_roll "Manage noSelectionde"
 	(
 		button create_export_node		"Create"
-		button assign_to_export_node	"Assign"
+		button assign_to_export_node	"Assign\Remove"
 		checkbutton export_layer_display_toggle	"Show\Hide"
 
 
 		on create_export_node		pressed do ( ExportNode.create() )
-		on assign_to_export_node		pressed do ( this.assignSelectionToNodes (this.getSelectedExportNodes()) )
+		
+		on assign_to_export_node		pressed	do ( this.assignSelectionToNodes() )
+		on assign_to_export_node		rightClick	do ( this.assignSelectionToNodes remove:true )
+		
 		on export_layer_display_toggle	changed val do ( this.exportLayerToggleShowHide()
 
 		)
@@ -183,14 +186,16 @@ category:"Unity"
 	)
 	/** Assign to nodes
 	 */
-	function assignSelectionToNodes nodes =
+	function assignSelectionToNodes remove:false =
 	(
-		print ( "assignSelectionToNodes = " + nodes as string )
-		SelectionSets = SelectionSets_v()
+		print ( "assignSelectionToNodes() remove = " + remove as string )
+		nodes	= this.getSelectedExportNodes()
+		SelectionSets	= SelectionSets_v()
 		
-		for _node in nodes do 
-			SelectionSets.add (this.fileterExportNodes selection) _node.name
+		for _node in nodes do
+			SelectionSets.updateSelectionSet (this.fileterExportNodes selection) _node.name remove:remove
 	)
+
 	/** Get export nodes
 	 */
 	function getSelectedExportNodes  =

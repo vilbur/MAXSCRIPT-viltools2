@@ -57,6 +57,8 @@ category:"Unity"
 	)
 	on create do 
 	(
+		print ( "unity_exporter_v.create() = "  as string )
+		
 		this.removeCallbacks()
 
 		export_nodes_roll.choose_export_node_mlb.selection = (this.getSelectedNodesIndexes())
@@ -85,7 +87,6 @@ category:"Unity"
 
 			this.selectNodes #( val )
 
-			--this.updateRotateCheckbox()
 
 			--DestroyDialog choose_export_node
 		)
@@ -150,7 +151,7 @@ category:"Unity"
 			export_nodes_selected = this.getNodesSelectedInListBox()
 
 			for export_node_selected in export_nodes_selected do
-				(Exporter_v()).exportNode export_node_selected deleteObjects:options_roll.delete_after_export_cbx.state rotate:options_roll.rotate_in_export_cbx.state
+				(Exporter_v()).exportNode export_node_selected deleteObjects:options_roll.delete_after_export_cbx.state rotate:( this.getProp export_node_selected "rotate-on-export" default:true )
 
 			selectExportNodeCallbackAdd()
 		)
@@ -204,8 +205,8 @@ category:"Unity"
 		(
 			selected_nodes = this.getSelectedNodes()
 
-			--for _node in selected_nodes do
-			--	setUserProp _node "rotate-on-export" val
+			for _node in selected_nodes do
+				setUserProp _node "rotate-on-export" val
 		)
 			--this.updateRotateCheckbox value:val
 
@@ -271,7 +272,7 @@ category:"Unity"
 
 		selected_nodes = for n=1 to export_nodes_in_scene.count where findItem _selection export_nodes_in_scene[n] > 0 collect n
 
-		print ( "unity_exporter_v.selected_nodes = " + (selected_nodes as BitArray) as string )
+		print ( "unity_exporter_v.getSelectedNodesIndexes() = " + (selected_nodes as BitArray) as string )
 
 		selected_nodes as BitArray --return
 	)
@@ -299,12 +300,15 @@ category:"Unity"
 		--print ( "selectNodes() selected_indexes = " + (selected_indexes as Array ) as string )		
 		--print ( "export_nodes_in_scene = " + export_nodes_in_scene as string )
 		--clearSelection()
+
 		this.deselectNodes()
 
 		for n in selected_indexes do
 			selectmore export_nodes_in_scene[n]
 			--print ( "export_nodes_in_scene[n] = " + export_nodes_in_scene[n] as string )
 
+		this.updateRotateCheckbox()
+		
 		this.addCallbacks()
 	)
 
@@ -361,6 +365,7 @@ category:"Unity"
 		print ( "value = " + value as string )
 		print ( "classOf value = " + classOf value as string )
 
+		--options_roll.rotate_in_export_cbx.state = value
 		options_roll.rotate_in_export_cbx.checked = value
 
 	)

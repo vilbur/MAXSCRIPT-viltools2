@@ -34,7 +34,7 @@ struct ObjectCleaner_v
 	function deleteExportObjectsLayer =
 	(
 		export_layer	= LayerManager.getLayerFromName "Export-Unity-Objects"
-		for obj in objects where obj.layer == export_layer do delete obj
+		for obj in objects where isValidNode obj and obj.layer == export_layer do delete obj
 	),
 	/** Set objects
 	 */
@@ -263,12 +263,16 @@ struct ObjectCleaner_v
 	 */
 	function renameObject =
 	(
-		if( this._isNameMatchingNodeName() or obj.material == undefined ) then 
+		--if( this._isNameMatchingNodeName() or obj.material == undefined ) then 
+		if( obj.material == undefined ) then 
 			return false
 		
 		--_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile export_node.name) ""
 		
 		obj.name	= obj.material.name
+		
+		print ( "obj.name = " + obj.name as string )
+		
 	),
 	/** 
 	 */

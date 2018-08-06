@@ -13,8 +13,13 @@ struct Exporter_v
 	function exportNode _export_node deleteObjects:true rotate:false =
 	(
 		(EpolyCallbacks_v()).remove()
-		export_node = _export_node 
+		export_node = _export_node
+		
+		print ( "\n\n====== exportNode() ======\n\n" )
+		print ( "rotate = " + rotate as string )
+		
 		print ( "exportNode = " + export_node as string )
+		
 		this._setExportPath()
 		
 		--individualFBXs = #()

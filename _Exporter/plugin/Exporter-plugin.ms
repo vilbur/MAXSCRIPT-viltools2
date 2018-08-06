@@ -8,10 +8,7 @@ function onUnityExportNodeSelected =
 	
 	if( classOf ExportNode == text and getUserProp ExportNode "unity-export-node" != undefined ) then 
 	(
-		----_mode = toolmode.commandmode 
-		--print ("Export node selected " + ExportNode.name)
 		startObjectCreation unity_exporter_v
-		----toolmode.commandmode = _mode
 	)
 	
 )
@@ -28,6 +25,8 @@ category:"Unity"
 	local ExportNode	= UnityExportNode_v()
 	local export_nodes_in_scene	= #()
 	local _export_layer_name	= "Export-Unity"
+	local export_nodes_roll
+	
 	
 	tool create
 	(
@@ -37,11 +36,17 @@ category:"Unity"
 		--	try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
 		--	
 		--	--ExportNode = UnityExportNode_v()
-			--messageBox "Yupiii"
 			#stop
 		)
 	)
-	
+	on create do 
+	(
+		this.removeCallbacks()
+		
+		export_nodes_roll.choose_export_node_mlb.selection = (this.getSelectedNodes())
+		this.addCallbacks()
+		
+	)
 	parameters main rollout:params
 	(
 		export_filename type:#string 
@@ -110,6 +115,25 @@ category:"Unity"
 
 	)
 	
+	
+	
+	
+
+	/** Add callbacks
+	 */
+	function addCallbacks =
+	(
+		this.removeCallbacks()
+		try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+	)
+	/** Remove callbacks
+	 */
+	function removeCallbacks =
+	(
+		try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
+		
+	)
+	
 	/** Plugin function test
 	 */
 	function exportNodeNames =
@@ -170,6 +194,7 @@ category:"Unity"
 		 
 		UnityExportNode.addCallback()
 	)
+	
 	/** Deselect nodes
 	 */
 	function deselectNodes =

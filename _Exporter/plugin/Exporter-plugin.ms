@@ -79,6 +79,7 @@ category:"Unity"
 		button create_export_node		"Create"
 		button assign_to_export_node	"Assign\Remove"
 		checkbutton export_layer_display_toggle	"Show\Hide"
+		button export_button	"Export"
 
 
 		on create_export_node		pressed do ( ExportNode.create() )
@@ -90,6 +91,15 @@ category:"Unity"
 
 		)
 		
+		on export_button pressed do (
+			
+			clearListener()
+			export_nodes_selected = this.getNodesSelectedInListBox()
+			
+			for export_node_selected in export_nodes_selected do
+				(Exporter_v()).exportNode export_node_selected
+			
+		)
 		--on assign_to_export_node	pressed do ( ExportNode.assign() )
 	)
 	
@@ -215,7 +225,7 @@ category:"Unity"
 	function assignSelectionToNodes remove:false =
 	(
 		print ( "assignSelectionToNodes() remove = " + remove as string )
-		nodes	= this.getSelectedExportNodes()
+		nodes	= this.getNodesSelectedInListBox()
 		SelectionSets	= SelectionSets_v()
 		
 		for _node in nodes do
@@ -224,7 +234,7 @@ category:"Unity"
 
 	/** Get export nodes
 	 */
-	function getSelectedExportNodes  =
+	function getNodesSelectedInListBox  =
 	(
 		indexes = export_nodes_roll.choose_export_node_mlb.selection
 		

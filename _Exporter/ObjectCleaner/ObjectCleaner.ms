@@ -57,14 +57,14 @@ struct ObjectCleaner_v
 	(
 		print ( "prepareObject() _obj = " + _obj as string )
 		obj = _obj
-		
+		select obj
 		--this.fixMirroredObjectNormals()
 		
-		--this._resetXformUnity()
+		this._resetXformUnity()
 		this.resetSmooth()
 		this.resetPivot()
 		
-		this.convertToEditablePoly()
+		--this.convertToEditablePoly()
 		
 		this.planarizeFaces()
 		this.renameObject()
@@ -110,10 +110,11 @@ struct ObjectCleaner_v
 		--Rotate obj (angleaxis -90 [0,0,1]) -- rotate Z axis, match sides of views
 
 		--rot = eulerToQuat( EulerAngles 90 0 90) -- -- rotate only Y with ( EulerAngles 90 -90 0)
-		
+		this.convertToEditablePoly()
+
 		ResetXForm obj
-		--modPanel.addModToSelection (XForm ()) ui:on
-		addModifier obj (XForm ()) ui:on
+		modPanel.addModToSelection (XForm ()) ui:on
+		--addModifier obj (XForm ())
 		obj.modifiers[#XForm].gizmo.rotation += rot as Quat
 		Rotate obj ( Inverse rot as Quat )
 

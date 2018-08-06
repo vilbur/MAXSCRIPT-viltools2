@@ -9,8 +9,10 @@ struct ObjectCleaner_v
 	_export_layer_name="Export-Unity-Objects",
 	/** Prepare objects for export
 	 */
-	function prepareForExport _export_node =
+	function prepareForExport _export_node deleteObjects:true rotate:true =
 	(
+		this.deleteExportObjectsLayer()
+		
 		export_node = _export_node
 		--print ( "prepareForExport() __objects = " + __objects as string )
 		
@@ -18,14 +20,22 @@ struct ObjectCleaner_v
 		this.cloneObjects (this._getSourceObjectsForExport())
 		this.attachObjectsByMaterial()
 		
-		--this.rotateInWorld()
-		--
-		--for obj in export_objects do
-		--	this.prepareObject obj
-		--
-		--export_objects --return	
+		if ( rotate==true ) then 
+			this.rotateInWorld()
+		
+		for obj in export_objects do
+			this.prepareObject obj
+		
+		export_objects --return	
 	),
-	
+
+	/** Delete export objects layer
+	 */
+	function deleteExportObjectsLayer =
+	(
+		export_layer	= LayerManager.getLayerFromName "Export-Unity-Objects"
+		for obj in objects where obj.layer == export_layer do delete obj
+	),
 	/** Set objects
 	 */
 	function cloneObjects objects_for_export =
@@ -55,6 +65,7 @@ struct ObjectCleaner_v
 	(
 
 		_export_layer	= LayerManager.getLayerFromName _export_layer_name
+		
 		if( _export_layer == undefined ) then
 			_export_layer	= LayerManager.newLayerFromName _export_layer_name
 		
@@ -110,33 +121,48 @@ struct ObjectCleaner_v
 	function attachObjectsByMaterial =
 	(
 		merged_objects = #()
-		_materials	= for obj in export_objects where obj.material != undefined collect obj.material
+		_materials	= makeUniqueArray (for obj in export_objects where obj.material != undefined collect obj.material)
 		print ( "_materials = " + _materials as string )
+		print ( "_materials.count = " + _materials.count as string )
+	
+		_objects_per_mats = #()
 		for mat in _materials do
+			append _objects_per_mats (for obj in export_objects where  obj.material == mat collect obj)
+
+		print ( "_objects_per_mats.count = " + _objects_per_mats.count as string )
+		for _objects_per_mat in _objects_per_mats do 
 		(
-			_objects_per_mat	= for obj in export_objects where  obj.material == mat collect obj
-			
-			for obj in export_objects do
+			print ( "_objects_per_mat = " + _objects_per_mat as string ) 
+			for obj in _objects_per_mat do
 				ConvertTo obj Editable_Poly
 			
 			clearSelection()
-			--select _objects_per_mat
+			select _objects_per_mat
 			--print ( "_objects_per_mat = " + _objects_per_mat as string )
-			while _objects_per_mat.count > 1 do
+			--while _objects_per_mat.count > 1 do
+			--(
+			--	selcount = _objects_per_mat.count
+			--	for i = selcount to 2 by -2 do
+			--	(
+			--		if( isValidNode _objects_per_mat[i] and isValidNode array[i-1] ) then 
+			--			polyop.attach _objects_per_mat[i] _objects_per_mat[i-1]
+			--		--deleteItem _objects_per_mat (findItem _objects_per_mat _objects_per_mat[i-1] )
+			--	)
+			--		--polyop.attach selection[i] selection[i-1]
+			--)
+			while selection.count > 1 do
 			(
-				selcount = _objects_per_mat.count
+				selcount = selection.count
 				for i = selcount to 2 by -2 do
-				(
-					if( isValidNode _objects_per_mat[i] and isValidNode array[i-1] ) then 
-					polyop.attach _objects_per_mat[i] _objects_per_mat[i-1]
-					--deleteItem _objects_per_mat (findItem _objects_per_mat _objects_per_mat[i-1] )
-				)
-					--polyop.attach selection[i] selection[i-1]
+					polyop.attach selection[i] selection[i-1]
 			)
+			update selection[1]
+				
 			--print ( "_objects_per_mat = " + _objects_per_mat as string )
-			--update selection[1]
+
 			--print ( "selection = " + (selection as Array ) as string )
-			for obj in this.clearDeadNodes _objects_per_mat where obj != undefined  do
+			for obj in selection where isValidNode obj do
+			--for obj in this.clearDeadNodes selection  do
 				append merged_objects obj
 			
 		)

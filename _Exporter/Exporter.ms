@@ -10,7 +10,7 @@ struct Exporter_v
 	
 	export_path,
 	
-	function exportNode _export_node deleteObjects:true =
+	function exportNode _export_node deleteObjects:true rotate:false =
 	(
 		(EpolyCallbacks_v()).remove()
 		export_node = _export_node 
@@ -59,25 +59,22 @@ struct Exporter_v
 		--print ( "objects_for_export = " + objects_for_export as string )
 		
 		--ObjectCleaner = ObjectCleaner_v()
-		objects_export = (ObjectCleaner_v()).prepareForExport export_node
+		--this.deleteExportObjectsLayer()
+		
+		objects_export = (ObjectCleaner_v()).prepareForExport export_node deleteObjects:deleteObjects rotate:rotate
 		
 		print ( "objects_export = " + objects_export as string )
 		select objects_export
 		
-		--exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
+		exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
 		
 		if( deleteObjects ) then
-		(
-			export_layer	= LayerManager.getLayerFromName "Export-Unity-Objects"
-			export_layer_objects	= for obj in objects where obj.layer.name == export_layer.name do delete obj
-			
-		)
-			--delete objects_export
+			delete objects_export
+			--this.deleteExportObjectsLayer()
 		
 		(EpolyCallbacks_v()).add()
 	),
 
-	
 	
 	/** Find export node
 	 */

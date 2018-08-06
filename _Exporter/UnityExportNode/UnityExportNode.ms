@@ -29,7 +29,7 @@ struct UnityExportNode_v
 
 		this.createExportLayer()
 		
-		this.addCallback()
+		--this.addCallback()
 	),
 	/** Assign
 	 */
@@ -86,21 +86,21 @@ struct UnityExportNode_v
 		PRIVATE
 	--------------------------------------------------------------------------------*/
 	
-	/** Remove callback
-	 */
-	function removeCallback =
-	(
-		try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
-	),
-	/** Add callback
-	 */
-	function addCallback =
-	(
-		this.removeCallback()
-		
-		try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
-	),
-	
+	--/** Remove callback
+	-- */
+	--function removeCallback =
+	--(
+	--	try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
+	--),
+	--/** Add callback
+	-- */
+	--function addCallback =
+	--(
+	--	this.removeCallback()
+	--	
+	--	try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+	--),
+	--
 	/*---------------------------------------
 		NODE USER PROPERTIES
 	-----------------------------------------*/

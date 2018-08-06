@@ -8,6 +8,7 @@ function onUnityExportNodeSelected =
 	
 	if( classOf ExportNode == text and getUserProp ExportNode "unity-export-node" != undefined ) then 
 	(
+		max create mode
 		startObjectCreation unity_exporter_v
 	)
 	
@@ -72,6 +73,30 @@ category:"Unity"
 			 format "selectionEnd: %\n" choose_export_node_mlb.selection
 			this.selectNodes choose_export_node_mlb.selection
 		)
+		on choose_export_node_mlb doubleclicked val do
+		(
+			clearListener()
+			export_objects = this.getObejctsForNodes (this.getNodesSelectedInListBox())
+			
+			selection_test = for obj in export_objects where findItem (selection as Array) obj > 0 collect obj
+			
+			print ( "export_objects.count = " + export_objects.count as string )
+			print ( "selection_test.count = " + selection_test.count as string )
+			print ( "selection = " + (selection as Array )as string )
+			
+			IsolateSelection.ExitIsolateSelectionMode()
+			
+			select export_objects;
+			
+			if( selection_test.count == export_objects.count ) then
+			(
+				IsolateSelection.EnterIsolateSelectionMode()
+			)
+			selectmore (this.getNodesSelectedInListBox())
+			
+		)
+
+		
 	)
 	
 	rollout manage_roll "Manage noSelectionde"
@@ -79,6 +104,7 @@ category:"Unity"
 		button create_export_node		"Create"
 		button assign_to_export_node	"Assign\Remove"
 		checkbutton export_layer_display_toggle	"Show\Hide"
+		button select_btn	"Isolate"
 		button export_button	"Export"
 
 
@@ -99,6 +125,20 @@ category:"Unity"
 			for export_node_selected in export_nodes_selected do
 				(Exporter_v()).exportNode export_node_selected
 			
+		)
+		on select_btn pressed do
+		(
+			clearSelection()
+			this.getObejctsForNodes (this.getNodesSelectedInListBox())
+		)
+		on select_btn pressed do
+		(
+			clearSelection()
+			IsolateSelection.ExitIsolateSelectionMode()
+			
+			this.getObejctsForNodes (this.getNodesSelectedInListBox())
+			
+			IsolateSelection.EnterIsolateSelectionMode()
 		)
 		--on assign_to_export_node	pressed do ( ExportNode.assign() )
 	)
@@ -129,6 +169,19 @@ category:"Unity"
 	
 	
 
+	/** Select obejcts for nodes
+	 */
+	function getObejctsForNodes export_nodes =
+	(
+		_objects	= #()
+		
+		for export_node in export_nodes do
+		--print ( "objects = " + (SelectionSets_v()).objects export_node_selected.name filter:#(export_node_selected) as string )
+			for obj in ((SelectionSets_v()).objects export_node.name filter:#(export_node)) do
+				append _objects obj	
+		_objects --return
+	)
+	
 	/** Add callbacks
 	 */
 	function addCallbacks =
@@ -186,8 +239,8 @@ category:"Unity"
 	 */
 	function selectNodes selected_indexes =
 	(
+		this.removeCallbacks()
 		UnityExportNode = UnityExportNode_v()
-		UnityExportNode.removeCallback()
 		--print ( "export_nodes_in_scene = " + export_nodes_in_scene as string )
 		--print ( "selected = " + export_nodes_in_scene[val] as string )
 		--print ( "selected = " + choose_export_node_mlb.selection[val] as string )
@@ -202,7 +255,7 @@ category:"Unity"
 			selectmore export_nodes_in_scene[n]
 			--print ( "export_nodes_in_scene[n] = " + export_nodes_in_scene[n] as string )
 		 
-		UnityExportNode.addCallback()
+		this.addCallbacks()
 	)
 	
 	/** Deselect nodes

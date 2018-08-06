@@ -3,16 +3,19 @@
 struct ObjectCleaner_v
 (
 	export_layer = "Export",
-	
+	export_node,
 	export_objects,
 	obj,
 	
 	/** Prepare objects for export
 	 */
-	function prepareForExport __objects =
+	function prepareForExport _export_node =
 	(
-		print ( "prepareForExport() __objects = " + __objects as string )
-		this.cloneObjects __objects
+		export_node = _export_node
+		--print ( "prepareForExport() __objects = " + __objects as string )
+		
+		
+		this.cloneObjects (this._getSourceObjectsForExport())
 
 		this.rotateInWorld()
 		
@@ -24,21 +27,37 @@ struct ObjectCleaner_v
 	
 	/** Set objects
 	 */
-	function cloneObjects __objects =
+	function cloneObjects objects_for_export =
 	(
 		--print ( "cloneObjects() __objects = " +  __objects as string )
-		_export_objects	= #()
+		cloned_nodes	= #()
 		
-		maxOps.cloneNodes (__objects as array) cloneType:#copy newNodes:&_export_objects #nodialog
+		maxOps.cloneNodes (objects_for_export as array) cloneType:#copy newNodes:&cloned_nodes #nodialog
 
 		
-		export_objects = _export_objects
+		export_objects = cloned_nodes
+		
+		for o=1 to export_objects.count where objects_for_export[o].material != undefined  do export_objects[o].material = objects_for_export[o].material
+		
+		
 		print ( "cloneObjects() export_objects = " +  export_objects as string )
 		
+		this.addToExportLayer()
 		--_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
 		--
 		--if( _objects.count == 0 ) then 
 		--	_objects	= this.getObjectsInExportLayer()
+	),
+	/** Add to expor l;ayer
+	 */
+	function addToExportLayer =
+	(
+		_export_layer	= LayerManager.getLayerFromName "Export-Unity"
+		--print ( "_export_layer = " + _export_layer as string )
+		
+		for obj in export_objects do
+			_export_layer.addNode obj
+
 	),
 	--/** Get objects in export layer
 	--  * @return	collection of geometry objects in layer "Export"	
@@ -173,12 +192,12 @@ struct ObjectCleaner_v
 	 */
 	function renameObject =
 	(
-		if( this._isNameMatchingSceneName() ) then 
+		if( this._isNameMatchingNodeName() or obj.material == undefined ) then 
 			return false
 		
-		_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile maxFileName) "" 
-
-		obj.name	= _name
+		--_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile export_node.name) ""
+		
+		obj.name	= obj.material.name
 	),
 	/** 
 	 */
@@ -189,6 +208,12 @@ struct ObjectCleaner_v
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
+	/** Get export objects
+	 */
+	function _getSourceObjectsForExport =
+	(
+		(SelectionSets_v()).objects export_node.name filter:#(export_node) --return
+	),
 	/** Is object mirrored
 	 */
 	function _isObjectMirrored =
@@ -200,10 +225,9 @@ struct ObjectCleaner_v
 	  * @example obj.name = "bar_x_obj_59"       // return false if scene name is "scene_name"
 	  * @return	boolean	
 	 */
-	function _isNameMatchingSceneName =
+	function _isNameMatchingNodeName =
 	(
-		matchPattern obj.name pattern:("*"+getFilenameFile maxFileName +"_*")
-		
+		matchPattern obj.name pattern:("*"+export_node.name+"_*")
 	),
 	function test =
 	(

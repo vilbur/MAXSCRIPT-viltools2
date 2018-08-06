@@ -12,6 +12,7 @@ struct Exporter_v
 	
 	function exportNode _export_node =
 	(
+		(EpolyCallbacks_v()).remove()
 		export_node = _export_node 
 		print ( "exportNode = " + export_node as string )
 		this._setExportPath()
@@ -54,27 +55,22 @@ struct Exporter_v
 		FBXExporterSetParam "ASCII"	true
 		FBXExporterSetParam "FileVersion" "FBX20120	"
 		
-		--select export_node.children
+		--objects_for_export = this._getExportObjects()
+		--print ( "objects_for_export = " + objects_for_export as string )
 		
-		objects_for_export = this._getExportObjects()
-		print ( "objects_for_export = " + objects_for_export as string )
+		--ObjectCleaner = ObjectCleaner_v()
+		objects_export = (ObjectCleaner_v()).prepareForExport export_node
 		
-		ObjectCleaner = ObjectCleaner_v()
-		objects_export = ObjectCleaner.prepareForExport objects_for_export
-		
-		print ( "objects_export = " + objects_export as string )
+		--print ( "objects_export = " + objects_export as string )
 		select objects_export
 		
 		exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
 		
-		delete objects_export
+		--delete objects_export
+		
+		(EpolyCallbacks_v()).add()
 	),
-	/** Get export objects
-	 */
-	function _getExportObjects =
-	(
-		(SelectionSets_v()).objects export_node.name filter:#(export_node) --return
-	),
+
 	
 	
 	/** Find export node

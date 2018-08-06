@@ -87,7 +87,6 @@ struct ObjectCleaner_v
 	--),
 	/** Rotate in world aroun Z axis
 	  * Rotate Z axis, Front view in Max and Unity and thumbnail match correctly
-
 	 */
 	function rotateInWorld =
 	(
@@ -110,7 +109,7 @@ struct ObjectCleaner_v
 		
 		this.convertToEditablePoly()
 		
-		--this.planarizeFaces()
+		this.planarizeFaces()
 		this.renameObject()
 		
 		--this.setOneSideFaces()
@@ -188,7 +187,7 @@ struct ObjectCleaner_v
 	 */
 	function fixMirroredObjectNormals =
 	(
-	print ( " this._isObjectMirrored() = " +  this._isObjectMirrored() as string )
+		print ( " this._isObjectMirrored() = " +  this._isObjectMirrored() as string )
 	
 		if not ( this._isObjectMirrored() ) then
 			return false
@@ -254,7 +253,7 @@ struct ObjectCleaner_v
 	(
 		if( obj.pivot == [0, 0, 0] ) then
 			return false
-		
+		print ( "ObjectCleaner_v.resetPivot() obj = " + obj as string )
 		CenterPivot obj
 		
 		obj.pivot.z = 0

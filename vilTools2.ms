@@ -51,7 +51,7 @@ macros.run "_MainUI" "mainui_mini_transform_type_in"
 
 --clearListener()
 --format "Cleared in vilTools2.ms\n"
-
+selectExportNodeCallbackAdd()
 
 
 

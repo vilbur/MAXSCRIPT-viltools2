@@ -10,9 +10,25 @@ function onUnityExportNodeSelected =
 	(
 		max create mode
 		startObjectCreation unity_exporter_v
-	)
+	)else
+		print "Excport NOT selected"
 	
 )
+/** Select export node callback remove
+ */
+function selectExportNodeCallbackRemove =
+(
+	try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
+)
+/** Select export node callback add
+ */
+function selectExportNodeCallbackAdd =
+(
+	print ( "==== selectExportNodeCallbackAdd()"  )
+	selectExportNodeCallbackRemove()
+	try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+)
+
 
 /** Create and manage export node 
  *	
@@ -27,6 +43,7 @@ category:"Unity"
 	local export_nodes_in_scene	= #()
 	local _export_layer_name	= "Export-Unity"
 	local export_nodes_roll
+	local options_roll
 	
 	
 	tool create
@@ -73,6 +90,7 @@ category:"Unity"
 			 format "selectionEnd: %\n" choose_export_node_mlb.selection
 			this.selectNodes choose_export_node_mlb.selection
 		)
+		
 		on choose_export_node_mlb doubleclicked val do
 		(
 			clearListener()
@@ -99,14 +117,17 @@ category:"Unity"
 		
 	)
 	
-	rollout manage_roll "Manage noSelectionde"
+	rollout manage_roll "Manage"
 	(
 		button create_export_node		"Create"
 		button assign_to_export_node	"Assign\Remove"
 		checkbutton export_layer_display_toggle	"Show\Hide"
 		button select_btn	"Isolate"
 		button export_button	"Export"
-
+			--on deleteafterexport_cbx changed val do (
+			--
+			--																	print val
+			--																	)	
 
 		on create_export_node		pressed do ( ExportNode.create() )
 		
@@ -123,7 +144,7 @@ category:"Unity"
 			export_nodes_selected = this.getNodesSelectedInListBox()
 			
 			for export_node_selected in export_nodes_selected do
-				(Exporter_v()).exportNode export_node_selected
+				(Exporter_v()).exportNode export_node_selected deleteObjects:options_roll.delete_after_export_cbx.state
 			
 		)
 		on select_btn pressed do
@@ -162,6 +183,12 @@ category:"Unity"
 				ExportNode.setExportDir dir
 			)
 		)
+
+	)
+	
+	rollout options_roll "Options"
+	(
+		checkbox delete_after_export_cbx "Delete after export" checked:true
 
 	)
 	

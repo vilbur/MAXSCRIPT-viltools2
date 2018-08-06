@@ -10,7 +10,7 @@ struct Exporter_v
 	
 	export_path,
 	
-	function exportNode _export_node =
+	function exportNode _export_node deleteObjects:true =
 	(
 		(EpolyCallbacks_v()).remove()
 		export_node = _export_node 
@@ -66,7 +66,8 @@ struct Exporter_v
 		
 		exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
 		
-		--delete objects_export
+		if( deleteObjects ) then  
+			delete objects_export
 		
 		(EpolyCallbacks_v()).add()
 	),

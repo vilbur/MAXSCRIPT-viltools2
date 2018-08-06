@@ -4,43 +4,61 @@ struct ObjectCleaner_v
 (
 	export_layer = "Export",
 	
-	_objects,
+	export_objects,
 	obj,
 	
 	/** Prepare objects for export
 	 */
-	function prepareObjectsForExport =
+	function prepareForExport __objects =
 	(
-		this.setObjects()
-		--print ( "_objects = " + _objects as string )
-		for obj in _objects do
+		print ( "prepareForExport() __objects = " + __objects as string )
+		this.cloneObjects __objects
+
+		this.rotateInWorld()
+		
+		for obj in export_objects do
 			this.prepareObject obj
+		
+		export_objects --return	
 	),
+	
 	/** Set objects
 	 */
-	function setObjects =
+	function cloneObjects __objects =
 	(
-		_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
+		--print ( "cloneObjects() __objects = " +  __objects as string )
+		maxOps.cloneNodes (__objects as array) cloneType:#copy newNodes:&export_objects #nodialog
 
-		if( _objects.count == 0 ) then 
-			_objects	= this.getObjectsInExportLayer()
+		print ( "cloneObjects() export_objects = " +  export_objects as string )
+		
+		--_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
+		--
+		--if( _objects.count == 0 ) then 
+		--	_objects	= this.getObjectsInExportLayer()
 	),
-	/** Get objects in export layer
-	  * @return	collection of geometry objects in layer "Export"	
+	--/** Get objects in export layer
+	--  * @return	collection of geometry objects in layer "Export"	
+	-- */
+	--function getObjectsInExportLayer =
+	--(
+	--	for obj in objects where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
+	--),
+	/** Rotate in world aroun Z axis
+	  * Rotate Z axis, Front view in Max and Unity and thumbnail match correctly
+
 	 */
-	function getObjectsInExportLayer =
+	function rotateInWorld =
 	(
-		for obj in objects where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
+		in coordsys (matrix3 [1,0,0] [0,1,0] [0,0,1] [0,0,0]) about coordsys rotate export_objects -90 z_axis
 	),
-
 	/** Prepare object
 	 */
 	function prepareObject _obj =
 	(
-		print "prepareObject"
+		print ( "prepareObject() _obj = " + _obj as string )
 		obj = _obj
 		
-		this.fixMirroredObjectNormals()
+		--this.fixMirroredObjectNormals()
 		
 		--this._resetXformUnity()
 		this.resetSmooth()
@@ -51,7 +69,8 @@ struct ObjectCleaner_v
 		this.planarizeFaces()
 		this.renameObject()
 		
-		this.setOneSideFaces()
+		--this.setOneSideFaces()
+		
 	),
 	
 	/** Convert to editable poly
@@ -93,12 +112,10 @@ struct ObjectCleaner_v
 		--rot = eulerToQuat( EulerAngles 90 0 90) -- -- rotate only Y with ( EulerAngles 90 -90 0)
 		
 		ResetXForm obj
-		modPanel.addModToSelection (XForm ()) ui:on
+		--modPanel.addModToSelection (XForm ()) ui:on
+		addModifier obj (XForm ()) ui:on
 		obj.modifiers[#XForm].gizmo.rotation += rot as Quat
 		Rotate obj ( Inverse rot as Quat )
-		
-
-
 
 	),
 

@@ -6,7 +6,7 @@ struct Exporter_v
 (
 	--export_nodes_in_scene = #(),	-- all export nodes in scene
 	export_node,	-- used node for export
-	export_objects,
+	objects_export,
 	
 	export_path,
 	
@@ -56,11 +56,25 @@ struct Exporter_v
 		
 		--select export_node.children
 		
-		_objects = (SelectionSets_v()).objects export_node.name filter:#(export_node)
-		print ( "_objects = " + _objects as string )
-		--exportFile export_path #noPrompt selectedOnly:true using:FBXEXP 
+		objects_for_export = this._getExportObjects()
+		print ( "objects_for_export = " + objects_for_export as string )
+		
+		ObjectCleaner = ObjectCleaner_v()
+		objects_export = ObjectCleaner.prepareForExport objects_for_export
+		
+		print ( "objects_export = " + objects_export as string )
+		select objects_export
+		
+		exportFile export_path #noPrompt selectedOnly:true using:FBXEXP
+		
+		delete objects_export
 	),
-
+	/** Get export objects
+	 */
+	function _getExportObjects =
+	(
+		(SelectionSets_v()).objects export_node.name filter:#(export_node) --return
+	),
 	
 	
 	/** Find export node

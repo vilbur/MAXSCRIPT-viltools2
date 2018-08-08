@@ -9,7 +9,7 @@ toolTip:	"Scene light setup - Modeling"
 (
 	/** http://help.autodesk.com/view/3DSMAX/2015/ENU/?guid=__files_GUID_34892DB6_E840_4F52_9175_30332799B7B1_htm
 	 */
-	lightTintColor	= color 140	140	140
+	lightTintColor	= color 140 140 140
 	ambientColor	= color 50	50	50
 	
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
@@ -32,15 +32,18 @@ buttontext:	"Light Unity"
 toolTip:	"Scene light setup - Unity"
 --icon:	"#(path, index)"
 (
-	lightTintColor	= color 215	215	215
-	ambientColor	= color 20	20	20
-	backgroundColor	= color 136	173	201
+	lightTintColor	= color 255 255 249
+	ambientColor	= color 0	40	60
+	--backgroundColor	= color 136	173	201 -- light blue
+	--backgroundColor	= color 45 54 56
+	backgroundColor	= color 50 55 56
 
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	
 	settings.ShowHighlightEnabled	= true
 	settings.VisualStyleMode	= #Facets
 	settings.UseEnvironmentBackgroundColorEnabled	= true
+	--settings.UseEnvironmentBackgroundColorEnabled	= false
 	settings.DefaultLightMode 	= #OneLight
 	
 	settings.ShadowsEnabled	= true

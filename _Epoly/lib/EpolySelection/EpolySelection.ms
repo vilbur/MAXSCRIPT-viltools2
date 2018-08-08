@@ -110,8 +110,10 @@ struct EpolySelection_v
 			return false
 			
 		if( subObjectLevel == 4 and to_sub_obj == #border ) then -- convert #face to #border
+		(
 			this.selectOutlineEdgesOfFaces()
-			
+			to_sub_obj = #edge
+		)	
 		else
 			_EPselection.convertSelection  ( Epoly.Subobject.getName subObjectLevel ) to_sub_obj
 			

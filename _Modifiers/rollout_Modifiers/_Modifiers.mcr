@@ -4,12 +4,12 @@ buttonText:	"EditPoly"
 tooltip:	"Add EditPoly"
 (
 	sub_obj	= subObjectLevel
-	
+
 	_Edit_Poly = (Modifier_v type:#Edit_Poly ).add()
 
 	if( sub_obj != 0 ) then 
 		subObjectLevel = sub_obj
-		
+
 	redrawViews()
 )
 macroscript	modifier_add_normal
@@ -30,11 +30,11 @@ tooltip:	"Add Shell"
 
 	_Shell.overrideMatID = on
 	_Shell.matID = 255
-	
+
 	_Shell.selectInnerFaces = on
 	_Shell.innerAmount = 30
 	_Shell.outerAmount = 0
-	
+
 	redrawViews()
 )
 
@@ -58,8 +58,6 @@ tooltip:	"Add Reset Relax"
 	(Modifier_v type:#Relax).add()
 
 )
-
-
 
 macroscript	modifier_chamfer
 category:	"_Modifiers"  
@@ -118,55 +116,22 @@ buttonText:	"Face Extrude"
 tooltip:	"Add Volume Select"
 (
 	--clearListener()
-	
+
 	dialog	= dotNetObject "MaxCustomControls.RenameInstanceDialog" ""
 	dialog.text	= "Extrude Name"
 	modal	= dialog.Showmodal()
 	modifier_name	= dialog.InstanceName
-	
+
 	if( modifier_name!="" ) then
 		modifier_name += "-"
-	
+
 	_Mesh_Select	= (Modifier_v type:#Mesh_Select	name:(modifier_name+"Select"	)).add()
 	_Face_Extrude	= (Modifier_v type:#Face_Extrude	name:(modifier_name+"Extrude"	)).add()
-	
+
 	_Mesh_Select.ignoreBackfacing = on
 
 	modPanel.setCurrentObject _Mesh_Select
 	subObjectLevel = 4 
-)
-
-/** Add FFD box to selection 
- *	If baseobject is box, then Add number of points as count of segments of box
- */
-macroscript	modifiers_ffdbox
-category:	"_Modifiers"
-buttontext:	"FFDbox"
-toolTip:	"Add FFDbox"
---icon:	"#(path, index)"
-(
-	obj	= selection[1]
-	_FFDBox	= FFDBox ()
-	segments	= [2, 2 , 2]
-	
-	 --[obj.widthsegs, obj.widthsegs, obj.lengthsegs  ]
-	--print ( "obj.widthsegs = " + obj.widthsegs as string )
-	--print ( "obj.lengthsegs = " + obj.lengthsegs as string )
-	--print ( "obj.heightsegs = " + obj.heightsegs as string )
-	print ( "subObjectLevel = " + subObjectLevel as string )
-	
-	print ( "TEST = " + (classOf obj.baseObject == Box ) as string )
-	print ( "subObjectLevel = " + ( subObjectLevel == 0) as string )
-	print ( "baseObject = " + (classOf obj.baseObject == Box and subObjectLevel == 0) as string )
-	
-	if( classOf obj.baseObject == Box and subObjectLevel == 0 ) then
-		segments	= [ (obj.widthsegs +1), (obj.lengthsegs +1), (obj.heightsegs  +1)]
-		
-	setDimensions _FFDBox ( point3 segments[1] segments[2] segments[3] )
-
-	--addModifier obj _FFDBox
-	modPanel.addModToSelection _FFDBox ui:on
-
 )
 
 macroscript	modifiers_taper
@@ -181,8 +146,7 @@ toolTip:	"Add Taper"
 	--dialog.text	= "Amount"
 	--modal	= dialog.Showmodal()
 	--amount	= dialog.InstanceName
-	
-	
+
 	for obj in _selection where superClassOf obj == GeometryClass do
 	(
 		--print ( "obj = " + obj as string )
@@ -190,31 +154,116 @@ toolTip:	"Add Taper"
 		--modPanel.addModToSelection  (Taper amount:(amount as float )) ui:on
 		_taper = Taper amount:(amount as float )
 
-		
 		--_taper.Gizmo.position  = obj.pos
 
 		addModifier obj _taper
-		
+
 		--print ( "_taper.center = " + _taper.center as string )
 		--print ( "_taper.Gizmo.position = " + _taper.Gizmo.position as string )
-		
+
 		/**  http://www.scriptspot.com/forums/3ds-max/general-scripting/help-to-gizmo-center-modifier 
 		 *	
 		 */
 		if isProperty _taper #gizmo and isProperty _taper #center do
 		(
-			
+
 			node = (refs.dependentnodes _taper)[1]
 			_taper.gizmo.transform = obj.transform * inverse node.transform 
 		)
-		
-		
-		
+
 	)
 
 	--select _selection
 
 )
+
+/** Add FFD box to selection 
+ *	If baseobject is box, then Add number of points as count of segments of box
+ */
+macroscript	modifiers_ffdbox
+category:	"_Modifiers"
+buttontext:	"FFD Box"
+toolTip:	"Add FFD Box"
+--icon:	"#(path, index)"
+(
+	obj	= selection[1]
+	_FFDBox	= FFDBox ()
+	segments	= [2, 2 , 2]
+
+	if( classOf obj.baseObject == Box and subObjectLevel == 0 ) then
+	(
+		segments	= [ (obj.widthsegs +1), (obj.lengthsegs +1), (obj.heightsegs  +1)]
+	)
+	setDimensions _FFDBox ( point3 segments[1] segments[2] segments[3] )
+	modPanel.addModToSelection _FFDBox ui:on
+
+)
+/** Add segment on active axises to current FFD moddifier 
+ *	
+ */
+macroscript	modifiers_ffd_add_segment
+category:	"_Modifiers"
+buttontext:	"FFD add segment"
+toolTip:	"FFD add segment on active axis"
+--icon:	"#(path, index)"
+(
+	axises	= #( "X", "Y", "Z" )
+	_FFDBox	= modPanel.getCurrentObject()
+	active_axises	= toUpper ( toolMode.axisConstraints as string )
+	segments	= getDimensions _FFDBox
+
+	if not( classOf _FFDBox == FFDBox ) then
+		return ()
+	
+	getDimensions _FFDBox
+	
+	for i = 1 to active_axises.count do
+		segments[ findItem axises (active_axises[i]) ] += 1 
+
+	print ( "segments = " + segments as string )
+	
+	setDimensions _FFDBox ( point3 segments[1] segments[2] segments[3] )
+)
+
+/** Remove segment on active axises to current FFD moddifier 
+ *	
+ */
+macroscript	modifiers_ffd_remove_segment
+category:	"_Modifiers"
+buttontext:	"FFD remove segment"
+toolTip:	"FFD remove segment on active axis"
+--icon:	"#(path, index)"
+(
+	axises	= #( "X", "Y", "Z" )
+	_FFDBox	= modPanel.getCurrentObject()
+	active_axises	= toUpper ( toolMode.axisConstraints as string )
+	segments	= getDimensions _FFDBox
+	
+	if not( classOf _FFDBox == FFDBox ) then
+		return ()
+	
+	getDimensions _FFDBox
+	
+	for i = 1 to active_axises.count do
+	(
+		index	= findItem axises (active_axises[i])
+		
+		if( segments[ index ] > 2 ) then 
+			segments[ index ]	-= 1 
+	)
+	
+	print ( "segments = " + segments as string )
+	
+	setDimensions _FFDBox ( point3 segments[1] segments[2] segments[3] )
+)
+
+
+
+
+
+
+
+
 
 
 

@@ -31,7 +31,7 @@ toolTip:	"Preview scene in Unity like setup"
 	mat_name	= if( macro_name == "scene_light_modeling" )then "idmat" else "rock_3dsmax" 
 	
 	macros.run "_MainUI-Ligtning"	macro_name
-	macros.run "_Material"	("material_assign_" +mat_name)
+	--macros.run "_Material"	("material_assign_" +mat_name)
 	
 	
 )

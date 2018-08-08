@@ -29,7 +29,8 @@ tooltip:	"Chamfer edges on material ID borders"
 
 			/*------ CHAMFER ------*/
 			_Chamfer	= (Modifier_v type:#Chamfer name:"Chamfer-mat").add()
-			_Chamfer.amount	= 10
+			--_Chamfer.amount	= 10
+			_Chamfer.amount	= 5
 			_Chamfer.chamfertype	= 1
 			_Chamfer.selectionoption	= 5
 			_Chamfer.useminangle	= false
@@ -47,10 +48,10 @@ tooltip:	"Chamfer edges on material ID borders"
 			
 			/*------ NOISE ------*/
 			_Noise	= (Modifier_v type:#Noise name:"Noise-Chamfer").add()
-			--_Noise.strength	= [5, 5, 5]
-			--_Noise.scale	= 5
-			_Noise.strength	= [15, 15, 15]
-			_Noise.scale	= 20
+			_Noise.strength	= [5, 5, 5]
+			_Noise.scale	= 5
+			--_Noise.strength	= [15, 15, 15]
+			--_Noise.scale	= 20
 			_Noise.fractal	= false
 
 			redrawViews()

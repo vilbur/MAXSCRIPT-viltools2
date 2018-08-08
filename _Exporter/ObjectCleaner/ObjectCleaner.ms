@@ -12,20 +12,25 @@ struct ObjectCleaner_v
 	function prepareForExport _export_node deleteObjects:true rotate:true =
 	(
 		this.deleteExportObjectsLayer()
-		
+
 		export_node = _export_node
 		--print ( "prepareForExport() __objects = " + __objects as string )
-		
-		
-		this.cloneObjects (this._getSourceObjectsForExport())
+
+		export_objects = this._getSourceObjectsForExport()
+
+		--print ( "export_objects = " + export_objects as string )
+		this.setOneSideFaces export_objects
+
+		this.cloneObjects export_objects
+
 		this.attachObjectsByMaterial()
-		
+
 		if ( rotate==true ) then 
 			this.rotateInWorld()
-		
+
 		for obj in export_objects do
 			this.prepareObject obj
-		
+
 		export_objects --return	
 	),
 
@@ -42,17 +47,15 @@ struct ObjectCleaner_v
 	(
 		--print ( "cloneObjects() __objects = " +  __objects as string )
 		cloned_nodes	= #()
-		
+
 		maxOps.cloneNodes (objects_for_export as array) cloneType:#copy newNodes:&cloned_nodes #nodialog
 
-		
 		export_objects = cloned_nodes
-		
+
 		for o=1 to export_objects.count where objects_for_export[o].material != undefined  do export_objects[o].material = objects_for_export[o].material
-		
-		
+
 		print ( "cloneObjects() export_objects = " +  export_objects as string )
-		
+
 		this.addToExportLayer()
 		--_objects	= for obj in selection where superClassOf obj == GeometryClass and obj.layer.name == export_layer collect obj
 		--
@@ -65,10 +68,10 @@ struct ObjectCleaner_v
 	(
 
 		_export_layer	= LayerManager.getLayerFromName _export_layer_name
-		
+
 		if( _export_layer == undefined ) then
 			_export_layer	= LayerManager.newLayerFromName _export_layer_name
-		
+
 		for obj in export_objects do
 			_export_layer.addNode obj
 
@@ -79,7 +82,7 @@ struct ObjectCleaner_v
 		array
 	),
 	--/** Get objects in export layer
-	--  * @return	collection of geometry objects in layer "Export"	
+	--  * @return	collection of geometry rects in layer "Export"	
 	-- */
 	--function getObjectsInExportLayer =
 	--(
@@ -99,21 +102,19 @@ struct ObjectCleaner_v
 		print ( "prepareObject() _obj = " + _obj as string )
 		obj = _obj
 		select obj
-		
+
 		this._polySelectAll()
 		this.fixMirroredObjectNormals()
-		
+
 		this._resetXformUnity()
 		this.resetSmooth()
 		this.resetPivot()
-		
+
 		this.convertToEditablePoly()
-		
+
 		this.planarizeFaces()
 		this.renameObject()
-		
-		--this.setOneSideFaces()
-		
+
 	),
 	/** Attach objects by material
 	 */
@@ -123,7 +124,7 @@ struct ObjectCleaner_v
 		_materials	= makeUniqueArray (for obj in export_objects where obj.material != undefined collect obj.material)
 		print ( "_materials = " + _materials as string )
 		print ( "_materials.count = " + _materials.count as string )
-	
+
 		_objects_per_mats = #()
 		for mat in _materials do
 			append _objects_per_mats (for obj in export_objects where  obj.material == mat collect obj)
@@ -134,7 +135,7 @@ struct ObjectCleaner_v
 			print ( "_objects_per_mat = " + _objects_per_mat as string ) 
 			for obj in _objects_per_mat do
 				ConvertTo obj Editable_Poly
-			
+
 			clearSelection()
 			select _objects_per_mat
 			--print ( "_objects_per_mat = " + _objects_per_mat as string )
@@ -156,18 +157,18 @@ struct ObjectCleaner_v
 					polyop.attach selection[i] selection[i-1]
 			)
 			update selection[1]
-				
+
 			--print ( "_objects_per_mat = " + _objects_per_mat as string )
 
 			--print ( "selection = " + (selection as Array ) as string )
 			for obj in selection where isValidNode obj do
 			--for obj in this.clearDeadNodes selection  do
 				append merged_objects obj
-			
+
 		)
 		export_objects = merged_objects
 	),
-	
+
 	/** Convert to editable poly
 	 */
 	function convertToEditablePoly =
@@ -188,12 +189,12 @@ struct ObjectCleaner_v
 	function fixMirroredObjectNormals =
 	(
 		print ( " this._isObjectMirrored() = " +  this._isObjectMirrored() as string )
-	
+
 		if not ( this._isObjectMirrored() ) then
 			return false
-		
-		--print ( "obj = " + obj as string )	
-			
+
+		--print ( "obj = " + obj as string )
+
 		--_Poly_Select = Poly_Select()
 		--print ( "selection = " + selection as string )
 		--for obj in selection where superClassOf obj == GeometryClass do print obj.name
@@ -208,9 +209,9 @@ struct ObjectCleaner_v
 	function addNormalModifier =
 	(
 		normal_mod	= Normalmodifier unify:on
-		
+
 		addModifier obj normal_mod
-		
+
 		normal_mod --return
 	),
 	/** Reset xform for Unity engine
@@ -255,7 +256,7 @@ struct ObjectCleaner_v
 			return false
 		print ( "ObjectCleaner_v.resetPivot() obj = " + obj as string )
 		CenterPivot obj
-		
+
 		obj.pivot.z = 0
 	),
 	/** Rename object if name is not matching scene name
@@ -265,19 +266,25 @@ struct ObjectCleaner_v
 		--if( this._isNameMatchingNodeName() or obj.material == undefined ) then 
 		if( obj.material == undefined ) then 
 			return false
-		
+
 		--_name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile export_node.name) ""
-		
+
 		obj.name	= obj.material.name
-		
+
 		print ( "obj.name = " + obj.name as string )
-		
+
 	),
 	/** 
 	 */
-	function setOneSideFaces =
+	function setOneSideFaces _export_objects =
 	(
-		obj.backfacecull = on
+
+		for obj in _export_objects do
+		(
+			obj.displayByLayer	= false
+			obj.backfacecull	= on
+		)
+			--print ( "setOneSideFaces() obj= " + ____obj as string )
 	),
 	/*------------------------------------------------------------------------------
 		PRIVATE

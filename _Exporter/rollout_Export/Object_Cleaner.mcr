@@ -7,7 +7,4 @@ toolTip:	"Prepare opbjects in layer 'Export'\n\n 1) Fix Mirrored Object Normals\
 	ObjectCleaner 	= (ObjectCleaner_v())
 	
 	ObjectCleaner.prepareObjectsForExport()
-	
-	
-	
 )

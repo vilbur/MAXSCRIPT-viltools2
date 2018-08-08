@@ -1,5 +1,3 @@
-
-
 /** On selection change callback
  */
 function onUnityExportNodeSelected =
@@ -8,10 +6,11 @@ function onUnityExportNodeSelected =
 
 	if( classOf ExportNode == text and getUserProp ExportNode "unity-export-node" != undefined ) then 
 	(
-		max create mode
-		startObjectCreation unity_exporter_v
+		print "\n\nEXPORT NODE SELECTED"
+		--max create mode
+		--startObjectCreation unity_exporter_v
 	)else
-		print "Excport NOT selected"
+		print "onUnityExportNodeSelected()\n\nEXPORT NODE NOT SELECTED"
 
 )
 /** Select export node callback remove
@@ -44,31 +43,51 @@ category:"Unity"
 	local export_nodes_roll
 	local options_roll
 
+	
+	/*------------------------------------------------------------------------------
+	
+		EVENTS
+		
+	--------------------------------------------------------------------------------*/
+	
 	tool create
 	(
-		on mousePoint click do
-		(
-		--	try( callbacks.removeScripts #selectionSetChanged	                           	id:#onUnityExportNodeSelected )catch()
-		--	try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
-		--	
-		--	--ExportNode = UnityExportNode_v()
-			#stop
-		)
+		--on mousePoint click do
+		--(
+		----	try( callbacks.removeScripts #selectionSetChanged	                           	id:#onUnityExportNodeSelected )catch()
+		----	try( callbacks.addScript     #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+		----	
+		----	--ExportNode = UnityExportNode_v()
+		--	#stop
+		--)
 	)
 	on create do 
 	(
 		print ( "unity_exporter_v.create() = "  as string )
-		
-		this.removeCallbacks()
 
-		export_nodes_roll.choose_export_node_mlb.selection = (this.getSelectedNodesIndexes())
+		--this.removeCallbacks()
 
-		this.updateRotateCheckbox()
+		--export_nodes_roll.choose_export_node_mlb.selection = (this.getSelectedNodesIndexes())
 
-		this.addCallbacks()
+		--this.updateRotateCheckbox()
+
+		--this.addCallbacks()
 
 	)
-	parameters main rollout:params
+	on update do 
+	(
+		print ( "unity_exporter_v.update() = "  as string )
+
+	)
+
+	
+	/*------------------------------------------------------------------------------
+	
+		ROLLOUTS
+		
+	--------------------------------------------------------------------------------*/
+
+	parameters main rollout:export_path_roll
 	(
 		export_filename type:#string 
 	)
@@ -86,7 +105,6 @@ category:"Unity"
 			--print ( "val = " + val as string )
 
 			this.selectNodes #( val )
-
 
 			--DestroyDialog choose_export_node
 		)
@@ -143,7 +161,6 @@ category:"Unity"
 		on export_layer_display_toggle changed val do
 			this.exportLayerToggleShowHide()
 
-
 		on export_button pressed do (
 
 			clearListener()
@@ -174,7 +191,7 @@ category:"Unity"
 		--on assign_to_export_node	pressed do ( ExportNode.assign() )
 	)
 
-	rollout params "Parameters"
+	rollout export_path_roll "Export Path"
 	(
 
 		edittext export_filename "Name" text:ExportNode.name
@@ -183,8 +200,11 @@ category:"Unity"
 
 		edittext export_path "" text:ExportNode.path
 
-		on btn_browse pressed do (
-			local dir = getSavePath caption:"Browse export dir" initialDir:ExportNode.path 
+		on btn_browse pressed do
+		(
+			print ( "initialDir = " + export_path_roll.export_path.text  as string )
+			--local dir = getSavePath caption:"Browse export dir" initialDir:ExportNode.path 
+			local dir = getSavePath caption:"Browse export dir" initialDir:export_path_roll.export_path.text 
 			if (dir != undefined) do
 			(
 				export_path.text	= dir
@@ -211,6 +231,14 @@ category:"Unity"
 			--this.updateRotateCheckbox value:val
 
 	)
+
+
+
+	/*------------------------------------------------------------------------------
+	
+		FUNCTIONS
+		
+	--------------------------------------------------------------------------------*/
 
 	/** Select obejcts for nodes
 	 */
@@ -308,7 +336,7 @@ category:"Unity"
 			--print ( "export_nodes_in_scene[n] = " + export_nodes_in_scene[n] as string )
 
 		this.updateRotateCheckbox()
-		
+
 		this.addCallbacks()
 	)
 

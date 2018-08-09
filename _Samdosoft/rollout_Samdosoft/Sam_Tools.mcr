@@ -21,6 +21,9 @@ tooltip:	"Chamfer edges on material ID borders"
 
 	if( selection[1].modifiers[#Chamfer_mat] == undefined  ) then
 	(
+		/* PLANARIZE OBJECT */
+		macros.run "_Epoly-Edit" "edit_planarize_object"
+		
 		_objects	= for o in selection where superClassOf o == GeometryClass collect o
 		
 		for _obj in _objects do
@@ -30,7 +33,7 @@ tooltip:	"Chamfer edges on material ID borders"
 			/*------ CHAMFER ------*/
 			_Chamfer	= (Modifier_v type:#Chamfer name:"Chamfer-mat").add()
 			--_Chamfer.amount	= 10
-			_Chamfer.amount	= 5
+			_Chamfer.amount	= 10
 			_Chamfer.chamfertype	= 1
 			_Chamfer.selectionoption	= 5
 			_Chamfer.useminangle	= false
@@ -69,13 +72,12 @@ tooltip:"Remove chamfer modifiers"
 (
 	_objects	= for o in selection where superClassOf o == GeometryClass collect o
 
+	modifiers	= #( #Chamfer_mat, #Select_Chamfer, #Noise_Chamfer )
+	
 	for _obj in _objects do
-	(
-		deleteModifier _obj _obj.modifiers[#Chamfer_mat]
-		deleteModifier _obj _obj.modifiers[#Select_Chamfer]
-		deleteModifier _obj _obj.modifiers[#Noise_Chamfer]
-		
-	)
+		for _mod in modifiers do
+			if(  _obj.modifiers[_mod] != undefined ) then
+				deleteModifier _obj _obj.modifiers[_mod]
 
 )
 

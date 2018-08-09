@@ -6,6 +6,7 @@ tooltip:	"Remove subobject"
 	undo "Remove subobject" on
 	(
 		(Epoly_v()).remove()
+
 	)
 )
 
@@ -27,37 +28,17 @@ category:"_Epoly-Edit"
 buttonText:"Planarize"
 tooltip:"Planarize Faces"
 (
-	
+
 	if( subObjectLevel == 4 ) then
-	(
-		--Epoly = Epoly_v()
 		macros.run "Ribbon - Modeling" "MakePlanar"
-	)
+
 	else
-	(
-		_objects  = for o in selection where superClassOf o == GeometryClass collect o 
-		
-		for _obj in _objects do
-		(
-			maxOps.CollapseNode _obj off
-			
-			for x=1 to 20 do (for i=1 to ( polyop.getNumFaces _obj) do ( polyop.makeFacesPlanar _obj #(i)) )
-			
-			addModifier _obj (Edit_Poly())
-			
-			--(Pivot_v()).centerToObject()
-		)
-	)
-	
-	
-	
-	
-	
-	
+		macros.run "_Epoly-Edit" "edit_planarize_object"
+
 	/*------------------------------------------------------------------------------
 		NOT WORKING FOR EDItABLE POLY
 	--------------------------------------------------------------------------------*/
-	
+
 	--clearListener()
 	----_objects	= for o in selection where superClassOf o == GeometryClass collect o
 	--
@@ -120,12 +101,28 @@ tooltip:"Planarize Faces"
 	--	
 	--)
 
-
 	redrawViews()
 )
 
+macroscript	edit_planarize_object
+category:	"_Epoly-Edit"
+buttontext:	"Planarize object"
+toolTip:	"Planarize object"
+--icon:	"#(path, index)"
+(
+	_objects  = for o in selection where superClassOf o == GeometryClass collect o
 
+	for _obj in _objects do
+	(
+		maxOps.CollapseNode _obj off
 
+		for x=1 to 20 do (for i=1 to ( polyop.getNumFaces _obj) do ( polyop.makeFacesPlanar _obj #(i)) )
+
+		addModifier _obj (Edit_Poly())
+
+		--(Pivot_v()).centerToObject()
+	)
+)
 
 macroscript	edit_chamfer
 category:	"_Epoly-Edit"
@@ -133,9 +130,9 @@ buttontext:	"Chamfer"
 toolTip:	"Chamfer"
 --icon:	"#(path, index)"
 (
-	
+
 	--On Execute Do (
-		
+
 		undo "Chamfer" on
 		(
 			Epoly	= Epoly_v()
@@ -146,7 +143,7 @@ toolTip:	"Chamfer"
 			--
 			if( subObjectLevel == 4 ) then
 				Epoly.convertSelection #edge
-			
+
 			else if( subObjectLevel == 1 ) then
 			(
 				vertices	= Epoly.Sel.getSel 1
@@ -156,9 +153,7 @@ toolTip:	"Chamfer"
 				edge_lengths	= Epoly.Edges.getLength _edges
 				print ( "edge_lengths = " + edge_lengths as string )
 				print ( "amin  edge_lengths = " + amin  edge_lengths as string )
-				
-				
-				
+
 			--	if( ( shared_faces as array ).count == 1 ) then 
 			--		connect_method	= #ConnectToLastSelVert -- connect to last vertex if all faces shared one face
 			)
@@ -181,9 +176,7 @@ toolTip:	"Chamfer"
 			--)
 		)
 	--)
-	
-	
-	
+
 )
 
 /**  
@@ -201,33 +194,33 @@ tooltip:	"Connect subobject"
 (
 
 	On Execute Do (
-		
+
 		undo "Connect subobject" on
 		(
 			Epoly	= Epoly_v()
 			connect_method	= #polyToolsConnect
-			
+
 			if not ( Epoly.Mod.setCurrent() or subObjectLevel ) then
 				return false
-			
+
 			if( subObjectLevel == 4 ) then
 				Epoly.convertSelection #vertex
-			
+
 			else if( subObjectLevel == 1 ) then
 			(
 				_selection	= Epoly.Sel.getSel #vertex
 				shared_faces	= Epoly.Sel.getSharedAwithB #face #vertex _selection
-				
+
 				if( ( shared_faces as array ).count == 1 ) then 
 					connect_method	= #ConnectToLastSelVert -- connect to last vertex if all faces shared one face
 			)
 			else if( subObjectLevel == 2 ) then
 			(
 				_selection	= Epoly.Sel.getSel #edge
-				
+
 				if( ( _selection as array ).count == 1 ) then 
 					(Epoly.Mod.get()).SelectEdgeRing()
-					
+
 				connect_method = #ConnectEdges
 			)
 			print ( "connect_method = " + connect_method as string )
@@ -240,7 +233,7 @@ tooltip:	"Connect subobject"
 			)
 		)
 	)
-	
+
 	/** Options menu item 
 	 */
 	On AltExecute type do (

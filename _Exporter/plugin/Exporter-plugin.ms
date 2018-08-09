@@ -2,31 +2,43 @@
  */
 function onUnityExportNodeSelected =
 (
-	ExportNode = selection[1]
+	
+	export_nodes_selected = for _shape in selection where classOf _shape == text and getUserProp _shape "unity-export-node" != undefined collect _shape		
 
-	if( classOf ExportNode == text and getUserProp ExportNode "unity-export-node" != undefined ) then 
+	print "\n"
+	print ( "selection.count = " + (selection.count > 0) as string )
+	print ( "export_nodes_selected.count = " + (export_nodes_selected.count > 0 ) as string )
+	print ( "isCreatingObject unity_exporter_v = " + (isCreatingObject unity_exporter_v == false) as string )
+	
+	if ( selection.count > 0 and export_nodes_selected.count > 0 and isCreatingObject unity_exporter_v == false ) then 
 	(
 		print "\n\nEXPORT NODE SELECTED"
-		--max create mode
-		--startObjectCreation unity_exporter_v
-	)else
-		print "onUnityExportNodeSelected()\n\nEXPORT NODE NOT SELECTED"
+		max create mode
+		startObjectCreation unity_exporter_v
+	) else
+		print "onUnityExportNodeSelected()\n\nEXPORT NODE NOT SELECTED !!!"
 
 )
 /** Select export node callback remove
  */
-function selectExportNodeCallbackRemove =
+function RemoveSelectExportNodeCallback =
 (
+	print ( "==== RemoveSelectExportNodeCallback()"  )
 	try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
 )
 /** Select export node callback add
  */
-function selectExportNodeCallbackAdd =
+function AddSelectExportNodeCallback =
 (
-	print ( "==== selectExportNodeCallbackAdd()"  )
-	selectExportNodeCallbackRemove()
+	RemoveSelectExportNodeCallback()
+	print ( "==== AddSelectExportNodeCallback()"  )
 	try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
 )
+
+
+
+
+global lisbox_last_selected_export_node
 
 /** Create and manage export node 
  *	
@@ -41,8 +53,9 @@ category:"Unity"
 	local export_nodes_in_scene	= #()
 	local _export_layer_name	= "Export-Unity"
 	local export_nodes_roll
-	local options_roll
+	local node_options_roll
 
+	local node_options = #("delete-after-export", "rotate-on-export")
 	
 	/*------------------------------------------------------------------------------
 	
@@ -65,13 +78,16 @@ category:"Unity"
 	(
 		print ( "unity_exporter_v.create() = "  as string )
 
-		--this.removeCallbacks()
+		--RemoveSelectExportNodeCallback()
+		--print ( "this.getSelectedSceneNodesIndexes() = " + this.getSelectedSceneNodesIndexes() as string )
+		
+		print ( "\n====== create() ======" )
+		--this.updateNodeOptions()
+		
+		
+		this.updateListBox()
 
-		--export_nodes_roll.choose_export_node_mlb.selection = (this.getSelectedNodesIndexes())
-
-		--this.updateRotateCheckbox()
-
-		--this.addCallbacks()
+		--AddSelectExportNodeCallback()
 
 	)
 	on update do 
@@ -94,28 +110,37 @@ category:"Unity"
 
 	rollout export_nodes_roll "Export nodes"
 	(
-		multilistbox choose_export_node_mlb "Choose one" items:(this.exportNodeNames()) selection:(this.getSelectedNodesIndexes())
-		--multilistbox choose_export_node_mlb "Choose one" items:(this.exportNodeNames()) selection:#(2)
+		multilistbox export_nodes_lbox "Choose one" items:(this.exportNodeNames()) selection:(this.getSelectedSceneNodesIndexes())
+		--multilistbox export_nodes_lbox "Choose one" items:(this.exportNodeNames()) selection:#(2)
 
 		--on mlb selected val do format "selected: % - %\n" val mlb.selection[val]
-		on choose_export_node_mlb selected  val do
-		--on choose_export_node_mlb doubleclicked val do
+		on export_nodes_lbox selected  val do
+		--on export_nodes_lbox doubleclicked val do
 		(
-			--clearListener()
-			--print ( "val = " + val as string )
-
-			this.selectNodes #( val )
+			print ( "\n====== export_nodes_lbox.selected() ====== " + val as string )
+			print ( "lisbox_last_selected_export_node ==undefined " + (lisbox_last_selected_export_node ==  undefined) as string )
+			print ( "lisbox_last_selected_export_node != val = " + (lisbox_last_selected_export_node != val) as string )
+			
+			if( lisbox_last_selected_export_node != val  ) then 
+				this.selectNodes #( val )
+			
+			lisbox_last_selected_export_node = val
+			
+			--this.updateNodeOptions()
 
 			--DestroyDialog choose_export_node
 		)
-		on choose_export_node_mlb selectionEnd do
+		on export_nodes_lbox selectionEnd do
 		(
-			 --format "selectionEnd: %\n" choose_export_node_mlb.selection
-			this.selectNodes choose_export_node_mlb.selection
+			print ( "\n====== export_nodes_lbox.selectionEnd() ======"  + export_nodes_lbox.selection as string )
+			 --format "selectionEnd: %\n" export_nodes_lbox.selection
+			--this.selectNodes export_nodes_lbox.selection
+			
 		)
 
-		on choose_export_node_mlb doubleclicked val do
+		on export_nodes_lbox doubleclicked val do
 		(
+			print ( "\n====== export_nodes_lbox.doubleclicked() ======" )
 			--clearListener()
 			export_objects = this.getObejctsForNodes (this.getNodesSelectedInListBox())
 
@@ -146,11 +171,6 @@ category:"Unity"
 		checkbutton export_layer_display_toggle	"Show\Hide"
 		button select_btn	"Isolate"
 		button clear_expor_objects_layer_btn	"Clear Layer"
-		button export_button	"Export"
-			--on deleteafterexport_cbx changed val do (
-			--
-			--																	print val
-			--																	)
 
 		on create_export_node		pressed do ( ExportNode.create() )
 
@@ -160,18 +180,6 @@ category:"Unity"
 
 		on export_layer_display_toggle changed val do
 			this.exportLayerToggleShowHide()
-
-		on export_button pressed do (
-
-			clearListener()
-			selectExportNodeCallbackRemove()
-			export_nodes_selected = this.getNodesSelectedInListBox()
-
-			for export_node_selected in export_nodes_selected do
-				(Exporter_v()).exportNode export_node_selected deleteObjects:options_roll.delete_after_export_cbx.state rotate:( this.getProp export_node_selected "rotate-on-export" default:true )
-
-			selectExportNodeCallbackAdd()
-		)
 
 		on select_btn pressed do
 		(
@@ -191,6 +199,25 @@ category:"Unity"
 		--on assign_to_export_node	pressed do ( ExportNode.assign() )
 	)
 
+	rollout export_roll "Export"
+	(
+
+		button export_button	"Export"
+
+		on export_button pressed do (
+
+			clearListener()
+			RemoveSelectExportNodeCallback()
+			export_nodes_selected = this.getNodesSelectedInListBox()
+
+			for export_node_selected in export_nodes_selected do
+				(Exporter_v()).exportNode export_node_selected deleteObjects:node_options_roll.delete_after_export_cbx.state rotate:( this.getProp export_node_selected "rotate-on-export" default:true )
+
+			AddSelectExportNodeCallback()
+		)
+
+	)
+	
 	rollout export_path_roll "Export Path"
 	(
 
@@ -213,26 +240,33 @@ category:"Unity"
 				ExportNode.setExportDir dir
 			)
 		)
-
 	)
+	
 
-	rollout options_roll "Options"
+	--rollout export_options_roll "Export Options"
+	--(
+	--	checkbox rotate_in_export_cbx "Delete after export"
+	--		on rotate_in_export_cbx changed val do
+	--			for _node in this.getSelectedSceneNodes() do
+	--				setUserProp _node "delete-after-export" val
+	--)
+
+	rollout node_options_roll "Node Options"
 	(
-		checkbox delete_after_export_cbx "Delete after export" checked:true
-		checkbox rotate_in_export_cbx "Rotate in world"
-
-		on rotate_in_export_cbx changed val do
-		(
-			selected_nodes = this.getSelectedNodes()
-
-			for _node in selected_nodes do
-				setUserProp _node "rotate-on-export" val
-		)
-			--this.updateRotateCheckbox value:val
-
+		checkbox delete_after_export_cbx "Delete after export" checked:(this.getSelectedNodeProp node_options[1] )
+			on delete_after_export_cbx changed val do
+				for _node in this.getSelectedSceneNodes() do
+					setUserProp _node "delete-after-export" val
+		
+		checkbox rotate_in_export_cbx "Rotate in world" checked:(this.getSelectedNodeProp node_options[2] )
+			on rotate_in_export_cbx changed val do
+			(
+				print "\n\n************* CHECKBOX *************"	
+				for _node in this.getSelectedSceneNodes() do
+					setUserProp _node node_options[2] val
+			)
+			
 	)
-
-
 
 	/*------------------------------------------------------------------------------
 	
@@ -253,56 +287,55 @@ category:"Unity"
 		_objects --return
 	)
 
-	/** Add callbacks
-	 */
-	function addCallbacks =
-	(
-		this.removeCallbacks()
-		try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
-	)
-	/** Remove callbacks
-	 */
-	function removeCallbacks =
-	(
-		try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
-
-	)
+	--/** Add callbacks
+	-- */
+	--function addCallbacks =
+	--(
+	--	RemoveSelectExportNodeCallback()
+	--	try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
+	--)
+	--/** Remove callbacks
+	-- */
+	--function removeCallbacks =
+	--(
+	--	try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
+	--
+	--)
 
 	/** Plugin function test
 	 */
 	function exportNodeNames =
 	(
-		this.findExportNodes()
+		this.setExportNodesInScene()
 
 		for _node in export_nodes_in_scene collect _node.name
 	)
 	/** Find export node
 	 */
-	function findExportNodes =
+	function setExportNodesInScene =
 	(
-		print "findExportNodes()"
+		print "setExportNodesInScene()"
 		export_nodes_in_scene = for _shape in objects where getUserProp _shape "unity-export-node" != undefined collect _shape		
 	)
 	/** Get selected nodes
 	 */
-	function getSelectedNodes =
+	function getSelectedSceneNodes =
 	(
-		_selection = ( selection as Array )
-
-		for export_node_in_scene in export_nodes_in_scene where findItem _selection export_node_in_scene > 0 collect export_node_in_scene
-
+		for _shape in selection where classOf _shape == text and getUserProp _shape "unity-export-node" != undefined collect _shape		
 	)
 	/** Get selected nodes
 	 */
-	function getSelectedNodesIndexes =
+	function getSelectedSceneNodesIndexes =
 	(
-		_selection = ( selection as Array )
+		this.setExportNodesInScene()
+		
+		selected_nodes = this.getSelectedSceneNodes()
+		
+		indexes = for i = 1 to selected_nodes.count collect
+			findItem export_nodes_in_scene selected_nodes[i] --return
+		--print ( "unity_exporter_v.getSelectedSceneNodesIndexes() = " + ( selected_nodes as BitArray ) as string )
 
-		selected_nodes = for n=1 to export_nodes_in_scene.count where findItem _selection export_nodes_in_scene[n] > 0 collect n
-
-		print ( "unity_exporter_v.getSelectedNodesIndexes() = " + (selected_nodes as BitArray) as string )
-
-		selected_nodes as BitArray --return
+		indexes as BitArray --return
 	)
 	/** Fileter export nodes
 	 */
@@ -319,31 +352,26 @@ category:"Unity"
 	 */
 	function selectNodes selected_indexes =
 	(
-		this.removeCallbacks()
+		print "***selectNodes()"
+		
+		RemoveSelectExportNodeCallback()
+		
 		UnityExportNode = UnityExportNode_v()
-		--print ( "export_nodes_in_scene = " + export_nodes_in_scene as string )
-		--print ( "selected = " + export_nodes_in_scene[val] as string )
-		--print ( "selected = " + choose_export_node_mlb.selection[val] as string )
-		--select export_nodes_in_scene[val]
-		--print ( "selectNodes() selected_indexes = " + (selected_indexes as Array ) as string )		
-		--print ( "export_nodes_in_scene = " + export_nodes_in_scene as string )
-		--clearSelection()
 
 		this.deselectNodes()
 
 		for n in selected_indexes do
 			selectmore export_nodes_in_scene[n]
-			--print ( "export_nodes_in_scene[n] = " + export_nodes_in_scene[n] as string )
 
-		this.updateRotateCheckbox()
-
-		this.addCallbacks()
+		AddSelectExportNodeCallback()
 	)
 
 	/** Deselect nodes
 	 */
 	function deselectNodes =
 	(
+		print "***deselectNodes()"
+		
 		for _node in export_nodes_in_scene do
 			deselect _node
 	)
@@ -371,38 +399,55 @@ category:"Unity"
 	 */
 	function getNodesSelectedInListBox  =
 	(
-		indexes = export_nodes_roll.choose_export_node_mlb.selection
+		indexes = export_nodes_roll.export_nodes_lbox.selection
 
 		for i in indexes collect export_nodes_in_scene[i] --return
+	)
+	/** Update list box
+	 */
+	function updateListBox =
+	(
+		print ( "this.getSelectedSceneNodesIndexes() = " + this.getSelectedSceneNodesIndexes() as string )
+		try(
+			export_nodes_roll.export_nodes_lbox.selection = (this.getSelectedSceneNodesIndexes())
+		)catch()
 	)
 
 	/** Update rotate checkbox
 	 */
-	function updateRotateCheckbox value:#null =
+	function updateNodeOptions value:#null =
 	(
-		print ( "\n\n====== updateRotateCheckbox() ======\n\n" )
-		--clearListener()
-		selected_nodes = this.getSelectedNodes()
-
-		--if( value == #null ) then 
-		value =  if (selected_nodes!=undefined and selected_nodes.count > 0) then this.getProp selected_nodes[1] "rotate-on-export" default:true else true
-
-		--selected_nodes_index = this.getSelectedNodesIndexes()
+		print ( "\n\n====== updateNodeOptions() ======\n\n" )
+		selected_nodes = this.getSelectedSceneNodes()
 		print ( "selected_nodes = " + selected_nodes as string )
-		--print ( "selected_nodes_index = " + selected_nodes_index as string )
-		print ( "value = " + value as string )
-		print ( "classOf value = " + classOf value as string )
-
-		--options_roll.rotate_in_export_cbx.state = value
-		options_roll.rotate_in_export_cbx.checked = value
+		
+		if( selected_nodes.count == 0 ) then 
+			return()
+		
+		--node_options_roll.delete_after_export_cbx.state	= (this.getProp selected_nodes[1] "delete-after-export"	default:true)
+		--node_options_roll.rotate_in_export_cbx.state	= (this.getProp selected_nodes[1] "rotate-on-export"	default:true)
+		
 
 	)
+	/** Get selected node prop
+	 */
+	function getSelectedNodeProp key =
+	(
+		selected_nodes = this.getSelectedSceneNodes()
+		
+		this.getProp selected_nodes[1] key	default:true --return
+	)
+	
 	/** Get prop
 	 */
 	function getProp obj key default:#null =
 	(
-		print ( "getProp = " + obj as string )
-		if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return		
+		--print ( "getProp = " + obj as string )
+		--if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return
+		
+		_value = if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return
+		print ( "getProp() "+key+"= " + _value as string )
+		_value --return
 	)
 
 )

@@ -27,11 +27,11 @@ toolTip:	"Preview scene in Unity like setup"
 	if( sub_obj != 0 ) then 
 		subObjectLevel = 0
 	--print ( "sub_obj = " + sub_obj as string )
-	macro_name = if( (NitrousGraphicsManager.GetActiveViewportSetting()).VisualStyleMode == #Facets ) then "scene_light_modeling" else "scene_light_unity"
-	mat_name	= if( macro_name == "scene_light_modeling" )then "idmat" else "rock_3dsmax" 
+	macro_name	= if( (NitrousGraphicsManager.GetActiveViewportSetting()).VisualStyleMode == #Facets ) then "scene_light_modeling" else "scene_light_unity"
+	mat_name	= if( macro_name == "scene_light_modeling" )then "modeling" else "rock_3dsmax" 
 	
 	macros.run "_MainUI-Ligtning"	macro_name
-	--macros.run "_Material"	("material_assign_" +mat_name)
+	macros.run "_Material"	("material_assign_" +mat_name)
 	
 	
 )

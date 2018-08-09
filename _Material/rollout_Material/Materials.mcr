@@ -17,18 +17,31 @@ tooltip:	"Create edit multi material with different ID"
 	selection.material = Material.getIdMaterial()
 )
 
+macroscript	material_assign_modeling
+category:	"_Material"  
+buttonText:	"Modeling"
+tooltip:	"Shade material for modeling"  
+(
+	mat = StandardMaterial glossiness:0 specularLevel:0
+	
+	mat.diffuse = color 213 244 255
+		
+	mat.name	= "Modeling"
+
+	selection.material = mat
+	
+)
+
 macroscript	material_assign_rock_3dsmax
 category:	"_Material"
 buttontext:	"Rock Mat"
 toolTip:	"Rock"
 --icon:	"#(path, index)"
 (
-	mat_name = "rock_3dsmax"
 	--mat		= this.getMat mat_name 
-
 	--if( mat == fasle ) then
 	--(
-		mat = StandardMaterial name:mat_name glossiness:50 specularLevel:50
+		mat = StandardMaterial glossiness:50 specularLevel:50
 		
 		--mat.diffuse = color 66 92 105
 		mat.diffuse = color 97 119 130
@@ -46,12 +59,10 @@ buttontext:	"Grass Mat"
 toolTip:	"Grass"
 --icon:	"#(path, index)"
 (
-	mat_name = "grass_3dsmax"
 	--mat		= this.getMat mat_name 
-
 	--if( mat == fasle ) then
 	--(
-		mat = StandardMaterial name:mat_name glossiness:50 specularLevel:50
+		mat = StandardMaterial glossiness:50 specularLevel:50
 		
 		--mat.diffuse = color 105 116 73
 		mat.diffuse = color 108 120 84

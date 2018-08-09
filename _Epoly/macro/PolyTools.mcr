@@ -1,0 +1,12 @@
+--/**	1) Turn on " Move Conform Brush"	http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=GUID-96452030-B2E8-404A-AF0E-4EB70EB44EE6#GUID-96452030-B2E8-404A-AF0E-4EB70EB44EE6__IMAGE_52236DC723B243B8A0DCC6229C3870CC
+-- *	2) Turn on "View" space	http://help.autodesk.com/view/3DSMAX/2016/ENU/?guid=GUID-AB0F11DE-3125-42B0-B7FC-034A34B12181#GUID-AB0F11DE-3125-42B0-B7FC-034A34B12181__IMAGE_A8D0370609884762881661A09F63D752
+-- */
+--macroscript	polytools_conform_move
+--category:	"_Epoly-PolyTools"
+--buttontext:	"Move"
+--toolTip:	"PolyDraw Conform Move"
+----icon:	"#(path, index)"
+--(
+--	macros.run "PolyTools"	"PolyDrawConformMove"
+--	macros.run "Ribbon - Modeling"	"PolyDrawConformDirView"
+--)

@@ -17,7 +17,7 @@ struct UnityExportNode_v
 		--messageBox "_construct" beep:false
 		print ( "UnityExportNode_v._construct() = " + (this.isExportNodeSelected()) as string )
 		if( this.isExportNodeSelected() ) then
-			this.setSelectedNode()
+			this.fillObject()
 		
 	),
 	/** Create
@@ -25,7 +25,7 @@ struct UnityExportNode_v
 	function create =
 	(
 		print "create()"
-		this.setNode()
+		this.setNode undefined
 
 		this.createExportLayer()
 		
@@ -39,16 +39,23 @@ struct UnityExportNode_v
 	),
 	
 	/** Set node
+	  * @return	self
 	 */
-	function setNode =
+	function setNode __node =
 	(
 		print "setNode()"
 
-		 if( this.isExportNodeSelected()  ) then
-			this.setSelectedNode()
-		
+		if( __node == undefined ) then
+		(
+			if not( this.isExportNodeSelected()  ) then
+				this.createNodeObject()
+		)
 		else
-			this.createNodeObject()
+			_node == __node
+		
+	   this.fillObject()
+
+	   this --return
 	),
 	/** Create node object
 	 */
@@ -65,22 +72,37 @@ struct UnityExportNode_v
 	),
 	/** Set selected node
 	 */
-	function setSelectedNode =
+	function fillObject =
 	(
-		--print ( "setSelectedNode = " + setSelectedNode as string )
+		--print ( "fillObject = " + fillObject as string )
 		--print ( "selection = " + selection[1] as string )
-		_node = selection[1]
-
+		--_node = selection[1]
+		if( _node == undefined ) then
+			return ()
+		
+		
 		name	= _node.name
 		path	= getUserProp _node "export-dir"
 		
 		_node.text = name
 	),
+	--/** Set prop
+	-- */
+	--function setProp key value =
+	--(
+	--	setUserProp _node key value
+	--),
 	/** Is export node selectedtt
 	 */
 	function isExportNodeSelected =
 	(
 		classOf selection[1] == text and getUserProp selection[1] "unity-export-node" != undefined 
+	),
+	/** Get selected export nodes
+	 */
+	function getSelectedExportNodes =
+	(
+		for _shape in selection where classOf _shape == text and getUserProp _shape "unity-export-node" != undefined collect _shape		
 	),
 	/*------------------------------------------------------------------------------
 		PRIVATE

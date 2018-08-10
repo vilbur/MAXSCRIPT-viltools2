@@ -23,7 +23,7 @@ function onUnityExportNodeSelected =
  */
 function RemoveSelectExportNodeCallback =
 (
-	print ( "==== RemoveSelectExportNodeCallback()"  )
+	--print ( "==== RemoveSelectExportNodeCallback()"  )
 	try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
 )
 /** Select export node callback add
@@ -31,7 +31,7 @@ function RemoveSelectExportNodeCallback =
 function AddSelectExportNodeCallback =
 (
 	RemoveSelectExportNodeCallback()
-	print ( "==== AddSelectExportNodeCallback()"  )
+	--print ( "==== AddSelectExportNodeCallback()"  )
 	try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
 )
 
@@ -117,18 +117,30 @@ category:"Unity"
 		on export_nodes_lbox selected  val do
 		--on export_nodes_lbox doubleclicked val do
 		(
-			print ( "\n====== export_nodes_lbox.selected() ====== " + val as string )
-			print ( "lisbox_last_selected_export_node ==undefined " + (lisbox_last_selected_export_node ==  undefined) as string )
-			print ( "lisbox_last_selected_export_node != val = " + (lisbox_last_selected_export_node != val) as string )
+			print ( "\n====== export_nodes_lbox.selected() val =" + val as string )
 			
-			if( lisbox_last_selected_export_node != val  ) then 
+			print ( "selection = " + (selection as Array ) as string )
+			RemoveSelectExportNodeCallback()
+
+			--print ( "lisbox_last_selected_export_node = " + lisbox_last_selected_export_node as string )
+			--print ( "lisbox_last_selected_export_node ==undefined " + (lisbox_last_selected_export_node ==  undefined) as string )
+			--print ( "lisbox_last_selected_export_node != val = " + (lisbox_last_selected_export_node != val) as string )
+			
+			--if( lisbox_last_selected_export_node != val  ) then 
+			
+			--lisbox_last_selected_export_node = val
+			print ( "(this.isListboxSelelctItemListbox val) = " + (this.isListboxSelelctItemListbox val) as string )
+			
+			if ( this.isListboxSelelctItemListbox val ) then
 				this.selectNodes #( val )
 			
-			lisbox_last_selected_export_node = val
+			else 	
+				this.deselectNodes #( val )
 			
-			--this.updateNodeOptions()
+			
+			this.updateNodeOptions()
 
-			--DestroyDialog choose_export_node
+			AddSelectExportNodeCallback()
 		)
 		on export_nodes_lbox selectionEnd do
 		(
@@ -287,20 +299,6 @@ category:"Unity"
 		_objects --return
 	)
 
-	--/** Add callbacks
-	-- */
-	--function addCallbacks =
-	--(
-	--	RemoveSelectExportNodeCallback()
-	--	try( callbacks.addScript #selectionSetChanged "onUnityExportNodeSelected()" id:#onUnityExportNodeSelected )catch()
-	--)
-	--/** Remove callbacks
-	-- */
-	--function removeCallbacks =
-	--(
-	--	try( callbacks.removeScripts #selectionSetChanged id:#onUnityExportNodeSelected )catch()
-	--
-	--)
 
 	/** Plugin function test
 	 */
@@ -350,30 +348,33 @@ category:"Unity"
 	)
 	/** Select nodes
 	 */
-	function selectNodes selected_indexes =
+	function selectNodes lb_indexes =
 	(
-		print "***selectNodes()"
+		print "\n*** selectNodes()"
+		format "lb_indexes: % \n" lb_indexes
 		
-		RemoveSelectExportNodeCallback()
+		--RemoveSelectExportNodeCallback()
 		
-		UnityExportNode = UnityExportNode_v()
+		--UnityExportNode = UnityExportNode_v()
 
-		this.deselectNodes()
-
-		for n in selected_indexes do
+		for n in lb_indexes do
+		(
+			print ( "select node = " + export_nodes_in_scene[n].name as string )
 			selectmore export_nodes_in_scene[n]
+		)
 
-		AddSelectExportNodeCallback()
+		--AddSelectExportNodeCallback()
 	)
 
 	/** Deselect nodes
 	 */
-	function deselectNodes =
+	function deselectNodes lb_indexes =
 	(
-		print "***deselectNodes()"
+		print "*** deselectNodes()"
 		
-		for _node in export_nodes_in_scene do
-			deselect _node
+		for n in lb_indexes do
+			deselect export_nodes_in_scene[n]
+			
 	)
 	/** Export layer toggle show hide
 	 */
@@ -419,13 +420,13 @@ category:"Unity"
 	(
 		print ( "\n\n====== updateNodeOptions() ======\n\n" )
 		selected_nodes = this.getSelectedSceneNodes()
-		print ( "selected_nodes = " + selected_nodes as string )
+		--print ( "selected_nodes = " + selected_nodes as string )
 		
 		if( selected_nodes.count == 0 ) then 
 			return()
 		
-		--node_options_roll.delete_after_export_cbx.state	= (this.getProp selected_nodes[1] "delete-after-export"	default:true)
-		--node_options_roll.rotate_in_export_cbx.state	= (this.getProp selected_nodes[1] "rotate-on-export"	default:true)
+		node_options_roll.delete_after_export_cbx.state	= (this.getProp selected_nodes[1] "delete-after-export"	default:true)
+		node_options_roll.rotate_in_export_cbx.state	= (this.getProp selected_nodes[1] "rotate-on-export"	default:true)
 		
 
 	)
@@ -448,6 +449,16 @@ category:"Unity"
 		_value = if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return
 		print ( "getProp() "+key+"= " + _value as string )
 		_value --return
+	)
+
+
+
+	/** Find out if multilistbox event is select\deselect
+	 */
+	function isListboxSelelctItemListbox val =
+	(
+		findItem ( selection as Array ) export_nodes_in_scene[val] == 0
+		
 	)
 
 )

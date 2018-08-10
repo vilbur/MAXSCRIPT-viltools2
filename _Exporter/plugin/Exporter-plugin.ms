@@ -255,13 +255,15 @@ category:"Unity"
 	)
 	
 
-	--rollout export_options_roll "Export Options"
-	--(
-	--	checkbox rotate_in_export_cbx "Delete after export"
-	--		on rotate_in_export_cbx changed val do
-	--			for _node in this.getSelectedSceneNodes() do
-	--				setUserProp _node "delete-after-export" val
-	--)
+	rollout export_options_roll "Export Options"
+	(
+		checkbox reset_smoothgroups "Reset smoothgroups" tristate:2
+			on reset_smoothgroups changed val do
+				print ( "val = " + val as string )
+				--for _node in this.getSelectedSceneNodes() do
+					--setUserProp _node "delete-after-export" val
+
+	)
 
 	rollout node_options_roll "Node Options"
 	(
@@ -278,6 +280,7 @@ category:"Unity"
 					setUserProp _node node_options[2] val
 			)
 			
+
 	)
 
 	/*------------------------------------------------------------------------------
@@ -425,8 +428,8 @@ category:"Unity"
 		if( selected_nodes.count == 0 ) then 
 			return()
 		
-		node_options_roll.delete_after_export_cbx.state	= (this.getProp selected_nodes[1] "delete-after-export"	default:true)
-		node_options_roll.rotate_in_export_cbx.state	= (this.getProp selected_nodes[1] "rotate-on-export"	default:true)
+		node_options_roll.delete_after_export_cbx.triState	= (this.getCheckboxState "delete-after-export")
+		node_options_roll.rotate_in_export_cbx.triState	= (this.getCheckboxState "rotate-on-export")
 		
 
 	)
@@ -439,15 +442,30 @@ category:"Unity"
 		this.getProp selected_nodes[1] key	default:true --return
 	)
 	
+
+	/** Get checkbox state
+	 */
+	function getCheckboxState key =
+	(
+		selected_nodes = this.getSelectedSceneNodes()
+		print ( "selected_nodes = " + selected_nodes as string )
+		values	= for _node in selected_nodes collect  this.getProp _node key default:true
+		--print ( "values = " + values as string )
+		_true	= (for _value in values where _value == true  collect _value).count
+		_false	= (for _value in values where _value == false collect _value).count
+		
+		if( _true > 0 and _false > 0 ) then
+			2 --return
+		else if( _true > 0 ) then 1 else 0 --return
+	)
+
 	/** Get prop
 	 */
-	function getProp obj key default:#null =
+	function getProp obj key default:undefined =
 	(
-		--print ( "getProp = " + obj as string )
-		--if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return
-		
-		_value = if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return
-		print ( "getProp() "+key+"= " + _value as string )
+		--_value = if( obj != undefined and classOf obj != BooleanClass  and getUserProp obj key != undefined ) then getUserProp obj key else default --return
+		_value = if( getUserProp obj key != undefined ) then getUserProp obj key else default --return
+		print ( "_value = " + _value as string )
 		_value --return
 	)
 

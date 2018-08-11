@@ -4,20 +4,20 @@ clearListener()
 
 Floater	= (Floater_v()).new "VilTools2"
 
-Floater.Ini.ini ( dotnetObject "System.Text.RegularExpressions.Regex" @"(ms|mscr)$" ).Replace (getSourceFileName()) "ini"
+Floater.Ini.dir  (getFilenamePath(getSourceFileName()))
 
 /*---------------------------------------
 	CONTENT
 -----------------------------------------*/
 
 /* FINAL CONTENT */
---Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
+Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)(?<!_test)$").load()
 
 /* TEST CONTETNT */
 --Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*_test)$").load()
 
 /* ALL */
-Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
+--Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"rollout_(.*)$").load()
 
 
 /* Set content to ui */

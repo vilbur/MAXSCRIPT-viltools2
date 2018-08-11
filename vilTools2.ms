@@ -1,11 +1,13 @@
 clearListener()
 
 /** DEFINE FLOATER  */
-ini	= ( dotnetObject "System.Text.RegularExpressions.Regex" @"(ms|mscr)$" ).Replace (getSourceFileName()) "ini"
-Floater	= (Floater_v ini:ini).new "VilTools2"
+
+Floater	= (Floater_v()).new "VilTools2"
+
+Floater.Ini.ini ( dotnetObject "System.Text.RegularExpressions.Regex" @"(ms|mscr)$" ).Replace (getSourceFileName()) "ini"
 
 /*---------------------------------------
-	Cotnent
+	CONTENT
 -----------------------------------------*/
 
 /* FINAL CONTENT */
@@ -22,7 +24,7 @@ Content	= (Content_v dir:(getFilenamePath(getSourceFileName())+"/*") match:"roll
 Content.setControlsToUI Floater
 
 /*---------------------------------------
-	RUN TEST
+	CREATE DIALOG
 -----------------------------------------*/
 
 --loadContent()
@@ -36,8 +38,6 @@ Floater.create height:1280
 	CALLBACKS
 -----------------------------------------*/
 (EpolyCallbacks_v()).add()
-
-
 
 
 /*---------------------------------------

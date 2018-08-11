@@ -11,7 +11,7 @@ struct ObjectCleaner_v
 	 */
 	function prepareForExport _export_node deleteObjects:true rotate:true =
 	(
-		this.deleteExportObjectsLayer()
+		--this.deleteExportObjectsLayer()
 
 		export_node = _export_node
 		--print ( "prepareForExport() __objects = " + __objects as string )

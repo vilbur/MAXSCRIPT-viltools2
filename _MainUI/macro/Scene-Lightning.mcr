@@ -32,11 +32,12 @@ buttontext:	"Light Unity"
 toolTip:	"Scene light setup - Unity"
 --icon:	"#(path, index)"
 (
-	lightTintColor	= color 255 255 249
-	ambientColor	= color 85 110 120
+	lightTintColor	= color 200 200 200
+	--ambientColor	= color 85 110 120
+	ambientColor	= color 50 50 50
 	--backgroundColor	= color 136	173	201 -- light blue
 	--backgroundColor	= color 45 54 56
-	backgroundColor	= color 50 55 56
+	backgroundColor	= color 170 210 225
 
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	

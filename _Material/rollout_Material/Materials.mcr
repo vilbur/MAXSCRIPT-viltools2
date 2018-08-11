@@ -24,7 +24,7 @@ tooltip:	"Shade material for modeling"
 (
 	mat = StandardMaterial glossiness:0 specularLevel:0
 	
-	mat.diffuse = color 213 244 255
+	mat.diffuse = color 169 191 203
 		
 	mat.name	= "Modeling"
 
@@ -70,4 +70,35 @@ toolTip:	"Grass"
 	mat.name	= ( dotNetObject "System.Text.RegularExpressions.Regex" @"[_-]\d+$" ).Replace (getFilenameFile maxFileName) "_grass"
 
 	selection.material = mat
+)
+
+
+macroscript	material_assign_tree_crown
+category:	"_Material"  
+buttonText:	"Tree crown"
+tooltip:	"Tree crown"  
+(
+	mat = StandardMaterial glossiness:50 specularLevel:50
+	
+	mat.diffuse = color 95 99 64
+		
+	mat.name	= "Tree_crown"
+
+	selection.material = mat
+	
+)
+
+macroscript	material_assign_tree_trunk
+category:	"_Material"  
+buttonText:	"Tree trunk"
+tooltip:	"Tree trunk"  
+(
+	mat = StandardMaterial glossiness:50 specularLevel:50
+	
+	mat.diffuse = color 105 75 55
+		
+	mat.name	= "Tree_trunk"
+
+	selection.material = mat
+	
 )

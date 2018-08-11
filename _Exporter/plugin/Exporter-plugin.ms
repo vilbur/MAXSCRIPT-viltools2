@@ -111,32 +111,19 @@ category:"Unity"
 	rollout export_nodes_roll "Export nodes"
 	(
 		multilistbox export_nodes_lbox "Choose one" items:(this.exportNodeNames()) selection:(this.getSelectedSceneNodesIndexes())
-		--multilistbox export_nodes_lbox "Choose one" items:(this.exportNodeNames()) selection:#(2)
 
-		--on mlb selected val do format "selected: % - %\n" val mlb.selection[val]
 		on export_nodes_lbox selected  val do
-		--on export_nodes_lbox doubleclicked val do
 		(
 			print ( "\n====== export_nodes_lbox.selected() val =" + val as string )
 			
 			print ( "selection = " + (selection as Array ) as string )
 			RemoveSelectExportNodeCallback()
 
-			--print ( "lisbox_last_selected_export_node = " + lisbox_last_selected_export_node as string )
-			--print ( "lisbox_last_selected_export_node ==undefined " + (lisbox_last_selected_export_node ==  undefined) as string )
-			--print ( "lisbox_last_selected_export_node != val = " + (lisbox_last_selected_export_node != val) as string )
-			
-			--if( lisbox_last_selected_export_node != val  ) then 
-			
-			--lisbox_last_selected_export_node = val
-			print ( "(this.isListboxSelelctItemListbox val) = " + (this.isListboxSelelctItemListbox val) as string )
-			
 			if ( this.isListboxSelelctItemListbox val ) then
 				this.selectNodes #( val )
 			
 			else 	
 				this.deselectNodes #( val )
-			
 			
 			this.updateNodeOptions()
 
@@ -255,15 +242,15 @@ category:"Unity"
 	)
 	
 
-	rollout export_options_roll "Export Options"
-	(
-		checkbox reset_smoothgroups "Reset smoothgroups" tristate:2
-			on reset_smoothgroups changed val do
-				print ( "val = " + val as string )
-				--for _node in this.getSelectedSceneNodes() do
-					--setUserProp _node "delete-after-export" val
-
-	)
+	--rollout export_options_roll "Export Options"
+	--(
+	--	checkbox reset_smoothgroups "Reset smoothgroups" tristate:2
+	--		on reset_smoothgroups changed val do
+	--			print ( "val = " + val as string )
+	--			--for _node in this.getSelectedSceneNodes() do
+	--				--setUserProp _node "delete-after-export" val
+	--
+	--)
 
 	rollout node_options_roll "Node Options"
 	(
@@ -355,18 +342,9 @@ category:"Unity"
 	(
 		print "\n*** selectNodes()"
 		format "lb_indexes: % \n" lb_indexes
-		
-		--RemoveSelectExportNodeCallback()
-		
-		--UnityExportNode = UnityExportNode_v()
 
 		for n in lb_indexes do
-		(
-			print ( "select node = " + export_nodes_in_scene[n].name as string )
 			selectmore export_nodes_in_scene[n]
-		)
-
-		--AddSelectExportNodeCallback()
 	)
 
 	/** Deselect nodes
@@ -430,8 +408,6 @@ category:"Unity"
 		
 		node_options_roll.delete_after_export_cbx.triState	= (this.getCheckboxState "delete-after-export")
 		node_options_roll.rotate_in_export_cbx.triState	= (this.getCheckboxState "rotate-on-export")
-		
-
 	)
 	/** Get selected node prop
 	 */

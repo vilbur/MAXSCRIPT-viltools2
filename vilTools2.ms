@@ -1,11 +1,8 @@
-/* HOTFIX - Floater should be closed regularry */
-try(cui.UnRegisterDialogBar rollout_viltools2)catch() --try to unregister if already registered
-try(DestroyDialog rollout_viltools2)catch()	
+clearListener()
 
 /** DEFINE FLOATER  */
 ini	= ( dotnetObject "System.Text.RegularExpressions.Regex" @"(ms|mscr)$" ).Replace (getSourceFileName()) "ini"
 Floater	= (Floater_v ini:ini).new "VilTools2"
-
 
 /*---------------------------------------
 	Cotnent
@@ -31,7 +28,7 @@ Content.setControlsToUI Floater
 --loadContent()
 --Floater.create()
 Floater.create height:1280
-Floater.dock "right"
+--Floater.dock "right"
 
 
 

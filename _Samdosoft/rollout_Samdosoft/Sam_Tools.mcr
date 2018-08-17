@@ -18,51 +18,57 @@ category:"_Samdosoft"
 buttonText:"Chamfer Mat"
 tooltip:	"Chamfer edges on material ID borders"
 (
-
-	if( selection[1].modifiers[#Chamfer_mat] == undefined  ) then
+	
+	with redraw off
 	(
-		/* PLANARIZE OBJECT */
-		macros.run "_Epoly-Edit" "edit_planarize_object"
-		
-		_objects	= for o in selection where superClassOf o == GeometryClass collect o
-		
-		for _obj in _objects do
+		if( selection[1].modifiers[#Chamfer_mat] == undefined  ) then
 		(
-			select _obj
-
-			/*------ CHAMFER ------*/
-			_Chamfer	= (Modifier_v type:#Chamfer name:"Chamfer-mat").add()
-			--_Chamfer.amount	= 10
-			_Chamfer.amount	= 5
-			_Chamfer.chamfertype	= 1
-			_Chamfer.selectionoption	= 5
-			_Chamfer.useminangle	= false
-			_Chamfer.materialoption	= 1
-			_Chamfer.SetMaterial	= on
-			_Chamfer.materialID	= 999
-
-			--/*------ SEELCT CHAMFER ------*/
-			_Chamfer_Select	= (Modifier_v type:#Edit_Poly name:"Select-Chamfer").add()
-			Epoly	= (Epoly_v())
-			faces_id	= Epoly.Material.getFacesByMatId 999 
-			print ( "faces_id = " + faces_id as string )
-			subObjectLevel = 4
-			Epoly.Sel.setSel #face faces_id[1]
+			/* PLANARIZE OBJECT */
+			macros.run "_Epoly-Edit" "edit_planarize_object"
 			
-			/*------ NOISE ------*/
-			_Noise	= (Modifier_v type:#Noise name:"Noise-Chamfer").add()
-			_Noise.strength	= [5, 5, 5]
-			_Noise.scale	= 5
-			--_Noise.strength	= [15, 15, 15]
-			--_Noise.scale	= 20
-			_Noise.fractal	= false
-
-			redrawViews()
+			_objects	= for o in selection where superClassOf o == GeometryClass collect o
+			
+			for _obj in _objects do
+			(
+				select _obj
+	
+				/*------ CHAMFER ------*/
+				_Chamfer	= (Modifier_v type:#Chamfer name:"Chamfer-mat").add()
+				--_Chamfer.amount	= 10
+				_Chamfer.amount	= 5
+				_Chamfer.chamfertype	= 1
+				_Chamfer.selectionoption	= 5
+				_Chamfer.useminangle	= false
+				_Chamfer.materialoption	= 1
+				_Chamfer.SetMaterial	= on
+				_Chamfer.materialID	= 999
+	
+				--/*------ SEELCT CHAMFER ------*/
+				_Chamfer_Select	= (Modifier_v type:#Edit_Poly name:"Select-Chamfer").add()
+				Epoly	= (Epoly_v())
+				faces_id	= Epoly.Material.getFacesByMatId 999 
+				print ( "faces_id = " + faces_id as string )
+				subObjectLevel = 4
+				Epoly.Sel.setSel #face faces_id[1]
+				
+				/*------ NOISE ------*/
+				_Noise	= (Modifier_v type:#Noise name:"Noise-Chamfer").add()
+				_Noise.strength	= [5, 5, 5]
+				_Noise.scale	= 5
+				--_Noise.strength	= [15, 15, 15]
+				--_Noise.scale	= 20
+				_Noise.fractal	= false
+	
+				redrawViews()
+			)
+			select _objects
 		)
-		select _objects
+		
+		--else
+			--deleteModifier $ (selection[1].modifiers[#Chamfer_mat])
+		
 	)
-	--else
-		--deleteModifier $ (selection[1].modifiers[#Chamfer_mat])
+
 )
 
 macroscript samdosoft_chamfer_material_borders_remove

@@ -10,7 +10,7 @@ toolTip:	"Scene light setup - Modeling"
 	/** http://help.autodesk.com/view/3DSMAX/2015/ENU/?guid=__files_GUID_34892DB6_E840_4F52_9175_30332799B7B1_htm
 	 */
 	lightTintColor	= color 150 150 150
-	ambientColor	= color 120	120	120
+	ambientColor	= color 80	80	80
 	
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	

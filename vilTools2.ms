@@ -30,7 +30,7 @@ Content.setControlsToUI Floater
 --loadContent()
 --Floater.create()
 Floater.create height:1280
---Floater.dock "right"
+Floater.dock "right"
 
 
 
@@ -43,8 +43,8 @@ Floater.create height:1280
 /*---------------------------------------
 	STARTUP
 -----------------------------------------*/
-ShellLaunch ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/selectLoopOrRingOnMouseWheel.ahk" ) ""
-macros.run "_MainUI" "mainui_mini_transform_type_in"
+--ShellLaunch ( getFilenamePath(getSourceFileName()) + "/_Epoly/lib/EpolySelection/selectLoopOrRingOnMouseWheel.ahk" ) ""
+--macros.run "_MainUI" "mainui_mini_transform_type_in"
 
 --clearListener()
 --format "Cleared in vilTools2.ms\n"

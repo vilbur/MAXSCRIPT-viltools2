@@ -98,9 +98,9 @@ struct Material_v
 		
 		colors	= 6
 		
-		RGB	= this.getColorsPallete colors minmax:#(215,	255)
-		RGB_dark	= this.getColorsPallete colors minmax:#(175,	255)
-		RGB_darker	= this.getColorsPallete colors minmax:#(135,	255)
+		RGB	= this.getColorsPallete colors minmax:#(180,	200)
+		RGB_dark	= this.getColorsPallete colors minmax:#(160,	180)
+		RGB_darker	= this.getColorsPallete colors minmax:#(140,	160)
 		
 		join RGB (join RGB_dark RGB_darker)
 	

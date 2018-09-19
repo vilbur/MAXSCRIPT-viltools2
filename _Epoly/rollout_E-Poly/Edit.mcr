@@ -6,7 +6,6 @@ tooltip:	"Remove subobject"
 	undo "Remove subobject" on
 	(
 		(Epoly_v()).remove()
-
 	)
 )
 
@@ -22,6 +21,24 @@ tooltip:	"Target Weld"
 
 	Epoly.targetWeld()
 )
+
+/** Collapse subobjects 
+ *	If current subobject is #vertex, then connect vertices first
+ *	
+ */
+macroscript	edit_collapse
+category:	"_Epoly-Edit"
+buttontext:	"Collapse"
+toolTip:	"Collapse"
+--icon:	"#(path, index)"
+(
+	if( subObjectLevel == 1 ) then
+		macros.run "Editable Polygon Object" "EPoly_Connect"
+
+	macros.run "Ribbon - Modeling" "GeometryCollapse"
+
+)
+
 
 macroscript epoly_planarize_faces
 category:"_Epoly-Edit"  
@@ -118,7 +135,7 @@ toolTip:	"Planarize object"
 
 		for x=1 to 20 do (for i=1 to ( polyop.getNumFaces _obj) do ( polyop.makeFacesPlanar _obj #(i)) )
 
-		addModifier _obj (Edit_Poly())
+		--addModifier _obj (Edit_Poly())
 
 		--(Pivot_v()).centerToObject()
 	)
@@ -193,9 +210,9 @@ buttonText:	"Connect"
 tooltip:	"Connect subobject"
 (
 
-	On Execute Do (
+	on execute do (
 
-		undo "Connect subobject" on
+		undo "Connect subobjects" on
 		(
 			Epoly	= Epoly_v()
 			connect_method	= #polyToolsConnect
@@ -236,13 +253,13 @@ tooltip:	"Connect subobject"
 
 	/** Options menu item 
 	 */
-	On AltExecute type do (
-		Try (
+	on AltExecute type do (
+		try (
 			If SubObjectLevel == undefined then Max Modify Mode
 			local A = Filters.GetModOrObj()
 			A.popupDialog #ConnectEdges
 		)
-		Catch()
+		catch()
 	)
 
 )

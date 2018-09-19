@@ -84,10 +84,12 @@ struct EpolySelection_v
 	  */
 	function getSharedAwithB subo_A subo_B _subobjects =
 	(
+		_subobjects = this._multiarraySelectionToArray _subobjects
+		--print ( "_subobjects = " + _subobjects as string )
 		subobjects_B_all	= this.getAusingB subo_A subo_B _subobjects
-		
-		subobjects_B	= for item in _subobjects collect this.getAusingB subo_A subo_B #{item}
-		
+		--print ( "subobjects_B_all = " + subobjects_B_all as string )
+		subobjects_B	= for item in _subobjects collect this.getAusingB subo_A subo_B #{item} -- get B subobjects for each subobject
+		--print ( "subobjects_B = " + subobjects_B as string )
 		for _subobjects_B in subobjects_B do
 			subobjects_B_all = subobjects_B_all * _subobjects_B
 		
@@ -140,6 +142,18 @@ struct EpolySelection_v
 	/*------------------------------------------------------------------------------
 		PRIVATE
 	--------------------------------------------------------------------------------*/
+	/** If _array is multiarray then return first element
+	  * @example _multiarraySelectionToArray #{1..23}	-- return #{1..23}
+	  * @example _multiarraySelectionToArray #(#{1..23})	-- return #{1..23}
+	  *
+	  * @param	BitArray|[BitArray]	_array
+	  * @return	BitArray  	
+	 */
+	function _multiarraySelectionToArray _array =
+	(
+		if (_array[1] != undefined and classOf _array[1] == BitArray) then _array[1] else _array --return
+	),
+
 	/** Get subobject index
 	  * @param	name	sub_obj
 	 */

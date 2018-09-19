@@ -41,7 +41,7 @@ struct EpolyMod_v
 	function class camel_case:false =
 	(
 		class_name = classOf _mod as string --return
-		print ( "camel_case = " + camel_case as string )
+		--print ( "camel_case = " + camel_case as string )
 		if not camel_case then
 			class_name --return  
 		else

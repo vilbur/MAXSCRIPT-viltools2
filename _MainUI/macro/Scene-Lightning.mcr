@@ -9,8 +9,8 @@ toolTip:	"Scene light setup - Modeling"
 (
 	/** http://help.autodesk.com/view/3DSMAX/2015/ENU/?guid=__files_GUID_34892DB6_E840_4F52_9175_30332799B7B1_htm
 	 */
-	lightTintColor	= color 150 150 150
-	ambientColor	= color 80	80	80
+	lightTintColor	= color 200 200 200
+	ambientColor	= color 110	110	110
 	
 	settings	= NitrousGraphicsManager.GetActiveViewportSetting()
 	
@@ -34,7 +34,7 @@ toolTip:	"Scene light setup - Unity"
 (
 	lightTintColor	= color 200 200 200
 	--ambientColor	= color 85 110 120
-	ambientColor	= color 50 50 50
+	ambientColor	= color 120 120 120
 	--backgroundColor	= color 136	173	201 -- light blue
 	--backgroundColor	= color 45 54 56
 	backgroundColor	= color 170 210 225

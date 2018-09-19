@@ -136,11 +136,11 @@ for layer_name in layer_names do
 (
 	--print ( "layer_name = " + layer_name as string )
 	_button = layer_controls.checkbutton layer_name
-	print ( "_button = " + _button.path as string )
+	print ( "_button = " + _button.id.full as string )
 	--_button.param #checked ((LayerManager.getLayerFromName layer_name).on)
 
-	_button.changed ("layerButtonChanged "+layer_name)
-	_button.rightclick ("layerButtonRightClick "+layer_name)
+	_button.changed	("layerButtonChanged "	+ layer_name)
+	_button.rightclick	("layerButtonRightClick "	+ layer_name)
 	
 	append layer_buttons _button
 )

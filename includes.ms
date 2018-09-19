@@ -13,8 +13,8 @@ if( global_vievporttext == undefined ) then
 	global_vievporttext = List_v()
 	--messageBox "INCLUDE"
 )
-	filein ( getFilenamePath(getSourceFileName()) + "/Hud/HudItem/HudItem.ms" )
-	filein ( getFilenamePath(getSourceFileName()) + "/Hud/Hud.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/Hud/HudItem/HudItem.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/Hud/Hud.ms" )
 
 /*------------------------------------------------------------------------------
 	SELECTION 

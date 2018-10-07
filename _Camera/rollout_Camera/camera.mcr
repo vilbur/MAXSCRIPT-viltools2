@@ -38,6 +38,10 @@ function getMatchCameraBackground camera_name =
 		bmpImg = camera_backgrounds[2][background_index]
 
 		setViewportBackground bmpImg
+		
+		renderWidth	= bmpImg.bitmap.width
+		renderHeight	= bmpImg.bitmap.height
+	
 		completeRedraw()
 )
 
@@ -52,11 +56,11 @@ function onCameraMatchChange =
 
 	getMatchCameraBackground curcam.name
 )
-
+s
 macroscript	camera_autoset_background
 category:	"_Camera"
 buttontext:	"Auto Bg"
-toolTip:	"Set background to camera view\nmaxFilePath + \"\\camera_background\\\" + (camera_name) + \".jpg\""
+--toolTip:	"Set background to camera view\nmaxFilePath + \"\\camera_background\\\" + (camera_name) + \".jpg\""
 --icon:	"#(path, index)"
 (
 	--if( camera_backgrounds == undefined ) then

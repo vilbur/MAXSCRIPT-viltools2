@@ -117,6 +117,12 @@ filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/plugin/Exporter-plug
 filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/Exporter.ms" )
 filein ( getFilenamePath(getSourceFileName()) + "/_Exporter/ObjectCleaner/ObjectCleaner.ms" )
 
+/*------------------------------------------------------------------------------
+	CAMERA
+--------------------------------------------------------------------------------*/
+filein ( getFilenamePath(getSourceFileName()) + "/_Tools/ToolMode.ms" )
+filein ( getFilenamePath(getSourceFileName()) + "/_Camera/camera.ms" )
+
 
 /*------------------------------------------------------------------------------
 	MAIN UI

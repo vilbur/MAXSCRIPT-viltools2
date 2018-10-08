@@ -17,10 +17,11 @@ function setViewportBackground bmpImg =
 
 /** Get match camera background
  */
-function getMatchCameraBackground camera_name =
+function setCameraMatchBackground camera_name =
 (
-	--print "------------\ncamera.getMatchCameraBackground()"
-	--format "camera_match_backgrounds	= % \n" camera_match_backgrounds
+	print "------------\ncamera.setCameraMatchBackground()"
+	format "camera_match_backgrounds	= % \n" camera_match_backgrounds
+	
 	background_index = findItem camera_match_backgrounds[1] camera_name
 	  
 	if ( background_index == 0 ) then
@@ -49,18 +50,30 @@ function getMatchCameraBackground camera_name =
 	completeRedraw()
 )
 
+
+/** Remove camera background
+ */
+function removeCameraBackground =
+(
+	print "------------\ncamera.removeCameraBackground()"
+	backgroundimagefilename = ""
+	displaySafeFrames = false
+)
+
 /** On camera match change
  */
 function onCameraMatchChange =
 (
 	curcam = try(getActiveCamera()) catch()
 	--format " camera_match_last_viewport	= % \n" camera_match_last_viewport
+	if ( viewport.getType() != #view_camera and backgroundimagefilename != "" ) then 
+		removeCameraBackground()
 	
 	if( curcam == undefined or curcam.name == camera_match_last_viewport ) then
 		return()
 	
-	--format " curcam.name	= % \n" curcam.name
+	format " curcam.name	= % \n" curcam.name
 	camera_match_last_viewport = curcam.name
 	
-	getMatchCameraBackground curcam.name
+	setCameraMatchBackground curcam.name
 )

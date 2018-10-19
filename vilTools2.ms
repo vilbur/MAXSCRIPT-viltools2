@@ -1,5 +1,10 @@
 clearListener()
 
+/** Load macros 
+ *	
+ */
+(MacroAutoLoader_v()).importScripts()
+
 /** DEFINE FLOATER  */
 
 Floater	= (Floater_v()).new "VilTools2"
